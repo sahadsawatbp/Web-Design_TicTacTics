@@ -3,16 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Tic-Tactics Login</title>
     <link rel="stylesheet" href="styles.css">
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script> -->
 </head>
 <body>
     <div class="container">
         <h1>TIC-TACTICS</h1>
-        <label>Username</label><input placeholder="Username" id="Usernamebox" type="text"><br>
-        <label>Password</label><input placeholder="Password" id="Passwordbox" type="password"><br>
-        <button id="Login">Login</button><br>
+        <div class="field-box">
+            <label>Username</label><input placeholder="" id="Usernamebox" type="text">
+        </div><br>
+        <div class="field-box">
+            <label>Password</label><input placeholder="" id="Passwordbox" type="password">
+        </div><br>
         <div class="login-box">
             <label class="switch">
                 <input type="checkbox" id="Checkbox">
@@ -20,7 +23,8 @@
             </label>
             <p style="font-size:12px">Keep me login</p>
         </div><br>
-        <a href="register.html">want to create a new account?</a>
+        <a id="Login">Login</a><br>
+        <!-- <a href="register.html">want to create a new account?</a> -->
        
     </div>
   

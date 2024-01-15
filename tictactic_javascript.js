@@ -20,6 +20,8 @@ import {getDatabase,ref,set,child,get,update,remove}
 from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
 const db = getDatabase();
+
+
 // -------------------------references----------------------------//
 var usernameBox = document.getElementById("Usernamebox");
 var passwordBox = document.getElementById("Passwordbox");
@@ -27,6 +29,8 @@ var emailBox = document.getElementById("Emailbox");
 var subBtn = document.getElementById("Submit");
 var loginBtn = document.getElementById("Login");
 let beginBtn = document.getElementById('Begin');
+
+
 // -------------------------Validate----------------------------//
 function isEmptySpace(str){
     return str==null || str.match(/^ *$/) !== null;
@@ -53,8 +57,10 @@ function Validation(){
     }
     return true;
 }
+
+
 // -------------------------Store to Firebase----------------------------//
-function RegisterUser(){
+function UserRegister(){
     if(!Validation()){
         return;
     };
@@ -73,6 +79,7 @@ function RegisterUser(){
             })
             .then(()=>{
                 alert("User added successfully!");
+                window.location = "authentication.html"
             })
             .catch((error)=>{
                 alert("error "+ error);
@@ -80,11 +87,8 @@ function RegisterUser(){
         }
     })
 }
-// -------------------------Encryption---------------------------//
-// function encryptionPass(){
-//     var pass12 = CryptoJS.AES.encrypt(passwordBox.value,passwordBox.value);
-//     return pass12.toString();
-// }
+
+
 // -------------------------User Login---------------------------//
 function UserLogin(){
     const dbRef = ref(db);
@@ -117,14 +121,17 @@ function login(user){
     }
     console.log("Yes")
 }
-//-----------------Index Page---------------//
 
+
+//-----------------Index Page---------------//
 function BeginPlay(){
-    window.location = 'login.html'
+    window.location = 'authentication.html'
 }
+
+
 //-----------------Assign Event to Btn---------------//
 if(subBtn){
-    subBtn.addEventListener('click',RegisterUser);
+    subBtn.addEventListener('click',UserRegister);
 }
 if(loginBtn){
     loginBtn.addEventListener('click',UserLogin);

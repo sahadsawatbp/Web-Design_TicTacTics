@@ -1,9 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
- @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 *{
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+   
     font-family: 'Inter', sans-serif;
 }
 body,html{
@@ -14,6 +15,7 @@ body,html{
     justify-content: center;
     align-items: center;
 }
+
 .container{
     width: 100%;
     height: 100%;
@@ -22,11 +24,89 @@ body,html{
     justify-content: center;
     flex-direction: column;
 }
+
+.container h1{
+    color:white;
+    margin-bottom: 50px;
+    font-size: 80px;
+}
+
+.container a{
+    text-decoration: none;
+    color:white;
+    width: 300px;
+    height: 80px;
+    margin-top: 10px;
+    border-radius: 50px;
+    font-size: 30px;
+    font-weight: 300;
+    display: flex;
+    cursor: pointer;
+    justify-content: center;
+    align-items:  center;
+    background-color: #7000ff;
+}
+
+.container a:hover{
+    background-color: #5b00d1;
+    transition: .5s;
+}
+
+.field-box{
+    color:#767676;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    width: 300px;
+    height: 80px;
+    background-color: #323232;
+}
+
+.field-box input{
+    background-color:  #323232;
+    height: 40px;
+    color: rgb(212, 212, 212);
+    border: none;
+    outline: none;
+    padding-left: 5px;
+    font-size: 17px;
+}
+
+.field-box label{
+    margin-bottom: 10px;
+    color:white;
+    font-size:18px;
+}
+
 .login-box{
     display: flex;
+    color: white;
     align-items: center;
     gap: 5px;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*Toggle Switch Check Box*/
 .switch {
   position: relative;
   display: flex;
