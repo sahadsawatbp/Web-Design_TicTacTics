@@ -75,7 +75,8 @@ function UserRegister(){
                 username:usernameBox.value,
                 password: passwordBox.value,
                 email:emailBox.value,
-                win_count:0
+                win_count:0,
+                room_code:null
             })
             .then(()=>{
                 alert("User added successfully!");
