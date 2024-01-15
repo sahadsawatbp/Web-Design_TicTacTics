@@ -100,11 +100,11 @@ function UserLogin(){
                 login()
             }
             else{
-                alert("User does not exists")
+                alert("Password is invalid")
             }
         }
         else{
-            alert("Username or password is invalid")
+            alert("User does not exists")
         }
        
     })
