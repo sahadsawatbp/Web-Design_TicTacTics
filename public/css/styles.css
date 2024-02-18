@@ -31,6 +31,7 @@ body,html{
     font-size: 80px;
 }
 
+
 h2{
   position: relative;
   top: 0px;
@@ -226,6 +227,14 @@ input:checked + .slider:before {
   /* margin-left: 200px; */
 }
 
+#player-random{
+  background: url(../img/question-mark.png);
+  width: 400px;
+  height: 400px;
+  background-size: cover;
+  /* margin-left: 200px; */
+}
+
 #start-button{
   display: flex;
   align-items: center;
@@ -276,4 +285,23 @@ input:checked + .slider:before {
   color: white;
   margin-top: 20px;
   font-size: 30px;
+}
+
+/* option */
+#option-header{
+  color: white;
+  font-size: 132px;
+  margin-bottom: 50px;
+}
+
+#option-choice{
+  color: white;
+  font-size: 64px;
+}
+
+.option-container{
+  display: flex;
+  align-items: left;
+  justify-content: left;
+  flex-direction: column;
 }
