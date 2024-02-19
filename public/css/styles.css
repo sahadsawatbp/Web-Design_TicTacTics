@@ -52,8 +52,8 @@ h3{
 .container a{
     text-decoration: none;
     color:white;
-    width: 300px;
-    height: 80px;
+    width: 500px;
+    height: 90px;
     margin-top: 10px;
     border-radius: 50px;
     font-size: 30px;
@@ -76,25 +76,26 @@ h3{
     display: flex;
     flex-direction: column;
     padding: 10px;
-    width: 300px;
+    width: 500px;
     height: 80px;
     background-color: #323232;
+    margin-bottom: 10px;
 }
 
 .field-box input{
     background-color:  #323232;
     height: 40px;
-    color: rgb(212, 212, 212);
+    color: white;
     border: none;
     outline: none;
     padding-left: 5px;
-    font-size: 17px;
+    font-size: 25px;
 }
 
 .field-box label{
     margin-bottom: 10px;
-    color:white;
-    font-size:18px;
+    color:#767676;
+    font-size:16px;
 }
 
 .login-box{
@@ -104,7 +105,13 @@ h3{
     gap: 5px;
 }
 
+#Login{
+  margin-top: 50px;
+}
 
+#Submit{
+  margin-top: 50px;
+}
 
 
 
@@ -253,8 +260,8 @@ input:checked + .slider:before {
   align-items: center;
   justify-content: center;
   position: absolute;
-  left: 590px;
-  bottom: 58px;
+  left: 32%;
+  bottom: 6%;
   width: 70px;
   height: 70px;
   background-color: #323232;
@@ -304,4 +311,9 @@ input:checked + .slider:before {
   align-items: left;
   justify-content: left;
   flex-direction: column;
+}
+
+#ttt-header{
+  font-size: 150px;
+  margin-bottom: 100px;
 }
