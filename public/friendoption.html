@@ -9,17 +9,74 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
     <div class="option-container">
-        <h1 class="option-header " id="option-header">TIC-TACTICS</h1>
-        <div class="option-menu">
-            <div class="option-menu-box" id="option-choice">Join</div>
-            <div class="option-menu-box" id="option-choice">Create</div>
-            <div class="option-menu-box" id="option-choice">Back</div>
+        <div class="option-left">
+
+            <h1 class="option-header " id="option-header">TIC-TACTICS</h1>
+            <div class="option-menu">
+                <div class="option-menu-box" id="option-join">Join</div>
+                <div class="option-menu-box" id="option-create">Create</div>
+                <div class="option-menu-box" id="option-back">Back</div>
+            </div>
+            <div class="option-profile">
+                <label><img id="icon-img" src="img/user.png" alt=""><p id="user-name"></p> </label>
+            </div>
         </div>
-        <div class="option-profile">
-            <label><img id="profile-img" src="img/user.png" alt=""><p id="user-name"></p> </label>
+        <div class="option-right">
+            <div class="scoreboard sb1">
+                <p>1</p>
+                <label for="">
+                    <img src="img/user.png" alt="">
+                    <p>User</p>
+                </label>
+                <p>score</p>
+            </div>
+            <div class="scoreboard sb2">
+                <p>2</p>
+                <label for="">
+                    <img src="img/user.png" alt="">
+                    <p>User</p>
+                </label>
+                <p>score</p>
+            </div>
+            <div class="scoreboard sb3">
+                <p>3</p>
+                <label for="">
+                    <img src="img/user.png" alt="">
+                    <p>User</p>
+                </label>
+                <p>score</p>
+            </div>
+            <div class="scoreboard sb4">
+                <p>4</p>
+                <label for="">
+                    <img src="img/user.png" alt="">
+                    <p>User</p>
+                </label>
+                <p>score</p>
+            </div>
+            <div class="scoreboard sb5">
+                <p>5</p>
+                <label for="">
+                    <img src="img/user.png" alt="">
+                    <p>User</p>
+                </label>
+                <p>score</p>
+            </div>
+            <svg width="500" height="5" style="margin: 10px;">
+                <rect width="500" height="2" style="fill:rgb(187, 187, 187);" />
+              </svg>
+            <div class="scoreboard sb6">
+                <p>10</p>
+                <label for="">
+                    <img src="img/user.png" alt="">
+                    <p>User</p>
+                </label>
+                <p>score</p>
+            </div>
         </div>
     </div>
 </body>
@@ -38,4 +95,5 @@
 </script>
 <script src="classes/auth.js" type="module"></script>
 <script src="classes/read_data.js" type="module"></script>
+<script src="classes/matchmaking.js" type="module"></script>
 </html>
