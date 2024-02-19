@@ -5,6 +5,9 @@ var blocks = document.querySelectorAll('.table-block');
 var turnObject = document.getElementById('turn');
 var round = document.getElementById('round');
 var roundcount = 1;
+var cardactive = false;
+
+var mycard1 = document.getElementById('cy1');
 
 newGame();
 
@@ -15,12 +18,12 @@ for (var block of blocks) {
         // modify the condition here to continue the game play as long as there is no winner
         if (!win && event.target.innerHTML === '') {
             // 4. Modify the code here to check whether the clicking block is avialable.         
-            
+
             event.target.innerHTML = turn;
-            if (turn === 'O'){
+            if (turn === 'O') {
                 event.target.style.color = '#1F34B8';
             }
-            else if (turn === 'X'){
+            else if (turn === 'X') {
                 event.target.style.color = '#D61A3C';
             }
             checkResult();
@@ -112,12 +115,12 @@ function checkResult() {
         // The game is on going
         turn = turn === 'O' ? 'X' : 'O';
         turnObject.innerHTML = "Turn: " + turn;
-        round.innerHTML = 'Round: ' + Math.ceil(roundcount/2);
+        round.innerHTML = 'Round: ' + Math.ceil(roundcount / 2);
     }
 }
 function newGame() {
     turn = 'O';
-    round.innerHTML = 'Round: ' + Math.ceil(roundcount/2);
+    round.innerHTML = 'Round: ' + Math.ceil(roundcount / 2);
     turnObject.innerHTML = "Turn: " + turn;
     winner = '';
     win = false;
@@ -126,3 +129,42 @@ function newGame() {
         block.innerHTML = '';
     }
 }
+
+function swapSymbol(block) {
+    if (block.innerHTML === 'X') {
+        block.innerHTML = 'O';
+        block.style.color = '#1F34B8';
+    }
+    else if (block.innerHTML === 'O') {
+        block.innerHTML = 'X';
+        block.style.color = '#D61A3C';
+    }
+}
+
+mycard1.addEventListener('click', function () {
+    if (cardactive === false) {
+        cardactive = true; // กำหนดว่าการ์ดถูกคลิกแล้ว
+        // สามารถคลิกที่ช่องบนกระดานได้
+        mycard1.style.backgroundColor = 'hsl(263, 90%, 51%)';
+        mycard1.style.transform = 'scale(1.1)';
+        mycard1.style.filter = 'drop-shadow(0 0px 12px hsl(263, 90%, 51%))';
+        mycard1.style.transition = "all 0.5s";
+        if (cardactive === true){
+            for (var block of blocks) {
+                block.addEventListener('click', function () {
+                    // ตรวจสอบว่าช่องบนกระดานมีสัญลักษณ์หรือไม่
+                    if (this.innerHTML !== '') {
+                        // ทำการสลับสัญลักษณ์ในช่องบนกระดาน
+                        swapSymbol(this);
+                        mycard1.style.backgroundColor = ''; // ยกเลิกเอฟเฟคการ์ด
+                        mycard1.style.transform = '';
+                        mycard1.style.filter = '';
+                        mycard1.style.transition = "all 0.5s";
+                    }
+                })
+            }
+            cardactive = false;
+        }
+        
+    }
+});
