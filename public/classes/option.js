@@ -63,7 +63,7 @@ let signOut = () => {
 
 
 playWithFriend.addEventListener("click",()=>{
-    window.location = "game.html"
+    window.location = "friendoption.html"
 });
 playWithStranger.addEventListener("click",()=>{
     window.location = "index.html"
