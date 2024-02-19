@@ -3,26 +3,24 @@
 *{
     padding: 0;
     margin: 0;
-    box-sizing: border-box;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box; 
     font-family: 'Inter', sans-serif;
 }
 body,html{
     background-color: #1E1E1E;
     width: 100%;
-    max-height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    height: 100%;
 }
 
 .option-container{
     width: 100%;
     height: 100%;
     position: relative;
-    top:50px;
-    margin-left: 40px;
     display: flex;
-    flex-direction: column;
+   
+    justify-content: space-between;
 }
 
 .option-container h1{
@@ -48,34 +46,151 @@ h3{
   font-size: 20px;
   margin-top: 20px;
 }
-
+.option-left{
+    width: 100%;
+    height: 100%;
+    padding: 100px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+.option-menu{
+    margin-top: 200px;
+}
+.option-menu-box{
+    font-size: 40px;
+    width: fit-content;
+    font-weight: bold;
+    cursor: pointer;
+    color:white;
+    margin: 0 20px 20px 0;
+}
+.option-menu-box:hover{
+    transform-origin: center;
+    transform: scale(1.1);
+    transition: .2s;
+}
 .option-profile{
-    margin-top: 40px;
-    width: 300px;
-    height: 100px;
-    border: 2px solid blue;
+    display: flex;
+    position: absolute;
+    left: 60px;
+    bottom: 40px;
+    height: fit-content;
+    width: fit-content;
+    align-items: center;
+    justify-content: center;
 }
 .option-profile label{
     height: 100%;
     display: flex;
+    justify-content: center;
+    align-items: center;
 }
-.option-profile img{
+.option-profile img#icon-img{
     width: 50px;
     height: 50px;
-    vertical-align: text-top;
+    align-self: flex-end;
+    cursor: pointer;
 }
 
+.option-profile-box{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 20px;
+    width: fit-content;
+    height: 200px;
+    background: #323232;
+    border-radius: 10px;
+    padding: 20px;
+}
+.option-profile-box label{
+    margin-bottom: 20px;
+}
+.option-profile-box img{
+    width: 80px;
+    height: 80px;
+}
+.profile-message{
+    margin-left: 30px;
+}
+.option-profile-box h3{
+   margin-bottom: 10px;
+}
+.option-profile-box a{
+    font-size: 15px;
+    color:#B3B3B3;
+ }
+#logout-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 10px;
+    color:white;
+    background-color: #262628;
+    font-size: 20px;
+    width: 200px;
+    height:60px;
+}
+#logout-btn:active{
+    transform: scale(0.9);
+    transition: .2s;
+}
+.option-right{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    margin-bottom: 50px;
+}
+.scoreboard{
+    width: 500px;
+    background: rgba(50, 50, 50, 0.5) 16.38%;
+    margin: 10px 0 0 0px;
+    height: 80px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    /* Rectangle 12 */
+    
+    border-radius: 20px 0px 0px 20px;
+}
+.scoreboard p:nth-child(1){
+    position: relative;
+    left:-25px;
+}
+.scoreboard label{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+.scoreboard img{
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+}
+.sb1{
+    background: linear-gradient(90deg, rgba(255, 226, 71, 0.4) 0%, rgba(50, 50, 50, 0.5) 16.38%, rgba(50, 50, 50, 0.5) 94.91%);
+}
+.sb2{
+    /* Rectangle 14 */
+    background: linear-gradient(90deg, rgba(192, 192, 192, 0.4) 0%, rgba(50, 50, 50, 0.5) 16.38%, rgba(50, 50, 50, 0.5) 94.91%);
 
 
+}
+.sb3{
+    /* Rectangle 16 */
+    background: linear-gradient(90deg, rgba(205, 127, 50, 0.4) 0%, rgba(50, 50, 50, 0.5) 16.38%, rgba(50, 50, 50, 0.5) 94.91%);
+}
 
-
-
-
-
-
-
-
-
+#user-name{
+    margin-left: 20px;
+    color:white;
+}
 
 
 
