@@ -15,7 +15,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-
+firebase.initializeApp(firebaseConfig);
 import {getDatabase,ref,set,child,get,update,remove}
 from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
@@ -23,92 +23,12 @@ const db = getDatabase();
 
 
 // -------------------------references----------------------------//
-var usernameBox = document.getElementById("Usernamebox");
-var passwordBox = document.getElementById("Passwordbox");
-var emailBox = document.getElementById("Emailbox");
-var subBtn = document.getElementById("Submit");
-var loginBtn = document.getElementById("Login");
-let beginBtn = document.getElementById('Begin');
 
 
-// -------------------------Validate----------------------------//
-function isEmptySpace(str){
-    return str==null || str.match(/^ *$/) !== null;
-}
-function Validation(){
-    let usernamereg = /^[a-zA-z\s]+$/;
-    let passwordreg = /^[a-zA-z0-9.*+?^${}()|[\]\\]{5,}$/;
-    let emailreg = /^[a-zA-z0-9.*+?^${}()|[\]\\]+@(gmail|yahoo|hotmail|outlook)\.(com|co.th)$/;
-    if( isEmptySpace(usernameBox.value) || isEmptySpace(passwordBox.value) || isEmptySpace(emailBox.value)){
-        alert("You can not have white space in any field")
-        return false;
-    }
-    if(!usernamereg.test(usernameBox.value)){
-        alert("The name should only contain alphabets!");
-        return false;
-    }
-    if(!passwordreg.test(passwordBox.value)){
-        alert("A password should have at least 5 lengths!");
-        return false;
-    }
-    if(!emailreg.test(emailBox.value)){
-        alert("Enter a valid E-mail!!");
-        return false;
-    }
-    return true;
-}
+
+const beginBtn = document.getElementById('Begin');
 
 
-<<<<<<< Updated upstream:public/classes/tictactic_javascript.js
-// -------------------------Store to Firebase----------------------------//
-function UserRegister(){
-    if(!Validation()){
-        return;
-    };
-    const dbRef = ref(db);
-    get(child(dbRef, "UsersList/"+usernameBox.value)).then((snapshot)=>{
-        if(snapshot.exists()){
-            alert("Account already exists!");
-        }
-        else{
-            set(ref(db,"UsersList/"+usernameBox.value),
-            {
-                username:usernameBox.value,
-                password: passwordBox.value,
-                email:emailBox.value,
-                win_count:0,
-                room_code:null
-            })
-            .then(()=>{
-                alert("User added successfully!");
-                window.location = "authentication.html"
-            })
-            .catch((error)=>{
-                alert("error "+ error);
-            })
-        }
-    })
-}
-
-
-// -------------------------User Login---------------------------//
-function UserLogin(){
-    const dbRef = ref(db);
-    get(child(dbRef, "UsersList/"+usernameBox.value)).then((snapshot)=>{
-        if(snapshot.exists()){
-            let dbpass = snapshot.val().password;
-            if(dbpass == passwordBox.value){
-                login()
-            }
-            else{
-                alert("Password is invalid")
-            }
-        }
-        else{
-            alert("User does not exists")
-        }
-       
-=======
 
 const signupUsername = document.getElementById("signup-username");
 const signupPassword = document.getElementById("signup-password");
@@ -199,24 +119,48 @@ function UserLogin(event){
     }).catch((error)=>{
         loginFeedback.style = "color:crimson";
         loginFeedback.innerHTML = `${error.message}`;
->>>>>>> Stashed changes:public/classes/auth.js
     })
 }
 function login(user){
     let keepLogin = document.getElementById('Checkbox').checked
     if(!keepLogin){
         sessionStorage.setItem('User',JSON.stringify(user))
-        window.location="home.html"
+        window.location="option.html"
     }
     else{
         localStorage.setItem('KeepLogin','Yes')
         localStorage.setItem('User',JSON.stringify(user))
-        window.location="home.html"
+        window.location="option.html"
     }
     console.log("Yes")
 }
 
-
+// -------------------------Validate----------------------------//
+function isEmptySpace(str){
+    return str==null || str.match(/^ *$/) !== null;
+}
+function Validation(){
+    let usernamereg = /^[a-zA-z\s]+$/;
+    let passwordreg = /^[a-zA-z0-9.*+?^${}()|[\]\\]{5,}$/;
+    let emailreg = /^[a-zA-z0-9.*+?^${}()|[\]\\]+@(gmail|yahoo|hotmail|outlook)\.(com|co.th)$/;
+    if( isEmptySpace(signupUsername.value) || isEmptySpace(signupPassword.value) || isEmptySpace(signupEmail.value)){
+        alert("You can not have white space in any field")
+        return false;
+    }
+    if(!usernamereg.test(signupUsername.value)){
+        alert("The name should only contain alphabets!");
+        return false;
+    }
+    if(!passwordreg.test(signupPassword.value)){
+        alert("A password should have at least 5 lengths!");
+        return false;
+    }
+    if(!emailreg.test(signupEmail.value)){
+        alert("Enter a valid E-mail!!");
+        return false;
+    }
+    return true;
+}
 //-----------------Index Page---------------//
 function BeginPlay(){
     window.location = 'authentication.html'
