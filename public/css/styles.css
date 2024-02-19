@@ -314,6 +314,25 @@ input:checked + .slider:before {
 }
 
 #ttt-header{
+  position: absolute;
   font-size: 150px;
   margin-bottom: 100px;
+  color:white;
+  top: 10%;
+}
+
+#back-to-auth{
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  left: 5%;
+  top: 5%;
+  background: url(../img/right-arrow.png);
+  background-size: cover;
+  transform: scaleX(-1);
+}
+
+#login-signup-container{
+  position: absolute;
+  top: 10%;
 }
