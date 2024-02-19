@@ -305,3 +305,89 @@ input:checked + .slider:before {
   justify-content: left;
   flex-direction: column;
 }
+
+/* game css */
+.progress{
+    display: flex;
+    position: relative;
+    float:left;
+    align-self: end;
+  }
+  .barOverflow{
+    position: relative;
+    overflow: hidden;
+    width: 120px; height: 60px;
+    margin-bottom: 0px;
+  }
+  .bar{
+    position: absolute;
+    top: 0px; left: 0px;
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    box-sizing: border-box;
+    border: 20px solid #7000FF;
+    border-bottom-color: #fff;
+    border-right-color: #fff;
+  }
+  .topbar {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 4fr 1fr 4fr;
+    justify-items: center;
+    gap: 32px;
+  }
+  .bottombar {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 4fr 1fr 4fr;
+    justify-items: center;
+    gap: 32px;
+  }
+  .deck {
+    justify-self: start;
+  }
+  .cardbox-your {
+    display: grid;
+    grid-auto-flow: column;
+    gap: 8px;
+    margin-bottom: 12px;
+    justify-self: end;
+  }
+  .card {
+    width: 75px;
+    cursor: pointer;
+  }
+  .carddeck {
+    width: 120px;
+    margin-bottom: 12px;
+    cursor: pointer;
+  }
+  .cardbox-enemy {
+    display: grid;
+    grid-auto-flow: column;
+    gap: 8px;
+    margin-top: 12px;
+    justify-self: start;
+  }
+  .nav {
+    justify-self: end;
+    margin-top: 12px;
+  }
+  .text-box {
+    width: 120px;
+    color: white;
+    text-align: center;
+    align-self: center;
+}
+.icon-box {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+.icon {
+    width: 30px;
+}
+.icon:hover {
+    cursor: pointer;
+}
+/* game css */
