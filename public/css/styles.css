@@ -22,6 +22,7 @@ body,html{
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    overflow-x: hidden;
 }
 
 .container h1{
@@ -175,7 +176,7 @@ h3{
 }
 
 input:checked + .slider {
-  background-color: #2196F3;
+  background-color: #7000FF;
 }
 
 input:focus + .slider {
@@ -334,6 +335,5 @@ input:checked + .slider:before {
 }
 
 #login-signup-container{
-  position: absolute;
-  top: 10%;
+  margin-top: 10%;
 }
