@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/friendoption-styles.css">
+    <title>Document</title>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+</head>
+<body>
+    <div class="option-container">
+        <h1 class="option-header " id="option-header">TIC-TACTICS</h1>
+        <div class="option-menu">
+            <div class="option-menu-box" id="option-choice">Join</div>
+            <div class="option-menu-box" id="option-choice">Create</div>
+            <div class="option-menu-box" id="option-choice">Back</div>
+        </div>
+        <div class="option-profile">
+            <label><img id="profile-img" src="img/user.png" alt=""><p id="user-name"></p> </label>
+        </div>
+    </div>
+</body>
+<script>
+    const firebaseConfig = {
+    apiKey: "AIzaSyCNHATSXeQJSvwU_fRlqAHJMwqi40ePsj0",
+    authDomain: "fir-tictactic.firebaseapp.com",
+    projectId: "fir-tictactic",
+    storageBucket: "fir-tictactic.appspot.com",
+    messagingSenderId: "469562598973",
+    appId: "1:469562598973:web:375815c759c23d7806ac54"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+</script>
+<script src="classes/auth.js" type="module"></script>
+<script src="classes/read_data.js" type="module"></script>
+</html>
