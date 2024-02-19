@@ -6,23 +6,41 @@
     <title>Tic-Tactics Sign up</title>
     <link rel="stylesheet" href="css/styles.css">
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script> -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
 </head>
 <body>
     <div class="container">
         <h1 id="ttt-header">TIC-TACTICS</h1>
         <div class="field-box">
-            <label>Username</label><input placeholder="" id="Usernamebox" type="text">
+            <label>Username</label><input placeholder="" id="signup-username" type="text">
         </div><br>
         <div class="field-box">
-            <label>Password</label><input placeholder="" id="Passwordbox" type="password">
+            <label>Password</label><input placeholder="" id="signup-password" type="password">
         </div><br>
         <div class="field-box">
-            <label>E-mail</label><input placeholder="" id="Emailbox" type="text">
+            <label>E-mail</label><input placeholder="" id="signup-email" type="text">
         </div><br>
+        <p id="feedback-signup"></p>
         <a id="Submit">Sign up</a><br><br>
         <!-- <a href="login.html">Already have an account ?</a> -->
     </div>
   
 </body>
-<script src="classes/tictactic_javascript.js" type="module"></script>
+<script>
+    const firebaseConfig = {
+    apiKey: "AIzaSyCNHATSXeQJSvwU_fRlqAHJMwqi40ePsj0",
+    authDomain: "fir-tictactic.firebaseapp.com",
+    projectId: "fir-tictactic",
+    storageBucket: "fir-tictactic.appspot.com",
+    messagingSenderId: "469562598973",
+    appId: "1:469562598973:web:375815c759c23d7806ac54"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+</script>
+<script src="classes/auth.js" type="module"></script>
 </html>

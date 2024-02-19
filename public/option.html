@@ -3,18 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/option-styles.css">
     <title>Document</title>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
 </head>
 <body>
     <div class="option-container">
-        <div class="option-container">
-            <div class="option-next" id="option-header">TIC-TACTICS</div>
+        <h1 class="option-header " id="option-header">TIC-TACTICS</h1>
+        <div class="option-menu">
+            <div class="option-menu-box" id="option-choice">Play with friend</div>
+            <div class="option-menu-box" id="option-choice">Play with stranger</div>
         </div>
-        <div class="option-container">
-            <div class="option-text" id="option-choice">Play with friend</div>
-            <div class="option-text" id="option-choice">Play with stranger</div>
+        <div class="option-profile">
+            
+            <span id="user-name"><img src="img/user.png" alt=""> Kisaragi</span>
         </div>
     </div>
 </body>
+<script src="classes/auth.js" type="module"></script>
 </html>
