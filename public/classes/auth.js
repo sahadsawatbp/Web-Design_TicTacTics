@@ -1,26 +1,3 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyCNHATSXeQJSvwU_fRlqAHJMwqi40ePsj0",
-  authDomain: "fir-tictactic.firebaseapp.com",
-  projectId: "fir-tictactic",
-  storageBucket: "fir-tictactic.appspot.com",
-  messagingSenderId: "469562598973",
-  appId: "1:469562598973:web:375815c759c23d7806ac54"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-firebase.initializeApp(firebaseConfig);
-import {getDatabase,ref,set,child,get,update,remove}
-from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
-
-const db = getDatabase();
-
 
 // -------------------------references----------------------------//
 
@@ -109,7 +86,6 @@ function UserLogin(event){
     const email = loginEmail.value;
     const password = loginPassword.value;
     
-    const dbRef = ref(db);
     firebase.auth().signInWithEmailAndPassword(email,password)
     .then(()=>{
         loginFeedback.style = "color:green";
