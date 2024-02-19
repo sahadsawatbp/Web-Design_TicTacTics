@@ -106,6 +106,23 @@
         background: url(../public/img/star-white.png);
         background-size: cover;
     }
+    .rate-text{
+        color: white;
+        font-size: 32px;
+        width: 170px;
+        justify-self: center;
+        align-self: center;
+    }
+    #rate{
+        display: flex;
+        justify-content: end;
+        margin-right: 20px;
+    }
+    #thankyou{
+        display: flex;
+        justify-content: start;
+        margin-left: 20px;
+    }
 </style>
 <body>
     <div id="black"></div>
@@ -118,11 +135,13 @@
             <a href="" class="winner-button" id="winner-back">Back to menu</a>
         </div>
         <div class="winner-star-container">
+            <div class="rate-text" id="rate">Rate us</div>
             <div class="winner-star" id="star-1"></div>
             <div class="winner-star" id="star-2"></div>
             <div class="winner-star" id="star-3"></div>
             <div class="winner-star" id="star-4"></div>
             <div class="winner-star" id="star-5"></div>
+            <div class="rate-text" id="thankyou">Thank you!</div>
         </div>
     </div>
 </body>

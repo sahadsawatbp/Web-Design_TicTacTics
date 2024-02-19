@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic-Tactics</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+</head>
+<style>
+    #Begin h1{
+        font-size: 200px;
+        color: white;
+    }
+    #Begin p{
+        margin-top: 25px;
+        color: rgb(156, 156, 156);
+        animation: wip-wup 2s infinite;
+        font-size: 40px;
+    }
+    .index-container{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        cursor: pointer;
+    }
+    @keyframes wip-wup {
+        0%{opacity: 1;}
+        50%{opacity: 0;}
+        100%{opacity: 1;}
+    }
+    #black{
+        width: 100%;
+        height: 100%;
+        background-color: black;
+        opacity: 0.8;
+        position: absolute;
+    }
+    #text{
+        color: white;
+        z-index: 1;
+    }
+    #help-container{
+        width: 1088px;
+        height: 801px;
+        display: flex;
+        background-color: #262628;
+        z-index: 1;
+        justify-content: center;
+        align-items: center;
+        border-radius: 20px;
+        flex-direction: column;
+    }
+    .card-slideshow{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .help-arrow{
+        width: 120px;
+        height: 120px;
+        background: url(../public/img/right-arrow.png);
+        background-size: cover;
+    }
+    #card{
+        width: 260px;
+        height: 415px;
+        background: url(../public/img/Shield.png);
+        background-size: cover;
+        margin-right: 80px;
+        margin-left: 80px;
+    }
+    #arrow-left{
+        transform: scaleX(-1)
+    }
+    .card-text{
+        color: white;
+    }
+    #card-name{
+        font-size: 64px;
+        margin-top: 50px;
+    }
+    #card-desc{
+        font-size: 32px;
+        width: 756px;
+        margin-top: 20px;
+        display: flex;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+    #help-exit{
+        width: 36px;
+        height: 36px;
+        background: url(../public/img/close.png);
+        background-size: cover;
+        display: flex;
+        align-self: flex-end;
+        margin-right: 3%;
+        margin-bottom: 3%;
+    }
+</style>
+<body>
+    <div id="black"></div>
+    <div id="help-container">
+        <div id="help-exit"></div>
+        <div class="card-slideshow">
+            <div class="help-arrow" id="arrow-left"></div>
+            <div id="card"></div>
+            <div class="help-arrow" id="arrow-right"></div>
+        </div>
+        <div class="card-text" id="card-name"><b>Shield</b></div>
+        <div class="card-text" id="card-desc">To prevent the opposing side from using a card effect on our XO (Cross Over) unit located on the board.</div>
+    </div>
+</body>
+</html>
