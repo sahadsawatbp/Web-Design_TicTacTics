@@ -149,6 +149,7 @@ mycard1.addEventListener('click', function () {
         mycard1.style.transform = 'scale(1.1)';
         mycard1.style.filter = 'drop-shadow(0 0px 12px hsl(263, 90%, 51%))';
         mycard1.style.transition = "all 0.5s";
+        mycard1.style.transform = "translateY(-15px)";
         if (cardactive === true){
             for (var block of blocks) {
                 block.addEventListener('click', function () {
@@ -160,6 +161,7 @@ mycard1.addEventListener('click', function () {
                         mycard1.style.transform = '';
                         mycard1.style.filter = '';
                         mycard1.style.transition = "all 0.5s";
+                        mycard1.style.transform = "translateY(0px)";
                     }
                 })
             }
