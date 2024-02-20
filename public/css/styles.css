@@ -258,7 +258,7 @@ input:checked + .slider:before {
   border-radius: 100%;
 }
 
-#player-1{
+#player-x-img{
   background: url(../img/player-1.png);
   width: 400px;
   height: 400px;
@@ -266,7 +266,7 @@ input:checked + .slider:before {
   /* margin-right: 200px; */
 }
 
-#player-2{
+#player-o-img{
   background: url(../img/player-2.png);
   width: 400px;
   height: 400px;

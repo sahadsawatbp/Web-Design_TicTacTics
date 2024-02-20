@@ -1,8 +1,20 @@
 const joinBtn = document.getElementById("option-join");
 const createBtn = document.getElementById("option-create");
 const gameRef = firebase.database().ref("Room");
-
+const playerXUsername = document.getElementById("player-x-username");
+const playerOUsername = document.getElementById("player-o-username");
+const playerXImg = document.getElementById("player-x-img");
+const playerOImg = document.getElementById("player-o-img");
+const userListRef = firebase.database().ref("UserList");
 var roomID;
+const currentUser = firebase.auth().currentUser;
+firebase.auth().onAuthStateChanged((user)=>{
+    if(user){
+        if(playerXUsername){
+            updatePlayerProfile(user)   
+        }
+    }
+})
 let roomSetup = () =>{
     gameRef.child("Room Count").once('value',(snapshot)=>{
         if (!snapshot.exists()) {
@@ -16,6 +28,7 @@ let roomSetup = () =>{
 roomSetup();
 
 let joinRoom = (event) =>{
+    event.preventDefault();
     const currentUser = firebase.auth().currentUser;
     console.log("Join ",currentUser)
     gameRef.child("Room "+roomID).once('value',(snapshot)=>{
@@ -27,6 +40,7 @@ let joinRoom = (event) =>{
             gameRef.child("Room Count").update({
                 times:(roomID+1)
             })
+            window.location = "waitingroom.html"
           } 
         //   else {
         //     console.log("No data available");
@@ -35,14 +49,9 @@ let joinRoom = (event) =>{
         }).catch((error) => {
           console.error(error);
         });
-       
-    if(currentUser){
-        const btnJoinID = currentUser.email;
-        const player = btnJoinID[btnJoinID.length-1];
-        
-    }
     roomSetup();
     console.log(roomID)
+    
 }
 
 let createRoom = () =>{
@@ -53,7 +62,14 @@ let createRoom = () =>{
         [`player-o-email`]:"",
         [`player-o-id`]:"",
     })
-    window.location = "playVSfriend.html"
+    window.location = "waitingroom.html"
+}
+
+let updatePlayerProfile = (user) =>{
+    console.log(user)
+    userListRef.child(user.uid).once("value",(snapshot)=>{
+        playerXUsername.innerHTML = snapshot.val().username
+    })
 }
 
 
