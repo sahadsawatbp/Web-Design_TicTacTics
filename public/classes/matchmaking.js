@@ -6,6 +6,7 @@ const playerOUsername = document.getElementById("player-o-username");
 const playerXImg = document.getElementById("player-x-img");
 const playerOImg = document.getElementById("player-o-img");
 const userListRef = firebase.database().ref("UserList");
+const startBtn = document.getElementById("start-button");
 var roomID;
 const currentUser = firebase.auth().currentUser;
 firebase.auth().onAuthStateChanged((user)=>{
@@ -42,10 +43,6 @@ let joinRoom = (event) =>{
             })
             window.location = "waitingroom.html"
           } 
-        //   else {
-        //     console.log("No data available");
-        //     createRoom(currentUser);
-        //   }
         }).catch((error) => {
           console.error(error);
         });
@@ -66,14 +63,18 @@ let createRoom = () =>{
 }
 
 let updatePlayerProfile = (user) =>{
-    console.log(user)
     userListRef.child(user.uid).once("value",(snapshot)=>{
         playerXUsername.innerHTML = snapshot.val().username
     })
+   
 }
 
 
-
+if(startBtn){
+    startBtn.addEventListener("click",()=>{
+        window.location = "game.html"
+    })
+}
 if(joinBtn){
     joinBtn.addEventListener("click",joinRoom)
 }
