@@ -123,6 +123,54 @@
         justify-content: start;
         margin-left: 20px;
     }
+    #star-1:hover{
+        /* background: url(../public/img/star-yellow.png); */
+        background-color: red;
+    }
+    #star-2:hover, #star1{
+        /* background: url(../public/img/star-yellow.png); */
+        background-color: red;
+    }
+
+    *{
+    margin: 0;
+    padding: 0;
+}
+.rate {
+    float: left;
+}
+.rate:not(:checked) > input {
+    position:absolute;
+    top:-9999px;
+}
+.rate:not(:checked) > label {
+    float:right;
+    width:1em;
+    overflow:hidden;
+    white-space:nowrap;
+    cursor:pointer;
+    font-size:90px;
+    color:#ccc;
+}
+.rate:not(:checked) > label:before {
+    content: '★ ';
+}
+.rate > input:checked ~ label {
+    color: #ffc700;    
+}
+.rate:not(:checked) > label:hover,
+.rate:not(:checked) > label:hover ~ label {
+    color: #deb217;  
+}
+.rate > input:checked + label:hover,
+.rate > input:checked + label:hover ~ label,
+.rate > input:checked ~ label:hover,
+.rate > input:checked ~ label:hover ~ label,
+.rate > label:hover ~ input:checked ~ label {
+    color: #c59b08;
+}
+
+/* Modified from: https://github.com/mukulkant/Star-rating-using-pure-css */
 </style>
 <body>
     <div id="black"></div>
@@ -136,13 +184,47 @@
         </div>
         <div class="winner-star-container">
             <div class="rate-text" id="rate">Rate us</div>
-            <div class="winner-star" id="star-1"></div>
+            <!-- <div class="winner-star" id="star-1"></div>
             <div class="winner-star" id="star-2"></div>
             <div class="winner-star" id="star-3"></div>
             <div class="winner-star" id="star-4"></div>
-            <div class="winner-star" id="star-5"></div>
+            <div class="winner-star" id="star-5"></div> -->
+            <div class="rate">
+                <input type="radio" id="star5" name="rate" value="5" />
+                <label for="star5" title="text">5 stars</label>
+                <input type="radio" id="star4" name="rate" value="4" />
+                <label for="star4" title="text">4 stars</label>
+                <input type="radio" id="star3" name="rate" value="3" />
+                <label for="star3" title="text">3 stars</label>
+                <input type="radio" id="star2" name="rate" value="2" />
+                <label for="star2" title="text">2 stars</label>
+                <input type="radio" id="star1" name="rate" value="1" />
+                <label for="star1" title="text">1 star</label>
+              </div>
             <div class="rate-text" id="thankyou">Thank you!</div>
         </div>
     </div>
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // ดึงอิเล็มเมนต์ทั้งหมดของ star-white
+        const whiteStars = document.querySelectorAll('.winner-star');
+
+        // ให้แต่ละ white-star เพิ่ม Event Listener สำหรับการคลิก
+        whiteStars.forEach((whiteStar, index) => {
+            whiteStar.addEventListener('click', function () {
+                // เปลี่ยน class จาก star-white เป็น star-yellow
+                whiteStar.classList.remove('star-white');
+                whiteStar.classList.add('star-yellow');
+
+                // ปรับเปลี่ยนไฟล์ของที่ตั้งนั้นๆ
+                const fileNumber = index + 1;
+                const filePath = `../public/img/star-yellow.png`;
+                // ../public/img/star-yellow.png
+                whiteStar.style.background = `url(${filePath})`;    
+            });
+        });
+    });
+</script>
+
 </html>
