@@ -12,7 +12,7 @@ const signupPassword = document.getElementById("signup-password");
 const signupEmail = document.getElementById("signup-email");
 const signupFeedback = document.getElementById("feedback-signup")
 const subBtn = document.getElementById("Submit");
-
+const userListRef = firebase.database().ref("UserList")
 // -------------------------Store to Firebase----------------------------//
 function UserRegister(event){
     event.preventDefault();
@@ -64,7 +64,7 @@ let addUser = () =>{
     var password = signupPassword.value;
     var username = signupUsername.value;
     const currentUser = firebase.auth().currentUser;
-    userListRef.child(currentUser.uid).push({
+    userListRef.child(currentUser.uid).update({
         username: username,
         password: password,
         email:email,
@@ -142,6 +142,19 @@ function BeginPlay(){
     window.location = 'authentication.html'
 }
 
+const gameRef = firebase.database().ref("Room")
+var roomID;
+let roomSetup = () =>{
+    gameRef.child("Room Count").once('value',(snapshot)=>{
+        if (!snapshot.exists()) {
+            gameRef.child("Room Count").update({
+                times:1,
+            })
+        }
+        roomID = snapshot.val().times;
+    })
+}
+roomSetup();
 
 
 //-----------------Assign Event to Btn---------------//

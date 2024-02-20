@@ -21,7 +21,7 @@ let getList = (user) =>{
 };
 
 let readList = () => {
-    userListRef.child(id).once("value").then((snapshot) => {
+    userListRef.once("value").then((snapshot) => {
         snapshot.forEach((data) => {
                 var id = data.key;
                 username = snapshot.child(id).val().username;
