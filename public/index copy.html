@@ -131,11 +131,6 @@
         /* background: url(../public/img/star-yellow.png); */
         background-color: red;
     }
-
-    *{
-    margin: 0;
-    padding: 0;
-}
 .rate {
     float: left;
 }
@@ -206,25 +201,6 @@
     </div>
 </body>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // ดึงอิเล็มเมนต์ทั้งหมดของ star-white
-        const whiteStars = document.querySelectorAll('.winner-star');
-
-        // ให้แต่ละ white-star เพิ่ม Event Listener สำหรับการคลิก
-        whiteStars.forEach((whiteStar, index) => {
-            whiteStar.addEventListener('click', function () {
-                // เปลี่ยน class จาก star-white เป็น star-yellow
-                whiteStar.classList.remove('star-white');
-                whiteStar.classList.add('star-yellow');
-
-                // ปรับเปลี่ยนไฟล์ของที่ตั้งนั้นๆ
-                const fileNumber = index + 1;
-                const filePath = `../public/img/star-yellow.png`;
-                // ../public/img/star-yellow.png
-                whiteStar.style.background = `url(${filePath})`;    
-            });
-        });
-    });
 </script>
 
 </html>
