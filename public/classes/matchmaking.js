@@ -65,8 +65,8 @@ let createRoom = () =>{
 let updatePlayerProfile = (user) =>{
     userListRef.child(user.uid).once("value",(snapshot)=>{
         playerXUsername.innerHTML = snapshot.val().username
+        playerXImg.setAttribute("src",snapshot.val().img)
     })
-   
 }
 
 

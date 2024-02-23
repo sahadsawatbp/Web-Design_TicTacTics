@@ -259,7 +259,7 @@ input:checked + .slider:before {
 }
 
 #player-x-img{
-  background: url(../img/player-1.png);
+  
   width: 400px;
   height: 400px;
   background-size: cover;
@@ -267,7 +267,7 @@ input:checked + .slider:before {
 }
 
 #player-o-img{
-  background: url(../img/player-2.png);
+  
   width: 400px;
   height: 400px;
   background-size: cover;

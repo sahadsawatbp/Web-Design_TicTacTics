@@ -21,14 +21,14 @@ let getList = (user) =>{
 };
 
 let readList = () => {
-    userListRef.once("value").then((snapshot) => {
-        snapshot.forEach((data) => {
-                var id = data.key;
-                username = snapshot.child(id).val().username;
-                document.querySelector("#user-name").innerHTML= username; 
+    // userListRef.once("value").then((snapshot) => {
+    //     snapshot.forEach((data) => {
+    //             var id = data.key;
+    //             username = snapshot.child(id).val().username;
+    //             document.querySelector("#user-name").innerHTML= username; 
                 
-        });    
-    });
+    //     });    
+    // });
 }
 
 

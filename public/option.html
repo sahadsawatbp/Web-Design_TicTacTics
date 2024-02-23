@@ -5,11 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/option-styles.css">
     <title>Document</title>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+   
 </head>
 <body>
     <div class="option-container">
@@ -21,12 +17,12 @@
             </div> 
         </div>
         <div class="option-profile">
-            <label><img id="icon-img" src="img/user.png" alt="">
+            <label><img id="icon-img" class="profile-img" src="img/user.png" alt="">
             <div class="option-profile-box" id="box-profile">
                 <label for="">
-                    <img id="profile-img" src="img/user.png" alt="">
+                    <img class="profile-img" src="img/user.png" alt="">
                     <div class="profile-message">
-                        <h3 id="profile-name">GG</h3>
+                        <h3 id="profile-name"></h3>
                         <a id="edit-profile">Edit profile picture</a>
                     </div>
                 </label>
@@ -92,7 +88,7 @@
     <div class="option-popup-container" id="popup-container">
         <div class="option-popup">
             <input type="file" class="inputFile" id="fileInp" accept="image/png, image/jpeg">
-            <label for="fileInp"><img id="popup-img" src="" alt=""></label>
+            <label for="fileInp"><img id="popup-img" class="profile-img" src="" alt=""></label>
             <label for="">
                 <a id="popup-save" class="popup-btn">Save Change</a>
                 <a id="popup-cancel" class="popup-btn">Cancel</a>
@@ -100,7 +96,12 @@
         </div>
     </div>
 </body>
-<script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
+<script type="module">
     const firebaseConfig = {
     apiKey: "AIzaSyCNHATSXeQJSvwU_fRlqAHJMwqi40ePsj0",
     authDomain: "fir-tictactic.firebaseapp.com",
@@ -112,7 +113,7 @@
   };
 
     // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
+    firebase.initializeApp(firebaseConfig);    
 </script>
 <script src="classes/auth.js" type="module"></script>
 <script src="classes/read_data.js" type="module"></script>
