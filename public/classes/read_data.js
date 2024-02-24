@@ -5,7 +5,7 @@ var username = "";
 const userListRef = firebase.database().ref("UserList");
 firebase.auth().onAuthStateChanged((user)=>{
     if(user){
-        console.log(user.uid);
+        console.log("From read_data.js: "+user.uid);
         id = user.uid
         getList(user)
     }

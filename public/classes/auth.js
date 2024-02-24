@@ -136,20 +136,6 @@ function BeginPlay(){
     window.location = 'authentication.html'
 }
 
-// const gameRef = firebase.database().ref("Room")
-// var roomID;
-// let roomSetup = () =>{
-//     gameRef.child("Room Count").once('value',(snapshot)=>{
-//         if (!snapshot.exists()) {
-//             gameRef.child("Room Count").update({
-//                 times:1,
-//             })
-//         }
-//         roomID = snapshot.val().times;
-//     })
-// }
-// roomSetup();
-
 
 //-----------------Assign Event to Btn---------------//
 if(subBtn){

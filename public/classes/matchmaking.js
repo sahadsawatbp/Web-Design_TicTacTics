@@ -9,23 +9,6 @@ const playerOImg = document.getElementById("player-o-img");
 const userListRef = firebase.database().ref("UserList");
 const startBtn = document.getElementById("start-button");
 const currentUser = firebase.auth().currentUser;
-
-let roomSetup = () =>{
-    gameRef.child("Room Count").once('value',(snapshot)=>{
-        if (!snapshot.exists()) {
-            gameRef.child("Room Count").update({
-                times:1,
-            })
-        }else{
-            roomID = snapshot.val().times
-            gameRef.child("Room Count").update({
-                times:roomID+1,
-            })
-        }
-        return snapshot.val().times
-    })
-}
-
 firebase.auth().onAuthStateChanged((user)=>{
     if(user){
         updatePlayerProfile(user)   
@@ -33,43 +16,38 @@ firebase.auth().onAuthStateChanged((user)=>{
 })
 
 let updatePlayerProfile = (user) =>{
-    let playerXID = user.uid
-    var playerOID = () =>{
-        get(child(gameRef, 'Room '+roomID)).then((snapshot)=>{
-            console.log(snapshot.val())
-            if(snapshot.val().player_o_id){
-                playerOID = snapshot.val().player_o_id;
-                console.log(playerOID)
-            }
-            return playerOID;
+    let roomAs;
+    var player = (player_x_id, username, img) =>{
+        gameRef.once("value").then((snapshot)=>{
+            roomAs = snapshot.child("room_count").val();
+            get(child(gameRef, `Room `+roomAs)).then((snapshot)=>{5
+                console.log("From mathmaking.js: ",snapshot.child(player_x_id).val())
+                if(snapshot.child(player_x_id).val()){
+                    let playerID = snapshot.child(player_x_id).val();
+                    get(child(userListRef, playerID)).then((snapshot)=>{
+                        console.log(snapshot.val().username)
+                        username.innerHTML = snapshot.val().username;
+                        img.setAttribute('src',snapshot.val().img);
+                    })
+                }
+            })
         })
+        var onlineState
     };
-    // gameRef.child("Room 1").once("value",(snapshot)=>{
-    //     snapshot.forEach((data)=>{
-    //         console.log(data.val())
-    //     })
-    // })
-    ////////////////////////////////////////////////////////
-    // userListRef.child(playerXID).once("value",(snapshot)=>{
-    //     playerXUsername.innerHTML = snapshot.val().username
-    //     playerXImg.setAttribute("src",snapshot.val().img)
-    // })
+    player("player_x_id", playerXUsername, playerXImg);
+    player("player_o_id", playerOUsername, playerOImg);
 }
-
 
 
 let joinRoom = (event) =>{
     event.preventDefault();
     const currentUser = firebase.auth().currentUser;
     console.log("Join ",currentUser)
-    gameRef.child("Room "+roomID).once('value',(snapshot)=>{
+    gameRef.child("Room 1").once('value',(snapshot)=>{
         if (snapshot.exists()) {
-            gameRef.child("Room "+(roomID)).update({
+            gameRef.child("Room 1").update({
                 [`player_o_email`]:currentUser.email,
                 [`player_o_id`]:currentUser.uid,
-            })
-            gameRef.child("Room Count").update({
-                times:(roomID+1)
             })
             window.location = "waitingroom.html"
           } 
@@ -84,15 +62,15 @@ let createRoom = () =>{
     let codeRoom = [];
     let num;
     const user = firebase.auth().currentUser;
-    gameRef.child("Room Count").once('value',(snapshot)=>{
-        if (!snapshot.exists()) {
-            gameRef.child("Room Count").set({
-                times:1,
+    gameRef.once('value',(snapshot)=>{
+        if (!snapshot.child("room_count").exists()) {
+            gameRef.set({
+                room_count:1,
             })
         }else{
-            roomID = snapshot.val().times + 1
-            gameRef.child("Room Count").update({
-                times:roomID,
+            roomID = snapshot.val().room_count + 1
+            gameRef.update({
+                room_count:roomID,
             })
         }
         gameRef.child("Room "+roomID).on("value",(snapshot)=>{
@@ -116,7 +94,7 @@ let createRoom = () =>{
             [`room_code`]:""
         })
     })
-    // window.location = "waitingroom.html"
+    window.location = "waitingroom.html"
 }
 
 if(startBtn){
