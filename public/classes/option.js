@@ -1,5 +1,5 @@
 //npm install --save @google-cloud/storage
-
+import {get,child,getDatabase,set,ref,update,remove} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 const iconImg = document.getElementById("icon-img");
 const profileBox = document.getElementById("box-profile");
 const userName = document.getElementById("user-name");

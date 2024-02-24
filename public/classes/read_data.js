@@ -1,4 +1,4 @@
-var ref = firebase.database().ref("UserList");
+import {get,child,getDatabase,set,ref,update,remove} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 var img = document.getElementById("profile-img")
 var id = 0;
 var username = "";

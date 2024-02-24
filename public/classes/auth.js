@@ -1,12 +1,6 @@
-
+import {get,child,getDatabase,set,ref,update,remove} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 // -------------------------references----------------------------//
-
-
-
 const beginBtn = document.getElementById('Begin');
-
-
-
 const signupUsername = document.getElementById("signup-username");
 const signupPassword = document.getElementById("signup-password");
 const signupEmail = document.getElementById("signup-email");
@@ -142,19 +136,19 @@ function BeginPlay(){
     window.location = 'authentication.html'
 }
 
-const gameRef = firebase.database().ref("Room")
-var roomID;
-let roomSetup = () =>{
-    gameRef.child("Room Count").once('value',(snapshot)=>{
-        if (!snapshot.exists()) {
-            gameRef.child("Room Count").update({
-                times:1,
-            })
-        }
-        roomID = snapshot.val().times;
-    })
-}
-roomSetup();
+// const gameRef = firebase.database().ref("Room")
+// var roomID;
+// let roomSetup = () =>{
+//     gameRef.child("Room Count").once('value',(snapshot)=>{
+//         if (!snapshot.exists()) {
+//             gameRef.child("Room Count").update({
+//                 times:1,
+//             })
+//         }
+//         roomID = snapshot.val().times;
+//     })
+// }
+// roomSetup();
 
 
 //-----------------Assign Event to Btn---------------//
