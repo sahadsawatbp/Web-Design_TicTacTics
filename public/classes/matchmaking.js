@@ -8,14 +8,27 @@ const playerOImg = document.getElementById("player-o-img");
 const userListRef = firebase.database().ref("UserList");
 const startBtn = document.getElementById("start-button");
 var roomID;
+let codeRoom = [];
+let codeRoomText;
+let num;
 const currentUser = firebase.auth().currentUser;
+
 firebase.auth().onAuthStateChanged((user)=>{
     if(user){
         if(playerXUsername){
             updatePlayerProfile(user)   
         }
     }
+    
 })
+
+let updatePlayerProfile = (user) =>{
+    userListRef.child(user.uid).once("value",(snapshot)=>{
+        playerXUsername.innerHTML = snapshot.val().username
+        playerXImg.setAttribute("src",snapshot.val().img)
+    })
+}
+
 let roomSetup = () =>{
     gameRef.child("Room Count").once('value',(snapshot)=>{
         if (!snapshot.exists()) {
@@ -52,6 +65,17 @@ let joinRoom = (event) =>{
 }
 
 let createRoom = () =>{
+    for(let i=0;i<6;i++){
+        num = Math.floor(Math.random() * 10);
+        codeRoom.push(num);
+        console.log(codeRoom) 
+        if(i!=0){
+            codeRoomText = codeRoom[i-1].concat(codeRoom[i])
+        }
+    }
+    
+    
+
     const user = firebase.auth().currentUser;
     gameRef.child("Room "+roomID).update({
         [`player-x-email`]:user.email,
@@ -59,17 +83,10 @@ let createRoom = () =>{
         [`player-o-email`]:"",
         [`player-o-id`]:"",
     })
-    window.location = "waitingroom.html"
+    // window.location = "waitingroom.html"
+
 }
-
-let updatePlayerProfile = (user) =>{
-    userListRef.child(user.uid).once("value",(snapshot)=>{
-        playerXUsername.innerHTML = snapshot.val().username
-        playerXImg.setAttribute("src",snapshot.val().img)
-    })
-}
-
-
+console.log(codeRoom) 
 if(startBtn){
     startBtn.addEventListener("click",()=>{
         window.location = "game.html"
