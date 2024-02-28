@@ -64,7 +64,8 @@ let addUser = () =>{
         email:email,
         win_count:0,
         room_code:null,
-        img:""
+        img:"",
+        lastestRoom:"",
     })
     window.location = "authentication.html"
 }

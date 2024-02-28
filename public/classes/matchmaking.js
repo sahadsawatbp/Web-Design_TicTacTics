@@ -8,13 +8,17 @@ const playerXImg = document.getElementById("player-x-img");
 const playerOImg = document.getElementById("player-o-img");
 const userListRef = firebase.database().ref("UserList");
 const startBtn = document.getElementById("start-button");
-const currentUser = firebase.auth().currentUser;
 const optionMenu = document.getElementById("option-menu");
 const joinSaveBtn = document.getElementById("room-save");
 const joinCancelBtn = document.getElementById("room-cancel");
 const joinID = document.getElementById("join-id");
 let roomCode;
 
+firebase.auth().onAuthStateChanged((user)=>{
+    if(user){
+        
+    }
+})
 
 function toggleOption(){
     optionMenu.style.display === "flex" ? optionMenu.setAttribute("style","display: none") : optionMenu.setAttribute("style","display: flex");
@@ -34,39 +38,13 @@ let joinRoom = (roomid) =>{
                     [`player_o_email`]:currentUser.email,
                     [`player_o_id`]:currentUser.uid,
                 })
-                setTimeout(() => {
-                    window.location = "waitingroom.html"
-                }, 1000);
             }
-            // if(roomData != "room_count"){
-            //     gameRef.child(roomData).once('value',(snapshot)=>{
-            //     if (snapshot.exists()) {
-            //         gameRef.child(roomData).update({
-            //             [`player_o_email`]:currentUser.email,
-            //             [`player_o_id`]:currentUser.uid,
-            //         })
-            //         setTimeout(() => {
-            //             window.location = "waitingroom.html"
-            //         }, 1000);
-            //     } 
-            //     }).catch((error) => {
-            //         console.error(error);
-            //     });
-            // }
-            // gameRef.child("Room 1").once('value',(snapshot)=>{
-            // if (snapshot.exists()) {
-            //     gameRef.child("Room 1").update({
-            //         [`player_o_email`]:currentUser.email,
-            //         [`player_o_id`]:currentUser.uid,
-            //     })
-            //     window.location = "waitingroom.html"
-            // } 
-            // }).catch((error) => {
-            //     console.error(error);
-            // });
-        })
-        
+        })  
     })
+    setLastestThatPlayerIn(currentUser, temp_roomCode)
+    setTimeout(() => {
+        window.location = "waitingroom.html"
+    }, 1000);
 }
 let createRoom = () =>{
     var roomID=1;
@@ -91,7 +69,7 @@ let createRoom = () =>{
                 room_count:roomID,
             })
         }
-        gameRef.child("R"+codeRoom).update({
+        gameRef.child("R"+codeRoom).set({
             [`player_x_email`]:user.email,
             [`player_x_id`]:user.uid,
             [`player_o_email`]:"",
@@ -99,9 +77,18 @@ let createRoom = () =>{
             [`room_id`]:roomID
         })
     })
+    let temp_roomCode = "R"+codeRoom
+    setLastestThatPlayerIn(user, temp_roomCode)
     setTimeout(() => {
         window.location = "waitingroom.html"
     }, 1000);
+}
+
+function setLastestThatPlayerIn(user, roomid){
+    userListRef.child(user.uid).update({
+        [`lastestRoom`]:roomid
+    })
+    console.log(user)
 }
 
 joinSaveBtn.addEventListener("click",() => joinRoom(roomCode));

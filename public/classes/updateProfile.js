@@ -15,30 +15,13 @@ firebase.auth().onAuthStateChanged((user)=>{
     }
 })
 
-// let updatePlayerProfile = (user) =>{
-//     let roomAs;
-//     var player = (player_x_id, username, img) =>{
-//         gameRef.once("value").then((snapshot)=>{
-//             roomAs = snapshot.child("room_count").val();
-//             get(child(gameRef, `Room `+roomAs)).then((snapshot)=>{
-//                 console.log("From mathmaking.js: ",snapshot.child(player_x_id).val())
-//                 if(snapshot.child(player_x_id).val()){
-//                     let playerID = snapshot.child(player_x_id).val();
-//                     get(child(userListRef, playerID)).then((snapshot)=>{
-//                         console.log(snapshot.val().username)
-//                         username.innerHTML = snapshot.val().username;
-//                         img.setAttribute('src',snapshot.val().img);
-//                     })
-//                 }
-//             })
-//         })
-//         var onlineState
-//     };
-//     player("player_x_id", playerXUsername, playerXImg);
-//     player("player_o_id", playerOUsername, playerOImg);
-// }
 let updatePlayerProfile = (user) =>{
     let roomAs;
+    let userRoom;
+    userListRef.child(user.uid).child("lastestRoom").once("value",(snapshot)=>{
+        console.log(snapshot.val())
+    })
+    userListRef.child(user.uid)
     var player = (player_x_id, username, img) =>{
         gameRef.once("value").then((snapshot)=>{
             snapshot.forEach((childSnapshot)=>{
@@ -50,6 +33,7 @@ let updatePlayerProfile = (user) =>{
                         get(child(userListRef, playerID)).then((snapshot)=>{
                             username.innerHTML = snapshot.val().username;
                             img.setAttribute('src',snapshot.val().img);
+                            textRoomID.innerHTML = "Room ID : " + roomAs.replace("R","");
                         })
                     }
                 }
