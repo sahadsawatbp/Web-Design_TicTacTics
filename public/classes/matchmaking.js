@@ -15,84 +15,71 @@ const joinCancelBtn = document.getElementById("room-cancel");
 const joinID = document.getElementById("join-id");
 let roomCode;
 
-firebase.auth().onAuthStateChanged((user)=>{
-    if(user){
-        updatePlayerProfile(user)   
-    }
-})
-
-let updatePlayerProfile = (user) =>{
-    let roomAs;
-    var player = (player_x_id, username, img) =>{
-        gameRef.once("value").then((snapshot)=>{
-            roomAs = snapshot.child("room_count").val();
-            get(child(gameRef, `Room `+roomAs)).then((snapshot)=>{5
-                console.log("From mathmaking.js: ",snapshot.child(player_x_id).val())
-                if(snapshot.child(player_x_id).val()){
-                    let playerID = snapshot.child(player_x_id).val();
-                    get(child(userListRef, playerID)).then((snapshot)=>{
-                        console.log(snapshot.val().username)
-                        username.innerHTML = snapshot.val().username;
-                        img.setAttribute('src',snapshot.val().img);
-                    })
-                }
-            })
-        })
-        var onlineState
-    };
-    player("player_x_id", playerXUsername, playerXImg);
-    player("player_o_id", playerOUsername, playerOImg);
-}
 
 function toggleOption(){
     optionMenu.style.display === "flex" ? optionMenu.setAttribute("style","display: none") : optionMenu.setAttribute("style","display: flex");
-    joinSaveBtn.addEventListener("click",(event)=> joinRoom(event,roomCode));
-    joinCancelBtn.addEventListener("click",()=>{
-        optionMenu.setAttribute("style","display: none");
-    })
+    
 }
 
-let joinRoom = (event,roomid) =>{
+let joinRoom = (roomid) =>{
     let roomData;
-    event.preventDefault();
     const currentUser = firebase.auth().currentUser;
-    console.log("Join ",currentUser)
+    let temp_roomCode = "R"+roomid
+    console.log(temp_roomCode)
     gameRef.on('value',(snapshot)=>{
         snapshot.forEach((childSnapshot)=>{
             roomData = childSnapshot.key
-            gameRef.child("Room 1").once('value',(snapshot)=>{
-            if (snapshot.exists()) {
-                gameRef.child("Room 1").update({
+            if(temp_roomCode == roomData){
+                gameRef.child(roomData).update({
                     [`player_o_email`]:currentUser.email,
                     [`player_o_id`]:currentUser.uid,
                 })
-                window.location = "waitingroom.html"
-            } 
-            }).catch((error) => {
-                console.error(error);
-            });
+                setTimeout(() => {
+                    window.location = "waitingroom.html"
+                }, 1000);
+            }
+            // if(roomData != "room_count"){
+            //     gameRef.child(roomData).once('value',(snapshot)=>{
+            //     if (snapshot.exists()) {
+            //         gameRef.child(roomData).update({
+            //             [`player_o_email`]:currentUser.email,
+            //             [`player_o_id`]:currentUser.uid,
+            //         })
+            //         setTimeout(() => {
+            //             window.location = "waitingroom.html"
+            //         }, 1000);
+            //     } 
+            //     }).catch((error) => {
+            //         console.error(error);
+            //     });
+            // }
+            // gameRef.child("Room 1").once('value',(snapshot)=>{
+            // if (snapshot.exists()) {
+            //     gameRef.child("Room 1").update({
+            //         [`player_o_email`]:currentUser.email,
+            //         [`player_o_id`]:currentUser.uid,
+            //     })
+            //     window.location = "waitingroom.html"
+            // } 
+            // }).catch((error) => {
+            //     console.error(error);
+            // });
         })
         
     })
-    // gameRef.child("Room 1").once('value',(snapshot)=>{
-    //     if (snapshot.exists()) {
-    //         gameRef.child("Room 1").update({
-    //             [`player_o_email`]:currentUser.email,
-    //             [`player_o_id`]:currentUser.uid,
-    //         })
-    //         window.location = "waitingroom.html"
-    //       } 
-    //     }).catch((error) => {
-    //         console.error(error);
-    //     });
 }
-
 let createRoom = () =>{
     var roomID=1;
-    var codeRoomText="";
-    let codeRoom = [];
+    var codeRoom="";
+    let arrayCodeRoom = [];
     let num;
     const user = firebase.auth().currentUser;
+    for(let i=0;i<6;i++){
+        num = Math.floor(Math.random() * 10);
+        arrayCodeRoom.push(num);
+    }
+    codeRoom = arrayCodeRoom.join("")
+    console.log(codeRoom) 
     gameRef.once('value',(snapshot)=>{
         if (!snapshot.child("room_count").exists()) {
             gameRef.set({
@@ -104,42 +91,28 @@ let createRoom = () =>{
                 room_count:roomID,
             })
         }
-        gameRef.child("Room "+roomID).on("value",(snapshot)=>{
-            console.log(snapshot.val())
-            if(snapshot.val().room_code === ""){ 
-                for(let i=0;i<6;i++){
-                    num = Math.floor(Math.random() * 10);
-                    codeRoom.push(num);
-                }
-                codeRoomText = codeRoom.join("")
-                console.log(codeRoomText) 
-                gameRef.child("Room "+roomID).update({
-                    [`room_code`]:codeRoomText
-                })
-            }
-        })
-        gameRef.child("Room "+roomID).update({
+        gameRef.child("R"+codeRoom).update({
             [`player_x_email`]:user.email,
             [`player_x_id`]:user.uid,
             [`player_o_email`]:"",
             [`player_o_id`]:"",
-            [`room_code`]:""
+            [`room_id`]:roomID
         })
     })
     setTimeout(() => {
         window.location = "waitingroom.html"
     }, 1000);
-    
 }
+
+joinSaveBtn.addEventListener("click",() => joinRoom(roomCode));
+
+joinCancelBtn.addEventListener("click",()=>{
+    optionMenu.setAttribute("style","display: none");
+})
 
 if(joinID){
     joinID.addEventListener("input",()=>{
-        roomID = joinID.value;
-    })
-}
-if(startBtn){
-    startBtn.addEventListener("click",()=>{
-        window.location = "game.html"
+        roomCode = joinID.value;
     })
 }
 if(joinBtn){
