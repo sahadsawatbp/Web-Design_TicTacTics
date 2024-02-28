@@ -128,7 +128,7 @@ let createRoom = () =>{
     })
     setTimeout(() => {
         window.location = "waitingroom.html"
-      }, 1000);
+    }, 1000);
     
 }
 
