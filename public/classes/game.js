@@ -2,11 +2,19 @@
 var turn = 'O'
 var win = false;
 var winner = '';
+var cardList = [
+    { src: 'img/Swap.png', effect: 'swapSymbol' },
+    { src: 'img/Destroy.png', effect: 'destroySymbol' },
+    { src: 'img/Shield.png', effect: 'shieldSymbol' }
+];
 var blocks = document.querySelectorAll('.table-block');
 var turnObject = document.getElementById('turn');
 var round = document.getElementById('round');
 var roundcount = 1;
 var cardactive = false;
+var turncount = 0;
+var protection = false;
+var protectedBlock = null;
 
 var mycard1 = document.getElementById('cy1');
 
@@ -17,7 +25,7 @@ for (var block of blocks) {
     block.onclick = function (event) {
         roundcount += 1;
         // modify the condition here to continue the game play as long as there is no winner
-        if (!win && event.target.innerHTML === '') {
+        if (!win && event.target.innerHTML === '' && cardactive === false) {
             // 4. Modify the code here to check whether the clicking block is avialable.         
 
             event.target.innerHTML = turn;
@@ -28,6 +36,23 @@ for (var block of blocks) {
                 event.target.style.color = '#D61A3C';
             }
             checkResult();
+        }
+        
+        if (cardactive === true && event.target.innerHTML !== '') {
+            if (document.querySelector("#cy1").src === 'img/Swap.png') {
+                // ทำการสลับสัญลักษณ์ในช่องบนกระดาน
+                swapSymbol(event.target);
+            }
+            if (cardImageSrc.includes('Destroy.png')) {
+                // ทำการลบ xo ในช่องบนกระดาน
+                destroySymbol(event.target);
+            }
+
+            mycard1.style.backgroundColor = ''; // ยกเลิกเอฟเฟคการ์ด
+            mycard1.style.transform = '';
+            mycard1.style.filter = '';
+            mycard1.style.transition = "all 0.5s";
+            mycard1.style.transform = "translateY(0px)";
         }
     }
 }
@@ -129,20 +154,95 @@ function newGame() {
     for (var block of blocks) {
         block.innerHTML = '';
     }
+    newTurn();
+}
+
+// ฟังก์ชันสุ่มรูปภาพจากอาร์เรย์ของการ์ด
+function getRandomCard() {
+    var randomIndex = Math.floor(Math.random() * cardList.length);
+    return cardList[randomIndex];
+}
+
+// ฟังก์ชันที่ใช้ในการกำหนดการ์ดให้กับการ์ดในแต่ละช่อง
+function setCardImage() {
+    var cards = document.querySelectorAll('.card'); // เลือกการ์ดทั้งหมด
+    cards.forEach(function (card) {
+        card.style.backgroundImage = getRandomImage(); // กำหนดรูปภาพสุ่มให้กับการ์ดแต่ละใบ
+    });
+}
+
+function newTurn() {
+    var cardBoxes = document.querySelectorAll('.cardbox-your .card-container');
+
+    cardBoxes.forEach(function (cardContainer) {
+        var card = cardContainer.querySelector('.card');
+        if (!card || (card && card.src.includes('img/Card.png'))) {
+            var cardInfo = getRandomCard(cardList);
+            cardContainer.innerHTML = `<img src="${cardInfo.src}" alt="Card" class="card" onclick="${cardInfo.effect}(this)">`;
+        }
+    });
+}
+
+function resetCardImage() {
+    var cardBoxes = document.querySelectorAll('.cardbox-your .card-container'); // เลือกช่องสำหรับการ์ดที่ต้องการให้สุ่ม
+
+    cardBoxes.forEach(function (cardContainer) {
+        var card = cardContainer.querySelector('.card'); // ตรวจสอบว่ามีการ์ดในช่องนี้หรือไม่
+        if (card && card.src.includes('img/')) {
+            // เช็คว่าการ์ดนี้ถูกใช้งานหรือไม่
+            var isCardActive = card.classList.contains('active-card');
+            if (isCardActive) {
+                cardContainer.innerHTML = `<img src="img/Card.png" alt="Card" class="card" onclick="usecard()">`; // ใส่รูปภาพ card.png ในช่องการ์ดแต่ละช่อง
+            }
+        }
+    });
 }
 
 function swapSymbol(block) {
-    if (block.innerHTML === 'X') {
-        block.innerHTML = 'O';
-        block.style.color = '#1F34B8';
+    if (protection === false && cardactive === true) {
+        if (block.innerHTML === 'X') {
+            block.innerHTML = 'O';
+            block.style.color = '#1F34B8';
+        }
+        else if (block.innerHTML === 'O') {
+            block.innerHTML = 'X';
+            block.style.color = '#D61A3C';
+        }
     }
-    else if (block.innerHTML === 'O') {
-        block.innerHTML = 'X';
-        block.style.color = '#D61A3C';
-    }
+    cardactive = false;
+    resetCardImage();
+    console.log(cardactive)
 }
 
-mycard1.addEventListener('click', function () {
+function destroySymbol(block) {
+    if (protection === false) {
+        if (block.innerHTML !== '') {
+            block.innerHTML = '';
+        }
+    }
+    cardactive = false;
+    console.log(cardactive)
+}
+
+function destroySymbol(block) {
+    if (protection === false) {
+        if (block.innerHTML !== '') {
+            block.innerHTML = '';
+        }
+    }
+    cardactive = false;
+    console.log(cardactive)
+}
+
+function shieldSymbol(block) {
+    protectedBlock = block; // กำหนดบล็อกที่ถูกป้องกัน
+    setTimeout(function () {
+        protectedBlock = null; // หลังจากผ่านไปเวลา 1 วินาที บล็อกที่ถูกป้องกันจะถูกปลดป้อง
+    }, 10000); // 1 วินาที
+}
+
+function usecard(cardContainer) {
+    var card = cardContainer.querySelector('.card');
     if (cardactive === false) {
         cardactive = true; // กำหนดว่าการ์ดถูกคลิกแล้ว
         // สามารถคลิกที่ช่องบนกระดานได้
@@ -151,23 +251,10 @@ mycard1.addEventListener('click', function () {
         mycard1.style.filter = 'drop-shadow(0 0px 12px hsl(263, 90%, 51%))';
         mycard1.style.transition = "all 0.5s";
         mycard1.style.transform = "translateY(-15px)";
-        if (cardactive === true){
-            for (var block of blocks) {
-                block.addEventListener('click', function () {
-                    // ตรวจสอบว่าช่องบนกระดานมีสัญลักษณ์หรือไม่
-                    if (this.innerHTML !== '') {
-                        // ทำการสลับสัญลักษณ์ในช่องบนกระดาน
-                        swapSymbol(this);
-                        mycard1.style.backgroundColor = ''; // ยกเลิกเอฟเฟคการ์ด
-                        mycard1.style.transform = '';
-                        mycard1.style.filter = '';
-                        mycard1.style.transition = "all 0.5s";
-                        mycard1.style.transform = "translateY(0px)";
-                    }
-                })
-            }
-            cardactive = false;
+        var cardEffect = cardList.find(cardInfo => cardInfo.id === card.id)?.effect; // ค้นหาเอฟเฟคของการ์ดที่ถูกใช้งาน
+        if (cardEffect) {
+            window[cardEffect](card);
         }
-        
     }
-});
+    console.log(cardactive);
+}
