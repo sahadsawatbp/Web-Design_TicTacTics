@@ -5,7 +5,8 @@ var winner = '';
 var cardList = [
     { src: 'img/Swap.png', effect: 'swapSymbol' },
     { src: 'img/Destroy.png', effect: 'destroySymbol' },
-    { src: 'img/Shield.png', effect: 'shieldSymbol' }
+    { src: 'img/Shield.png', effect: 'shieldSymbol' },
+    { src: 'img/Draw.png', effect: 'drawCard' }
 ];
 var cardBoxes = document.querySelectorAll('.cardbox-your .card-container');
 var blocks = document.querySelectorAll('.table-block');
@@ -31,7 +32,6 @@ for (var block of blocks) {
             // 4. Modify the code here to check whether the clicking block is avialable.         
             roundcount += 1;
             event.target.innerHTML = turn;
-            console.log(roundcount)
             if (turn === 'O') {
                 event.target.style.color = '#1F34B8';
             }
@@ -53,29 +53,25 @@ for (var block of blocks) {
             protectedBlock = null;
         }
 
-        if (cardactive === true && event.target.innerHTML !== '') {
-            console.log(selected_card.src)
-            if (selected_card.src.includes('Swap.png')) {
-                // ทำการสลับสัญลักษณ์ในช่องบนกระดาน
-                swapSymbol(event.target);
-            }
-            if (selected_card.src.includes('Destroy.png')) {
-                // ทำการลบ xo ในช่องบนกระดาน
-                destroySymbol(event.target);
-            }
-            if (selected_card.src.includes("Shield.png")) {
-                // ทำการปกป้อง XO ในช่องบนกระดาน
-                turncount = roundcount;
-                shieldSymbol(event.target)
+        if (cardactive === true) {
+            if (event.target.innerHTML !== '') {
+                if (selected_card.src.includes('Swap.png')) {
+                    // ทำการสลับสัญลักษณ์ในช่องบนกระดาน
+                    swapSymbol(event.target);
+                }
+                if (selected_card.src.includes('Destroy.png')) {
+                    // ทำการลบ xo ในช่องบนกระดาน
+                    destroySymbol(event.target);
+                }
+                if (selected_card.src.includes("Shield.png")) {
+                    // ทำการปกป้อง XO ในช่องบนกระดาน
+                    turncount = roundcount;
+                    shieldSymbol(event.target)
+                }
             }
             if (selected_card.src.includes("Draw.png")) {
-                drawSymbol(event.target)
+                drawCard()
             }
-            selected_card.style.backgroundColor = ''; // ยกเลิกเอฟเฟคการ์ด
-            selected_card.style.transform = '';
-            selected_card.style.filter = '';
-            selected_card.style.transition = "all 0.5s";
-            selected_card.style.transform = "translateY(0px)";
         }
 
 
@@ -267,6 +263,7 @@ function swapSymbol(block) {
     }
     cardactive = false;
     resetCardImage();
+    cancelcardeffect()
     console.log(cardactive)
 }
 
@@ -278,6 +275,7 @@ function destroySymbol(block) {
     }
     cardactive = false;
     resetCardImage()
+    cancelcardeffect()
     console.log(cardactive)
 }
 
@@ -285,18 +283,22 @@ function shieldSymbol(block) {
     protectedBlock = block; // กำหนดบล็อกที่ถูกป้องกัน
     cardactive = false;
     resetCardImage()
+    cancelcardeffect()
     console.log(cardactive)
     // setTimeout(function () {
     //      // หลังจากผ่านไปเวลา 1 วินาที บล็อกที่ถูกป้องกันจะถูกปลดป้อง
     // }, 10000); // 1 วินาที
 }
 
-function drawSymbol() {
-    resetCardImage()
-    for (var i = 0; i < 2; i++) {
-        newTurn();
-    }
+function drawCard() {
+    resetCardImage();
+    setTimeout(function () {
+        for (var i = 0; i < 2; i++) {
+            newTurn();
+        }
+    }, 500);
     cardactive = false;
+    cancelcardeffect()
     console.log(cardactive)
 }
 
@@ -336,5 +338,12 @@ function CancelCard(cardContainer) {
             window[cardEffect](card);
         }
     }
+}
 
+function cancelcardeffect() {
+    selected_card.style.backgroundColor = ''; // ยกเลิกเอฟเฟคการ์ด
+    selected_card.style.transform = '';
+    selected_card.style.filter = '';
+    selected_card.style.transition = "all 0.5s";
+    selected_card.style.transform = "translateY(0px)";
 }
