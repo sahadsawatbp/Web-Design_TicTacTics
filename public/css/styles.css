@@ -159,18 +159,6 @@ h3{
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 /*Toggle Switch Check Box*/
 .switch {
   position: relative;
@@ -282,39 +270,6 @@ input:checked + .slider:before {
   /* margin-left: 200px; */
 }
 
-#start-button{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #7000FF;
-  padding: 20px;
-  width: 500px;
-  border-radius: 50px;
-  color: white;
-  font-size: 25px;
-  height: 80px;
-}
-
-#home-button{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  left: 590px;
-  bottom: 58px;
-  width: 70px;
-  height: 70px;
-  background-color: #323232;
-  border-radius: 100%;
-}
-
-/* #player-container{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-} */
-
 #player-container{
   display: flex;
   align-items: center;
@@ -351,8 +306,67 @@ input:checked + .slider:before {
   align-items: left;
   justify-content: left;
   flex-direction: column;
+  
 }
+
+
+/* Waitingroom.html */
+
+.button-container{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 600px;
+}
+
 
 #start-button{
   cursor: pointer;
+  text-decoration: none;
+  color:white;
+  width: 200px;
+  height: 90px;
+  margin-top: 10px;
+  border-radius: 50px;
+  font-size: 30px;
+  font-weight: bolder;
+  display: flex;
+  justify-content: center;
+  align-items:  center;
+  background-color: #7000ff;
+  margin-bottom: 10px;
+}
+
+
+
+#back-button{
+  cursor: pointer;
+  position: relative;
+  text-decoration: none;
+  color:white;
+  width: 200px;
+  padding: 10px;
+  height: 90px;
+  margin-top: 10px;
+  border-radius: 50px;
+  font-size: 30px;
+  font-weight: bolder;
+  display: flex;
+  justify-content: space-around;
+  align-items:  center;
+  background-color: #6f00ff00;
+  border: #7000FF solid 5px;
+  margin-bottom: 10px;
+}
+
+#home-button{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  left: 590px;
+  bottom: 58px;
+  width: 70px;
+  height: 70px;
+  background-color: #323232;
+  border-radius: 100%;
 }

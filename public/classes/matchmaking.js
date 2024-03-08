@@ -29,22 +29,23 @@ let joinRoom = (roomid) =>{
     let roomData;
     const currentUser = firebase.auth().currentUser;
     let temp_roomCode = "R"+roomid
-    console.log(temp_roomCode)
     gameRef.on('value',(snapshot)=>{
         snapshot.forEach((childSnapshot)=>{
             roomData = childSnapshot.key
+            console.log(roomData)
             if(temp_roomCode == roomData){
                 gameRef.child(roomData).update({
                     [`player_o_email`]:currentUser.email,
                     [`player_o_id`]:currentUser.uid,
                 })
+                setLastestThatPlayerIn(currentUser, temp_roomCode)
+                setTimeout(() => {
+                    window.location = "waitingroom.html"
+                }, 1000);
             }
         })  
     })
-    setLastestThatPlayerIn(currentUser, temp_roomCode)
-    setTimeout(() => {
-        window.location = "waitingroom.html"
-    }, 1000);
+   
 }
 let createRoom = () =>{
     var roomID=1;

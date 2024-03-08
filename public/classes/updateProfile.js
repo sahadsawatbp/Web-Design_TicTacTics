@@ -7,43 +7,47 @@ const playerXImg = document.getElementById("player-x-img");
 const playerOImg = document.getElementById("player-o-img");
 const userListRef = firebase.database().ref("UserList");
 const startBtn = document.getElementById("start-button");
-const currentUser = firebase.auth().currentUser;
+const backBtn = document.getElementById("back-button")
+var currentUser;
 
-firebase.auth().onAuthStateChanged((user)=>{
-    if(user){
-        updatePlayerProfile(user)   
-    }
+gameRef.on("value",(snapshot)=>{
+    getInfo(snapshot, playerXUsername, playerXImg, playerOUsername, playerOImg);
 })
 
-let updatePlayerProfile = (user) =>{
+function getInfo(snapshot, username, img, username2, img2){
     let roomAs;
-    let userRoom;
-    userListRef.child(user.uid).child("lastestRoom").once("value",(snapshot)=>{
-        console.log(snapshot.val())
+    snapshot.forEach((childSnapshot)=>{
+        if(childSnapshot.key != "room_count"){
+            roomAs = childSnapshot.key
+            if(snapshot.child(roomAs).child("player_x_id").val() !== ""){
+                let player1ID = snapshot.child(roomAs).child("player_x_id").val();
+                get(child(userListRef, player1ID)).then((snapshot)=>{
+                    username.innerHTML = snapshot.val().username;
+                    img.setAttribute('src',snapshot.val().img);
+                    textRoomID.innerHTML = "Room ID : " + snapshot.val().lastestRoom.replace("R","");
+                })
+            }else{
+                username.innerHTML = "";
+                img.setAttribute('src',"");
+            }
+            if(snapshot.child(roomAs).child("player_o_id").val()){
+                let player2ID = snapshot.child(roomAs).child("player_o_id").val();
+                get(child(userListRef, player2ID)).then((snapshot)=>{
+                    username2.innerHTML = snapshot.val().username;
+                    img2.setAttribute('src',snapshot.val().img);
+                })
+            }else{
+                username2.innerHTML = "";
+                img2.setAttribute('src',"");
+            }
+        }
     })
-    userListRef.child(user.uid)
-    var player = (player_x_id, username, img) =>{
-        gameRef.once("value").then((snapshot)=>{
-            snapshot.forEach((childSnapshot)=>{
-                if(childSnapshot.key != "room_count"){
-                    roomAs = childSnapshot.key
-                    console.log("From mathmaking.js: ",snapshot.child(roomAs).child(player_x_id).val())
-                    if(snapshot.child(roomAs).child(player_x_id).val()){
-                        let playerID = snapshot.child(roomAs).child(player_x_id).val();
-                        get(child(userListRef, playerID)).then((snapshot)=>{
-                            username.innerHTML = snapshot.val().username;
-                            img.setAttribute('src',snapshot.val().img);
-                            textRoomID.innerHTML = "Room ID : " + roomAs.replace("R","");
-                        })
-                    }
-                }
-            })
-        })
-        var onlineState
-    };
-    player("player_x_id", playerXUsername, playerXImg);
-    player("player_o_id", playerOUsername, playerOImg);
 }
+
+firebase.auth().onAuthStateChanged((user)=>{
+    currentUser = user;
+    
+})
 
 
 
@@ -52,4 +56,50 @@ if(startBtn){
     startBtn.addEventListener("click",()=>{
         window.location = "game.html"
     })
+}
+if(backBtn){
+    
+    backBtn.addEventListener("click",()=>{
+        quitRoom();
+    })
+}
+
+function quitRoom(){
+    let temp_player_id;
+    let  temp_player_email;
+    userListRef.child(currentUser.uid).child("lastestRoom").once("value",(snapshot)=>{
+        gameRef.child(snapshot.val()).once("value",(roomSnapshot)=>{
+            if(roomSnapshot.val().player_x_id === currentUser.uid){
+                firebase.database().ref('Room/'+snapshot.val()).remove();
+                gameRef.once("value",(snapshot)=>{
+                    let roomID = snapshot.val().room_count - 1
+                    gameRef.update({
+                        room_count:roomID,
+                    })
+                })
+                temp_player_id = roomSnapshot.val().player_o_id;
+                temp_player_email = roomSnapshot.val().player_o_email;
+            }                    
+            else{
+                temp_player_id = roomSnapshot.val().player_x_id;
+                temp_player_email = roomSnapshot.val().player_x_email;
+                
+            }
+            gameRef.child(snapshot.val()).update({
+                [`player_x_id`]:temp_player_id,
+                [`player_x_email`]:temp_player_email,
+                [`player_o_id`]:"",
+                [`player_o_email`]:"",
+            })
+            if(roomSnapshot.child('player_o_id').val() == ""){
+                console.log("s")
+                gameRef.child(snapshot.val()).remove();
+            }
+            getInfo(snapshot, playerXUsername, playerXImg, playerOUsername, playerOImg);
+        })
+    
+    });
+    setTimeout(() => {
+        window.location = "friendoption.html"
+    }, 500);
 }
