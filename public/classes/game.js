@@ -7,6 +7,7 @@ var cardList = [
     { src: 'img/Destroy.png', effect: 'destroySymbol' },
     { src: 'img/Shield.png', effect: 'shieldSymbol' }
 ];
+var cardBoxes = document.querySelectorAll('.cardbox-your .card-container');
 var blocks = document.querySelectorAll('.table-block');
 var turnObject = document.getElementById('turn');
 var round = document.getElementById('round');
@@ -15,9 +16,8 @@ var cardactive = false;
 var turncount = 0;
 var protection = false;
 var protectedBlock = null;
-
 var mycard1 = document.getElementById('cy1');
-
+var selected_card;
 newGame();
 
 for (var block of blocks) {
@@ -37,23 +37,43 @@ for (var block of blocks) {
             }
             checkResult();
         }
-        
         if (cardactive === true && event.target.innerHTML !== '') {
-            if (document.querySelector("#cy1").src === 'img/Swap.png') {
+            console.log(selected_card.src)
+            if (selected_card.src.includes('Swap.png')) {
                 // ทำการสลับสัญลักษณ์ในช่องบนกระดาน
                 swapSymbol(event.target);
             }
-            if (cardImageSrc.includes('Destroy.png')) {
+            if (selected_card.src.includes('Destroy.png')) {
                 // ทำการลบ xo ในช่องบนกระดาน
                 destroySymbol(event.target);
             }
-
-            mycard1.style.backgroundColor = ''; // ยกเลิกเอฟเฟคการ์ด
-            mycard1.style.transform = '';
-            mycard1.style.filter = '';
-            mycard1.style.transition = "all 0.5s";
-            mycard1.style.transform = "translateY(0px)";
+            if(selected_card.src.includes("Shield.png")){
+                shieldSymbol(event.target)
+            }
+            selected_card.style.backgroundColor = ''; // ยกเลิกเอฟเฟคการ์ด
+            selected_card.style.transform = '';
+            selected_card.style.filter = '';
+            selected_card.style.transition = "all 0.5s";
+            selected_card.style.transform = "translateY(0px)";
         }
+        
+
+        // if (cardactive === true && event.target.innerHTML !== '') {
+        //     if (document.querySelector("#cy1").src === 'img/Swap.png') {
+        //         // ทำการสลับสัญลักษณ์ในช่องบนกระดาน
+        //         swapSymbol(event.target);
+        //     }
+        //     if (cardImageSrc.includes('Destroy.png')) {
+        //         // ทำการลบ xo ในช่องบนกระดาน
+        //         destroySymbol(event.target);
+        //     }
+
+        //     mycard1.style.backgroundColor = ''; // ยกเลิกเอฟเฟคการ์ด
+        //     mycard1.style.transform = '';
+        //     mycard1.style.filter = '';
+        //     mycard1.style.transition = "all 0.5s";
+        //     mycard1.style.transform = "translateY(0px)";
+        // }
     }
 }
 
@@ -172,19 +192,21 @@ function setCardImage() {
 }
 
 function newTurn() {
-    var cardBoxes = document.querySelectorAll('.cardbox-your .card-container');
+    // var cardBoxes = document.querySelectorAll('.cardbox-your .card-container');
 
     cardBoxes.forEach(function (cardContainer) {
         var card = cardContainer.querySelector('.card');
         if (!card || (card && card.src.includes('img/Card.png'))) {
             var cardInfo = getRandomCard(cardList);
-            cardContainer.innerHTML = `<img src="${cardInfo.src}" alt="Card" class="card" onclick="${cardInfo.effect}(this)">`;
+            card.setAttribute("src",`${cardInfo.src}`)
+            card.setAttribute("onclick",`${cardInfo.effect}`)
+            // cardContainer.innerHTML = `<img src="${cardInfo.src}" alt="Card" class="card" onclick="${cardInfo.effect}(this)">`;
         }
     });
 }
 
 function resetCardImage() {
-    var cardBoxes = document.querySelectorAll('.cardbox-your .card-container'); // เลือกช่องสำหรับการ์ดที่ต้องการให้สุ่ม
+    // var cardBoxes = document.querySelectorAll('.cardbox-your .card-container'); // เลือกช่องสำหรับการ์ดที่ต้องการให้สุ่ม
 
     cardBoxes.forEach(function (cardContainer) {
         var card = cardContainer.querySelector('.card'); // ตรวจสอบว่ามีการ์ดในช่องนี้หรือไม่
@@ -192,7 +214,7 @@ function resetCardImage() {
             // เช็คว่าการ์ดนี้ถูกใช้งานหรือไม่
             var isCardActive = card.classList.contains('active-card');
             if (isCardActive) {
-                cardContainer.innerHTML = `<img src="img/Card.png" alt="Card" class="card" onclick="usecard()">`; // ใส่รูปภาพ card.png ในช่องการ์ดแต่ละช่อง
+                cardContainer.innerHTML = `<img src="img/Card.png" alt="Card" class="card" onclick="usecard(this)">`; // ใส่รูปภาพ card.png ในช่องการ์ดแต่ละช่อง
             }
         }
     });
@@ -246,15 +268,35 @@ function usecard(cardContainer) {
     if (cardactive === false) {
         cardactive = true; // กำหนดว่าการ์ดถูกคลิกแล้ว
         // สามารถคลิกที่ช่องบนกระดานได้
-        mycard1.style.backgroundColor = 'hsl(263, 90%, 51%)';
-        mycard1.style.transform = 'scale(1.1)';
-        mycard1.style.filter = 'drop-shadow(0 0px 12px hsl(263, 90%, 51%))';
-        mycard1.style.transition = "all 0.5s";
-        mycard1.style.transform = "translateY(-15px)";
+       card.style.backgroundColor = 'hsl(263, 90%, 51%)';
+       card.style.transform = 'scale(1.1)';
+       card.style.filter = 'drop-shadow(0 0px 12px hsl(263, 90%, 51%))';
+       card.style.transition = "all 0.5s";
+       card.style.transform = "translateY(-15px)";
         var cardEffect = cardList.find(cardInfo => cardInfo.id === card.id)?.effect; // ค้นหาเอฟเฟคของการ์ดที่ถูกใช้งาน
         if (cardEffect) {
             window[cardEffect](card);
         }
     }
-    console.log(cardactive);
+    else{
+        CancelCard(cardContainer)
+    }
+    selected_card = card
+}
+
+function CancelCard(cardContainer){
+    var card = cardContainer.querySelector('.card');
+    if (cardactive === true) {
+        cardactive = false; // กำหนดว่าการ์ดถูกคลิกแล้ว
+        card.style.backgroundColor = ''; // ยกเลิกเอฟเฟคการ์ด
+        card.style.transform = '';
+        card.style.filter = '';
+        card.style.transition = "all 0.5s";
+        card.style.transform = "translateY(0px)";
+        var cardEffect = cardList.find(cardInfo => cardInfo.id === card.id)?.effect; // ค้นหาเอฟเฟคของการ์ดที่ถูกใช้งาน
+        if (cardEffect) {
+            window[cardEffect](card);
+        }
+    }
+    
 }
