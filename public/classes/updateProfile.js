@@ -70,17 +70,10 @@ function quitRoom(){
     userListRef.child(currentUser.uid).child("lastestRoom").once("value",(snapshot)=>{
         gameRef.child(snapshot.val()).once("value",(roomSnapshot)=>{
             if(roomSnapshot.val().player_x_id === currentUser.uid){
-                firebase.database().ref('Room/'+snapshot.val()).remove();
-                gameRef.once("value",(snapshot)=>{
-                    let roomID = snapshot.val().room_count - 1
-                    gameRef.update({
-                        room_count:roomID,
-                    })
-                })
                 temp_player_id = roomSnapshot.val().player_o_id;
                 temp_player_email = roomSnapshot.val().player_o_email;
             }                    
-            else{
+            else if(roomSnapshot.val().player_o_id === currentUser.uid){
                 temp_player_id = roomSnapshot.val().player_x_id;
                 temp_player_email = roomSnapshot.val().player_x_email;
                 
@@ -92,8 +85,13 @@ function quitRoom(){
                 [`player_o_email`]:"",
             })
             if(roomSnapshot.child('player_o_id').val() == ""){
-                console.log("s")
-                gameRef.child(snapshot.val()).remove();
+                firebase.database().ref('Room/'+snapshot.val()).remove();
+                gameRef.once("value",(snapshot)=>{
+                    let roomID = snapshot.val().room_count - 1
+                    gameRef.update({
+                        room_count:roomID,
+                    })
+                })
             }
             getInfo(snapshot, playerXUsername, playerXImg, playerOUsername, playerOImg);
         })
