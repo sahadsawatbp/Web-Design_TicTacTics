@@ -6,7 +6,8 @@ var cardList = [
     { src: 'img/Swap.png', effect: 'swapSymbol' },
     { src: 'img/Destroy.png', effect: 'destroySymbol' },
     { src: 'img/Shield.png', effect: 'shieldSymbol' },
-    { src: 'img/Draw.png', effect: 'drawCard' }
+    { src: 'img/Draw.png', effect: 'drawCard' },
+    { src: 'img/Deny.png', effect: 'denyCard' }
 ];
 var cardBoxes = document.querySelectorAll('.cardbox-your .card-container');
 var blocks = document.querySelectorAll('.table-block');
@@ -15,8 +16,9 @@ var round = document.getElementById('round');
 var roundcount = 1;
 var roundcheck = 0;
 var turncount = 0;
+var turncountfordeny = 0;
 var cardactive = false;
-var protection = false;
+var isdeny = false;
 var protectedBlock = null;
 var mycard1 = document.getElementById('cy1');
 var selected_card;
@@ -53,7 +55,11 @@ for (var block of blocks) {
             protectedBlock = null;
         }
 
-        if (cardactive === true) {
+        if (roundcount >= turncountfordeny + 2) {
+            isdeny = false;
+        }
+
+        if (cardactive === true && isdeny === false) {
             if (event.target.innerHTML !== '') {
                 if (selected_card.src.includes('Swap.png')) {
                     // ทำการสลับสัญลักษณ์ในช่องบนกระดาน
@@ -72,6 +78,13 @@ for (var block of blocks) {
             if (selected_card.src.includes("Draw.png")) {
                 drawCard()
             }
+            if (selected_card.src.includes("Deny.png")) {
+                turncountfordeny = roundcount;
+                denyCard()
+            }
+        }
+        else if (cardactive === true && isdeny === true) {
+            alert('คุณถูกห้ามใช้การ์ด!');
         }
 
 
@@ -297,6 +310,14 @@ function drawCard() {
             newTurn();
         }
     }, 500);
+    cardactive = false;
+    cancelcardeffect()
+    console.log(cardactive)
+}
+
+function denyCard() {
+    isdeny = true;
+    resetCardImage();
     cardactive = false;
     cancelcardeffect()
     console.log(cardactive)
