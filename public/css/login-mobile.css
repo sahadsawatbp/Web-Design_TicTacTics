@@ -1,0 +1,54 @@
+/* ipad */
+@media (width <= 1366px){
+    #ttt-header {
+        position: relative;
+        font-size: 100px;
+        margin-bottom: 100px;
+        color: white;
+        top: 3%;;
+    }
+    #Login {
+        margin-top: 20px;
+    }
+}
+
+/* mobile */
+@media (width <= 390px){
+    #ttt-header {
+        position: relative;
+        font-size: 40px;
+        margin-bottom: 80px;
+        color: white;
+        top: 3%;;
+    }
+    .field-box {
+        color: #767676;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+        width: 260px;
+        height: 60px;
+        background-color: #323232;
+    }
+    .container a {
+        text-decoration: none;
+        color: white;
+        width: 210px;
+        height: 50px;
+        margin-top: 10px;
+        border-radius: 50px;
+        font-size: 20px;
+        font-weight: 300;
+        display: flex;
+        cursor: pointer;
+        justify-content: center;
+        align-items: center;
+        background-color: #7000ff;
+        margin-bottom: 10px;
+    }
+    #auth-back {
+        width: 30px;
+        height: 30px;
+    }
+}

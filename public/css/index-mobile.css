@@ -1,0 +1,27 @@
+/* ipad */
+@media (width <= 1366px){
+    #Begin h1 {
+        font-size: 120px;
+        color: white;
+    }
+    #Begin p {
+        margin-top: 31px;
+        color: rgb(156, 156, 156);
+        animation: wip-wup 2s infinite;
+        font-size: 30px;
+    }
+}
+
+/* mobile */
+@media (width <= 390px){
+    #Begin h1 {
+        font-size: 40px;
+        color: white;
+    }
+    #Begin p {
+        margin-top: 31px;
+        color: rgb(156, 156, 156);
+        animation: wip-wup 2s infinite;
+        font-size: 20px;
+    }
+}
