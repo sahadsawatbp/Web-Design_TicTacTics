@@ -14,7 +14,7 @@ firebase.auth().onAuthStateChanged((user)=>{
 })
 gameRef.on("value",(snapshot)=>{
     const user = firebase.auth().currentUser;
-    getInfo(snapshot, playerXUsername, playerXImg, playerOUsername, playerOImg);
+    getInfo(snapshot,user , playerXUsername, playerXImg, playerOUsername, playerOImg);
     checkStateRoom(snapshot, user);
     if(startBtn){
         startBtn.addEventListener("click",()=>{
@@ -23,11 +23,10 @@ gameRef.on("value",(snapshot)=>{
     }
 })
 
-function getInfo(snapshot, username, img, username2, img2){
+function getInfo(snapshot,user , username, img, username2, img2){
     let roomAs;
-    snapshot.forEach((childSnapshot)=>{
-        if(childSnapshot.key != "room_count"){
-            roomAs = childSnapshot.key
+    userListRef.child(user.uid+"/lastestRoom").once("value",(xx)=>{
+            roomAs = xx.val()
             if(snapshot.child(roomAs).child("player_x_id").val() !== ""){
                 let player1ID = snapshot.child(roomAs).child("player_x_id").val();
                 get(child(userListRef, player1ID)).then((snapshot)=>{
@@ -49,7 +48,7 @@ function getInfo(snapshot, username, img, username2, img2){
                 username2.innerHTML = "";
                 img2.setAttribute('src',"");
             }
-        }
+        
     })
 }
 
