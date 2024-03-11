@@ -77,13 +77,13 @@ function joinRandomRoom(){
         }
         else{
             let snapChildrenLength = snapshot.numChildren();
-            console.log('length ' + snapChildrenLength);
+            console.log('length: ' + snapChildrenLength);
             let availableRooms = [];
             
 
             snapshot.forEach((childSnapshot) => {
                 const player_O_ID = childSnapshot.child("player_o_id").val();
-                console.log("Player O ID:", player_O_ID);
+                console.log("Player O ID: ", player_O_ID);
                 let roomId = childSnapshot.key;
                 if (player_O_ID === ""){
                     availableRooms.push(roomId);
