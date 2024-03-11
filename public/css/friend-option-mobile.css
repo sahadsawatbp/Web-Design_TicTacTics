@@ -1,10 +1,8 @@
 /* ipad */
 @media (width <= 1366px){
 
-    .option-popup {
-        /* display: none; */
-        width: 800px;
-        height: 600px;
+    .option-popup-container {
+        display: none;
     }
     .option-container h1 {
         color: white;
@@ -56,11 +54,12 @@
         display: flex;
         flex-direction: column;
     }
-    .option-popup-container {
-        width: 720px;
-        height: 1669px;
-        top: -109px;
-        left: 0px;
+    .option-container {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        display: flex;
+        justify-content: space-between;
     }
     .option-container h1 {
         color: white;
@@ -71,10 +70,8 @@
     .option-menu {
         width: 500px;
     }
-    .option-popup {
-        width: 534px;
-    }
-    body{
-        overflow: hidden;
+    .option-profile {
+        left: -16px;
+        bottom: -517px;
     }
 }
