@@ -1,4 +1,4 @@
-import {get,child,getDatabase,set,ref,update,remove} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+// import {get,child,getDatabase,set,ref,update,remove} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 let gameRef = firebase.database().ref("Room");
 let userListRef = firebase.database().ref("UserList");
 
@@ -402,11 +402,6 @@ function saveXOToDB(user, blockID, side) {
                 turn: "O"
             })
         }
-        // gameRef.child(currentRoom).once("value",(snapshot)=>{
-        //     let turn = snapshot.val().turn;
-        //     checkResult(user, turn, currentRoom);
-        // })
-        
     })
 
 }
@@ -466,8 +461,7 @@ function updateScore(user, winner, currentRoom){
                 userListRef.child(user.uid).update({
                 [`win_count`]:winner_winCount
                 })
-                // gameRef.child(currentRoom+"/table").remove()
-                
+                gameRef.child(currentRoom+"/table").remove()
             }
         })
        
@@ -478,9 +472,9 @@ function updateScore(user, winner, currentRoom){
 
 
 
-cardbox1.addEventListener("click", function() {
-    useCards(this);
-});
+// cardbox1.addEventListener("click", function() {
+//     useCards(this);
+// });
 cardbox2.addEventListener("click", function() {
     useCards(this);
 });

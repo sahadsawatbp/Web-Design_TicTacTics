@@ -91,7 +91,6 @@ function joinRandomRoom(){
             })
             console.log(availableRooms)
             console.log('room: ' + availableRooms[0])
-            console.log('ID: ' + availableRooms[1])
             if (availableRooms.length > 0) {
                 let randomRoomId = availableRooms[Math.floor(Math.random() * availableRooms.length)];
                 joinRoom(randomRoomId);
@@ -100,33 +99,27 @@ function joinRandomRoom(){
     })
 };
 
-// function joinRoom(roomId) {
-//     const currentUser = firebase.auth().currentUser;
-//     let temp_roomCode = "R" + roomId;
-
-//     gameRef.once('value', (snapshot) => {
-//         snapshot.forEach((childSnapshot) => {
-//             let roomData = childSnapshot.key;
-//             if (temp_roomCode === roomData) {
-//                 let room = childSnapshot.val();
-//                 if (room.playerCount < MAX_ROOM_CAPACITY) {
-//                     gameRef.child(roomData).update({
-//                         [`player_o_email`]: currentUser.email,
-//                         [`player_o_id`]: currentUser.uid,
-//                         playerCount: room.playerCount + 1 // เพิ่มจำนวนผู้เล่นในห้อง
-//                     });
-//                     setLastestThatPlayerIn(currentUser, temp_roomCode);
-//                     setTimeout(() => {
-//                         window.location = "waitingroom.html";
-//                     }, 1000);
-//                 } else {
-//                     // ห้องเต็ม ให้เรียกฟังก์ชัน joinRandomRoom() เพื่อหาห้องใหม่
-//                     joinRandomRoom();
-//                 }
-//             }
-//         });
-//     });
-// }
+function joinRoom(roomId) {
+    const currentUser = firebase.auth().currentUser;
+    let temp_roomCode = roomId;
+    
+    strangerRoomRef.once('value', (snapshot) => {
+        snapshot.forEach((childSnapshot) => {
+            let temp_roomID;
+            temp_roomID = childSnapshot.key
+            if(temp_roomCode == temp_roomID){
+                strangerRoomRef.child(temp_roomID).update({
+                    [`player_o_email`]:currentUser.email,
+                    [`player_o_id`]:currentUser.uid,
+                })
+                setLastestThatPlayerIn(currentUser, temp_roomCode)
+                setTimeout(() => {
+                    window.location = "waitingroom2.html"
+                }, 1000);
+            }
+        });
+    });
+}
 
 
 
