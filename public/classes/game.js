@@ -1,8 +1,9 @@
-// import {get,child,getDatabase,set,ref,update,remove} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+import {get,child,getDatabase,set,ref,update,remove} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 let gameRef = firebase.database().ref("Room");
 let userListRef = firebase.database().ref("UserList");
 
-var turn = 'O'
+// var turn = 'O'
+var turn;
 var win = false;
 var winner = '';
 var cardList = [
@@ -25,8 +26,9 @@ var isdeny = false;
 var protectedBlock = null;
 var mycard1 = document.getElementById('cy1');
 var selected_card;
-
-
+var roomID = document.getElementById('room-id');
+var phase = 1;
+var yourTurn
 
 
 newGame();
@@ -34,80 +36,85 @@ newGame();
 for (var block of blocks) {
     // 1. Modify the code here to check click event on each block
     block.onclick = function (event) {
+        
         //By mai
         var user = firebase.auth().currentUser;
-        
-
-        roundcheck = Math.ceil(roundcount / 2);        
-        // modify the condition here to continue the game play as long as there is no winner
-        if (!win && event.target.innerHTML === '' && cardactive === false) {
-            // 4. Modify the code here to check whether the clicking block is avialable.         
-            roundcount += 1;
-            event.target.innerHTML = turn;
-            if (turn === 'O') {
-                event.target.style.color = '#1F34B8';
-
-                //By mai
-                saveXOToDB(user, event.target.id, 'O')
-
-            }
-            else if (turn === 'X') {
-                event.target.style.color = '#D61A3C';
-
-                //By mai
-                saveXOToDB(user, event.target.id, 'X')
-
-            }
-            checkResult();
-
-        }
-        console.log('roundcheck : ' + roundcheck)
-        console.log('round : ' + Math.ceil(roundcount / 2))
-        if (roundcheck !== Math.ceil(roundcount / 2)) {
-            setTimeout(function () {
-                newTurn();
-            }, 1000); // 1 วินาที = 1000
-        }
-
-        if (roundcount >= turncount + 2) {
-            protectedBlock = null;
-        }
-
-        if (roundcount >= turncountfordeny + 2) {
-            isdeny = false;
-        }
-
-        if (cardactive === true && isdeny === false) {
-            if (event.target.innerHTML !== '') {
-                if (selected_card.src.includes('Swap.png')) {
-                    // ทำการสลับสัญลักษณ์ในช่องบนกระดาน
-                    swapSymbol(event.target);
+        let temp_roomID = roomID.innerHTML.replace("Room ID : ","R")
+        gameRef.child(temp_roomID+"/turn").once("value",(snapshot)=>{
+            turn = snapshot.val()
+            roundcheck = Math.ceil(roundcount / 2);        
+            // modify the condition here to continue the game play as long as there is no winner
+            console.log("Turn : "+turn+" Your Turn : "+ yourTurn)
+            if (!win && event.target.innerHTML === '' && cardactive === false && turn === yourTurn) {
+                // 4. Modify the code here to check whether the clicking block is avialable.         
+                roundcount += 1;
+                event.target.innerHTML = turn;
+                console.log(turn)
+    
+                if (turn == 'O') {
+                    event.target.style.color = '#1F34B8';
+    
+                    //By mai
+                    saveXOToDB(user, event.target.id, yourTurn)
+    
                 }
-                if (selected_card.src.includes('Destroy.png')) {
-                    // ทำการลบ xo ในช่องบนกระดาน
-                    destroySymbol(event.target);
+                else if (turn == 'X') {
+                    event.target.style.color = '#D61A3C';
+    
+                    //By mai
+                    saveXOToDB(user, event.target.id, yourTurn)
+    
                 }
-                if (selected_card.src.includes("Shield.png")) {
-                    // ทำการปกป้อง XO ในช่องบนกระดาน
-                    turncount = roundcount;
-                    shieldSymbol(event.target)
+    
+            }
+            console.log('roundcheck : ' + roundcheck)
+            console.log('round : ' + Math.ceil(roundcount / 2))
+            if (roundcheck !== Math.ceil(roundcount / 2)) {
+                setTimeout(function () {
+                    newTurn();
+                }, 1000); // 1 วินาที = 1000
+            }
+    
+            if (roundcount >= turncount + 2) {
+                protectedBlock = null;
+            }
+    
+            if (roundcount >= turncountfordeny + 2) {
+                isdeny = false;
+            }
+    
+            if (cardactive === true && isdeny === false) {
+                if (event.target.innerHTML !== '') {
+                    if (selected_card.src.includes('Swap.png')) {
+                        // ทำการสลับสัญลักษณ์ในช่องบนกระดาน
+                        swapSymbol(event.target);
+                    }
+                    if (selected_card.src.includes('Destroy.png')) {
+                        // ทำการลบ xo ในช่องบนกระดาน
+                        destroySymbol(event.target);
+                    }
+                    if (selected_card.src.includes("Shield.png")) {
+                        // ทำการปกป้อง XO ในช่องบนกระดาน
+                        turncount = roundcount;
+                        shieldSymbol(event.target)
+                    }
+                }
+                if (selected_card.src.includes("Draw.png")) {
+                    drawCard()
+                }
+                if (selected_card.src.includes("Deny.png")) {
+                    turncountfordeny = roundcount;
+                    denyCard()
                 }
             }
-            if (selected_card.src.includes("Draw.png")) {
-                drawCard()
+            else if (cardactive === true && isdeny === true) {
+                alert('คุณถูกห้ามใช้การ์ด!');
             }
-            if (selected_card.src.includes("Deny.png")) {
-                turncountfordeny = roundcount;
-                denyCard()
-            }
-        }
-        else if (cardactive === true && isdeny === true) {
-            alert('คุณถูกห้ามใช้การ์ด!');
-        }
+        })
     }
 }
 
-function checkResult() {
+function checkResult(user, turn, currentRoom) {
     var size = 5;
     // 2. Modify the code here to check whether someone win the game
     // ตรวจสอบการชนะในแถวแนวนอน
@@ -183,16 +190,14 @@ function checkResult() {
     if (win) {
         //Game end and someone wins the game
         winner = turn;
-        turnObject.innerHTML = "Game win by " + winner;
+        winner = winner === "X" ? turnObject.innerHTML = "Game win by O" : turnObject.innerHTML = "Game win by X";
     } else if (isBoardFull()) {
         // Game end and no-one wins the game
         turnObject.innerHTML = "Game draw";
     } else {
-        // The game is on going
-        turn = turn === 'O' ? 'X' : 'O';
-        turnObject.innerHTML = "Turn: " + turn;
+        // turn = turn === 'O' ? 'X' : 'O';
+        turnObject.innerHTML = "Turn: "+ turn;
         round.innerHTML = 'Round: ' + Math.ceil(roundcount / 2);
-
     }
 }
 function newGame() {
@@ -225,18 +230,6 @@ function setCardImage() {
 }
 
 function newTurn() {
-    // var cardBoxes = document.querySelectorAll('.cardbox-your .card-container');
-
-    // cardBoxes.forEach(function (cardContainer) {
-    //     var card = cardContainer.querySelector('.card');
-    //     if (!card || (card && card.src.includes('img/Card.png'))) {
-    //         var cardInfo = getRandomCard(cardList);
-    //         card.setAttribute("src",`${cardInfo.src}`)
-    //         card.setAttribute("onclick",`${cardInfo.effect}`)
-    //         // cardContainer.innerHTML = `<img src="${cardInfo.src}" alt="Card" class="card" onclick="${cardInfo.effect}(this)">`;
-    //     }
-    // });
-
     // สร้างการ์ดใหม่เพิ่ม 1 ใบบนช่องที่ไม่มีการ์ดอยู่
     var emptyCardBoxes = Array.from(cardBoxes).filter(cardContainer => {
         var card = cardContainer.querySelector('.card');
@@ -369,6 +362,10 @@ function cancelcardeffect() {
     selected_card.style.transform = "translateY(0px)";
 }
 
+
+
+
+
 //By mai
 var currentUser;
 firebase.auth().onAuthStateChanged((user)=>{
@@ -376,9 +373,9 @@ firebase.auth().onAuthStateChanged((user)=>{
 })
 
 gameRef.on("value",(snapshot)=>{
+    updateRoomID(currentUser)
     updateTable(currentUser);
 })
-
 
 
 //Multiplayer
@@ -391,6 +388,21 @@ function saveXOToDB(user, blockID, side){
         gameRef.child(currentRoom).child("table").update({
             [blockID]:side,
         })
+        if(side == "O"){
+            gameRef.child(currentRoom).update({
+                turn:"X"
+            })
+        }
+        else if(side == "X"){
+            gameRef.child(currentRoom).update({
+                turn:"O"
+            })
+        }
+        gameRef.child(currentRoom).once("value",(snapshot)=>{
+            let turn = snapshot.val().turn;
+            checkResult(user, turn, currentRoom);
+        })
+        
     })
     
 }
@@ -399,17 +411,40 @@ function updateTable(user){
     let currentRoom;
     userListRef.child(user.uid).once("value",(snapshot)=>{
         currentRoom = snapshot.val().lastestRoom;
-        console.log(snapshot.val().lastestRoom)
         gameRef.child(currentRoom).child("table").on("value",(tableSnapshot)=>{
             tableSnapshot.forEach((col)=>{
                 for(block of blocks){
                     if(block.id == col.key){
-                        console.log(col.key + " : " +col.val())
                         block.innerHTML = col.val()
+                        block.style.color = col.val() == "X" ?  block.style.color=  '#D61A3C': block.style.color=  '#1F34B8';
                     }
                 }
             })
-           
         })
+        gameRef.child(currentRoom+"/turn").once("value",(turnSnapshot)=>{
+            checkResult(user, turnSnapshot.val(), currentRoom);
+        })
+       
+        gameRef.child(currentRoom).child("card").on("value",(tableSnapshot)=>{
+            
+        })
+    })
+}
+
+
+function updateRoomID(user){
+    userListRef.child(user.uid).once("value",(snapshot)=>{
+        let temp_roomID = snapshot.val().lastestRoom.replace("R","");
+        roomID.innerHTML = `Room ID : ${temp_roomID}`
+        checkYourSide(user);
+    })
+}
+
+function checkYourSide(user){
+    let temp_roomID = roomID.innerHTML.replace("Room ID : ","R");
+    gameRef.child(temp_roomID).once("value",(snapshot)=>{
+        yourTurn = snapshot.val().player_x_id == user.uid ? "X" : "O";
+        let turn_o = snapshot.val().player_o_id == user.uid ? "O" : "X";
+        return turn;
     })
 }

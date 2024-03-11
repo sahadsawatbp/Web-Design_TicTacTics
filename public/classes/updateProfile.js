@@ -52,12 +52,6 @@ function getInfo(snapshot,user , username, img, username2, img2){
     })
 }
 
-
-
-
-
-
-
 if(backBtn){
     
     backBtn.addEventListener("click",()=>{
@@ -108,8 +102,12 @@ function startGame(snapshot, user){
     let currentRoom;
     currentRoom = textRoomID.innerHTML.replace("Room ID : ","R");
     let state = snapshot.child(currentRoom).val().state;
-    gameRef.child(currentRoom).update({
-        [`state`]:"start"
+    gameRef.child(currentRoom+"/player_o_id").once("value",(snap)=>{
+        if(snap.val() != ""){
+            gameRef.child(currentRoom).update({
+                [`state`]:"start"
+            })
+        }
     })
 }
 

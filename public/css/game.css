@@ -68,8 +68,11 @@
   .text-box {
     width: 120px;
     color: white;
+    display: flex;
+    flex-direction: column;
     text-align: center;
-    align-self: center;
+    align-items: center;
+    
 }
 .icon-box {
     display: grid;
@@ -81,5 +84,9 @@
 }
 .icon:hover {
     cursor: pointer;
+}
+#room-id{
+  margin: 10px;
+  width: 200px;
 }
 /* game css */
