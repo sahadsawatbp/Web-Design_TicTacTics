@@ -42,7 +42,7 @@
                 </div>
             </div>
             <div class="text-box">
-                
+
                 <h3 id="msg">Tic Tactics</h3>
                 <h3 id="room-id"></h3>
                 <p id="round">Round: </p>
@@ -50,7 +50,7 @@
             </div>
             <div class="nav">
                 <div class="icon-box">
-                    <img class="icon" src="img/open-book.png" alt="">
+                    <img class="icon" onclick="tippopup()" src="img/open-book.png" alt="">
                     <img class="icon" src="img/exit.png" alt="">
                 </div>
             </div>
@@ -107,32 +107,59 @@
                 </div>
             </div>
             <div class="cardbox-your">
-                <div class="card-container" onclick="usecard(this)">
+                <div class="card-container" id="cardbox1" >
                     <img class="card" id="cy1" src="img/Card.png" alt="">
                 </div>
-                <div class="card-container" onclick="usecard(this)">
+                <div class="card-container" id="cardbox2" >
                     <img class="card" id="cy2" src="img/Card.png" alt="">
                 </div>
-                <div class="card-container" onclick="usecard(this)">
+                <div class="card-container" id="cardbox3" >
                     <img class="card" id="cy3" src="img/Card.png" alt="">
                 </div>
+            </div>
+        </div>
+        <div class="tip_container">
+            <div class="tip" >
+                <img id="closepopup" src="img/close.png" alt="">
+                <img id="left-arrow" src="img/left-arrow.png" alt="">
+                <img id="tipshield" src="img/tip_shield.png" alt="">
+                <img id="right-arrow" src="img/right-arrow.png" alt="">
+            </div>
+            <div class="tip" >
+                <img id="closepopup" src="img/close.png" alt="">
+                <img id="left-arrow" src="img/left-arrow.png" alt="">
+                <img id="tipshield" src="img/tip_shield.png" alt="">
+                <img id="right-arrow" src="img/right-arrow.png" alt="">
+            </div>
+            <div class="tip" >
+                <img id="closepopup" src="img/close.png" alt="">
+                <img id="left-arrow" src="img/left-arrow.png" alt="">
+                <img id="tipshield" src="img/tip_shield.png" alt="">
+                <img id="right-arrow" src="img/right-arrow.png" alt="">
+            </div>
+            <div class="tip" >
+                <img id="closepopup" src="img/close.png" alt="">
+                <img id="left-arrow" src="img/left-arrow.png" alt="">
+                <img id="tipshield" src="img/tip_shield.png" alt="">
+                <img id="right-arrow" src="img/right-arrow.png" alt="">
             </div>
         </div>
     </div>
 </body>
 <script type="module">
     const firebaseConfig = {
-    apiKey: "AIzaSyCNHATSXeQJSvwU_fRlqAHJMwqi40ePsj0",
-    authDomain: "fir-tictactic.firebaseapp.com",
-    databaseURL: "https://fir-tictactic-default-rtdb.firebaseio.com",
-    projectId: "fir-tictactic",
-    storageBucket: "fir-tictactic.appspot.com",
-    messagingSenderId: "469562598973",
-    appId: "1:469562598973:web:375815c759c23d7806ac54"
-  };
+        apiKey: "AIzaSyCNHATSXeQJSvwU_fRlqAHJMwqi40ePsj0",
+        authDomain: "fir-tictactic.firebaseapp.com",
+        databaseURL: "https://fir-tictactic-default-rtdb.firebaseio.com",
+        projectId: "fir-tictactic",
+        storageBucket: "fir-tictactic.appspot.com",
+        messagingSenderId: "469562598973",
+        appId: "1:469562598973:web:375815c759c23d7806ac54"
+    };
 
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);    
 </script>
 <script src="classes/game.js" type="module"></script>
+
 </html>
