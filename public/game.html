@@ -50,7 +50,7 @@
             </div>
             <div class="nav">
                 <div class="icon-box">
-                    <img class="icon" onclick="tippopup()" src="img/open-book.png" alt="">
+                    <img class="icon" src="img/open-book.png" alt="">
                     <img class="icon" src="img/exit.png" alt="">
                 </div>
             </div>
@@ -118,26 +118,16 @@
                 </div>
             </div>
         </div>
-        <div class="tip_container" style="display: none;">
-            <div class="tip" >
+        <div class="tip_container">
+            <div class="tip" id="tip1">
                 <img id="closepopup" src="img/close.png" alt="">
                 <img id="left-arrow" src="img/left-arrow.png" alt="">
                 <img id="tipshield" src="img/tip_shield.png" alt="">
                 <img id="right-arrow" src="img/right-arrow.png" alt="">
             </div>
-            <div class="tip" >
-                <img id="closepopup" src="img/close.png" alt="">
-                <img id="left-arrow" src="img/left-arrow.png" alt="">
-                <img id="tipshield" src="img/tip_shield.png" alt="">
-                <img id="right-arrow" src="img/right-arrow.png" alt="">
-            </div>
-            <div class="tip" >
-                <img id="closepopup" src="img/close.png" alt="">
-                <img id="left-arrow" src="img/left-arrow.png" alt="">
-                <img id="tipshield" src="img/tip_shield.png" alt="">
-                <img id="right-arrow" src="img/right-arrow.png" alt="">
-            </div>
-            <div class="tip" >
+        </div>
+        <div class="tip_container">
+            <div class="tip" id="tip2">
                 <img id="closepopup" src="img/close.png" alt="">
                 <img id="left-arrow" src="img/left-arrow.png" alt="">
                 <img id="tipshield" src="img/tip_shield.png" alt="">
@@ -161,5 +151,6 @@
     firebase.initializeApp(firebaseConfig);    
 </script>
 <script src="classes/game.js" type="module"></script>
+<script src="classes/gamepopup.js" type="module"></script>
 
 </html>
