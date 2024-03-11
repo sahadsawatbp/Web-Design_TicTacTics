@@ -90,7 +90,7 @@ function joinRandomRoom(){
                 }
             })
             console.log(availableRooms)
-            console.log('room: ' + availableRooms[0])
+            console.log('room: ' + availableRooms[1])
             if (availableRooms.length > 0) {
                 let randomRoomId = availableRooms[Math.floor(Math.random() * availableRooms.length)];
                 joinRoom(randomRoomId);
@@ -102,7 +102,6 @@ function joinRandomRoom(){
 function joinRoom(roomId) {
     const currentUser = firebase.auth().currentUser;
     let temp_roomCode = roomId;
-    
     strangerRoomRef.once('value', (snapshot) => {
         snapshot.forEach((childSnapshot) => {
             let temp_roomID;
@@ -113,6 +112,7 @@ function joinRoom(roomId) {
                     [`player_o_id`]:currentUser.uid,
                 })
                 setLastestThatPlayerIn(currentUser, temp_roomCode)
+                
                 setTimeout(() => {
                     window.location = "waitingroom2.html"
                 }, 1000);

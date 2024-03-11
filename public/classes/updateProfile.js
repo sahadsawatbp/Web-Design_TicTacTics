@@ -53,7 +53,6 @@ function getInfo(snapshot,user , username, img, username2, img2){
 }
 
 if(backBtn){
-    
     backBtn.addEventListener("click",()=>{
         quitRoom();
     })

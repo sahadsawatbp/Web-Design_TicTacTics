@@ -75,13 +75,14 @@ let createRoom = () =>{
             })
             
         }
-        gameRef.child("R"+randomNum).set({
+        gameRef.child("R"+randomNum).update({
             [`player_x_email`]:user.email,
             [`player_x_id`]:user.uid,
             [`player_o_email`]:"",
             [`player_o_id`]:"",
             [`room_id`]:roomID,
-            ["state"]:"on hold"
+            ["state"]:"on hold",
+            ["turn"]:"O"
         })
     })
     let temp_roomCode = "R"+randomNum

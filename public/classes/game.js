@@ -472,9 +472,9 @@ function updateScore(user, winner, currentRoom){
 
 
 
-// cardbox1.addEventListener("click", function() {
-//     useCards(this);
-// });
+cardbox1.addEventListener("click", function() {
+    useCards(this);
+});
 cardbox2.addEventListener("click", function() {
     useCards(this);
 });
