@@ -52,12 +52,14 @@ function createRoom(){
             [`player_x_id`]:user.uid,
             [`player_o_email`]:"",
             [`player_o_id`]:"",
-            [`room_id`]:roomID
+            [`room_id`]:roomID,
+            ["state"]:"on hold",
+            ["turn"]:"O"
         })
         let temp_roomCode = "R"+randomNum
         setLastestThatPlayerIn(user, temp_roomCode)
         setTimeout(() => {
-            // window.location = "waitingroom.html"
+            window.location = "waitingroom2.html"
         }, 1000);
     })
 }
@@ -72,15 +74,13 @@ function setLastestThatPlayerIn(user, roomid){
 
 function joinRandomRoom(){
     strangerRoomRef.once("value",(snapshot)=>{
-        if(snapshot.numChildren() === 1){
+        if(snapshot.numChildren() <= 1){
             createRoom();
         }
         else{
             let snapChildrenLength = snapshot.numChildren();
             console.log('length: ' + snapChildrenLength);
             let availableRooms = [];
-            
-
             snapshot.forEach((childSnapshot) => {
                 const player_O_ID = childSnapshot.child("player_o_id").val();
                 console.log("Player O ID: ", player_O_ID);
@@ -112,7 +112,7 @@ function joinRoom(roomId) {
                     [`player_o_id`]:currentUser.uid,
                 })
                 setLastestThatPlayerIn(currentUser, temp_roomCode)
-                
+
                 setTimeout(() => {
                     window.location = "waitingroom2.html"
                 }, 1000);

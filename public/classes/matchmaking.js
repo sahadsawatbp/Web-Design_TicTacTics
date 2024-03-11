@@ -7,19 +7,36 @@ const playerOUsername = document.getElementById("player-o-username");
 const playerXImg = document.getElementById("player-x-img");
 const playerOImg = document.getElementById("player-o-img");
 const userListRef = firebase.database().ref("UserList");
+const userName = document.getElementById("user-name");
 const startBtn = document.getElementById("start-button");
 const optionMenu = document.getElementById("option-menu");
 const joinSaveBtn = document.getElementById("room-save");
 const joinCancelBtn = document.getElementById("room-cancel");
+const profileName = document.getElementById("profile-name")
 const joinID = document.getElementById("join-id");
 const backBtn = document.getElementById("option-back");
 let roomCode;
 
 firebase.auth().onAuthStateChanged((user)=>{
     if(user){
-        
+       
     }
 })
+
+// let updatePlayerProfile = (user) =>{
+//     userListRef.child(user.uid).once("value",(snapshot)=>{
+//         profileName.innerHTML = snapshot.val().username;
+//         userName.innerHTML = snapshot.val().username
+//         for(let i=0;i<profileImg.length;i++){
+//             profileImg[i].setAttribute("src",snapshot.val().img)
+            
+//         }
+//         // iconImg.setAttribute("src",snapshot.val().img)
+//         if(snapshot.val().img == ""){
+//             profileImg.setAttribute("src","img/user.png")
+//         }
+//     })
+// }
 
 function toggleOption(){
     optionMenu.style.display === "flex" ? optionMenu.setAttribute("style","display: none") : optionMenu.setAttribute("style","display: flex");

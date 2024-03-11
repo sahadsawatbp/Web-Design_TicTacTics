@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/friendoption-styles.css">
+    <link rel="stylesheet" href="css/option-styles.css">
     <title>Document</title>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
 </head>
 <body>
     <div class="option-container">
@@ -21,7 +22,19 @@
                 <div class="option-menu-box" id="option-back">Back</div>
             </div>
             <div class="option-profile">
-                <label><img id="icon-img" src="img/user.png" alt=""><p id="user-name"></p> </label>
+                <label><img id="icon-img" class="profile-img" src="img/user.png" alt="">
+                <div class="option-profile-box" id="box-profile">
+                    <label for="">
+                        <img class="profile-img" src="img/user.png" alt="">
+                        <div class="profile-message">
+                            <h3 id="profile-name"></h3>
+                            <a id="edit-profile">Edit profile picture</a>
+                        </div>
+                    </label>
+                    <a id="logout-btn">Logout</a>
+                    
+                </div>
+                <p id="user-name"></p></label>
             </div>
         </div>
         <div class="option-right">
@@ -86,22 +99,34 @@
             </label>
         </div>
     </div>
+    <div class="option-popup-container" id="popup-container">
+        <div class="option-popup">
+            <input type="file" class="inputFile" id="fileInp" accept="image/png, image/jpeg">
+            <label for="fileInp"><img id="popup-img" class="profile-img" src="" alt=""></label>
+            <label for="">
+                <a id="popup-save" class="popup-btn">Save Change</a>
+                <a id="popup-cancel" class="popup-btn">Cancel</a>
+            </label>
+        </div>
+    </div>
 </body>
-<script>
+<script type="module">
     const firebaseConfig = {
     apiKey: "AIzaSyCNHATSXeQJSvwU_fRlqAHJMwqi40ePsj0",
     authDomain: "fir-tictactic.firebaseapp.com",
+    databaseURL: "https://fir-tictactic-default-rtdb.firebaseio.com",
     projectId: "fir-tictactic",
     storageBucket: "fir-tictactic.appspot.com",
     messagingSenderId: "469562598973",
     appId: "1:469562598973:web:375815c759c23d7806ac54"
-    };
+  };
 
     // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
+    firebase.initializeApp(firebaseConfig);    
 </script>
 <script src="classes/auth.js" type="module"></script>
 <script src="classes/read_data.js" type="module"></script>
 <script src="classes/matchmaking.js" type="module"></script>
+<script src="classes/option.js" type="module"></script>
 <link rel="stylesheet" href="./css/friend-option-mobile.css">
 </html>

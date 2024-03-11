@@ -1,6 +1,7 @@
 import {get,child,getDatabase,set,ref,update,remove, onValue} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 const gameRef = firebase.database().ref("Room");
 const textRoomID = document.getElementById("room-id");
+const strangerRoomRef = firebase.database().ref("StrangerRoom");
 const playerXUsername = document.getElementById("player-x-username");
 const playerOUsername = document.getElementById("player-o-username");
 const playerXImg = document.getElementById("player-x-img");
@@ -12,7 +13,7 @@ var currentUser;
 firebase.auth().onAuthStateChanged((user)=>{
     currentUser = user;
 })
-gameRef.on("value",(snapshot)=>{
+strangerRoomRef.on("value",(snapshot)=>{
     const user = firebase.auth().currentUser;
     getInfo(snapshot,user , playerXUsername, playerXImg, playerOUsername, playerOImg);
     checkStateRoom(snapshot, user);
@@ -63,7 +64,7 @@ function quitRoom(){
     let temp_player_id;
     let  temp_player_email;
     userListRef.child(currentUser.uid).child("lastestRoom").once("value",(snapshot)=>{
-        gameRef.child(snapshot.val()).once("value",(roomSnapshot)=>{
+        strangerRoomRef.child(snapshot.val()).once("value",(roomSnapshot)=>{
             if(roomSnapshot.val().player_x_id === currentUser.uid){
                 temp_player_id = roomSnapshot.val().player_o_id;
                 temp_player_email = roomSnapshot.val().player_o_email;
@@ -73,17 +74,17 @@ function quitRoom(){
                 temp_player_email = roomSnapshot.val().player_x_email;
                 
             }
-            gameRef.child(snapshot.val()).update({
+            strangerRoomRef.child(snapshot.val()).update({
                 [`player_x_id`]:temp_player_id,
                 [`player_x_email`]:temp_player_email,
                 [`player_o_id`]:"",
                 [`player_o_email`]:"",
             })
             if(roomSnapshot.child('player_o_id').val() == ""){
-                firebase.database().ref('Room/'+snapshot.val()).remove();
-                gameRef.once("value",(snapshot)=>{
+                firebase.database().ref('StrangerRoom/'+snapshot.val()).remove();
+                strangerRoomRef.once("value",(snapshot)=>{
                     let roomID = snapshot.val().room_count - 1
-                    gameRef.update({
+                    strangerRoomRef.update({
                         room_count:roomID,
                     })
                 })
@@ -93,7 +94,7 @@ function quitRoom(){
     
     });
     setTimeout(() => {
-        window.location = "friendoption.html"
+        window.location = "option.html"
     }, 500);
 }
 
@@ -102,9 +103,9 @@ function startGame(snapshot, user){
     let currentRoom;
     currentRoom = textRoomID.innerHTML.replace("Room ID : ","R");
     let state = snapshot.child(currentRoom).val().state;
-    gameRef.child(currentRoom+"/player_o_id").once("value",(snap)=>{
+    strangerRoomRef.child(currentRoom+"/player_o_id").once("value",(snap)=>{
         if(snap.val() != ""){
-            gameRef.child(currentRoom).update({
+            strangerRoomRef.child(currentRoom).update({
                 [`state`]:"start"
             })
         }
