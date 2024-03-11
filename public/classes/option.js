@@ -1,6 +1,7 @@
 //npm install --save @google-cloud/storage
 import {get,child,getDatabase,set,ref,update,remove} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 const iconImg = document.getElementById("icon-img");
+const gameRef = firebase.database().ref("Room");
 const profileBox = document.getElementById("box-profile");
 const userName = document.getElementById("user-name");
 const playWithFriend = document.getElementById("play-with-friend");
@@ -54,11 +55,12 @@ let updatePlayerProfile = (user) =>{
         userName.innerHTML = snapshot.val().username
         for(let i=0;i<profileImg.length;i++){
             profileImg[i].setAttribute("src",snapshot.val().img)
+            if(snapshot.val().img == ""){
+                profileImg[i].setAttribute("src","img/user.png")
+            }
         }
         // iconImg.setAttribute("src",snapshot.val().img)
-        if(snapshot.val().img == ""){
-            profileImg.setAttribute("src","img/user.png")
-        }
+       
     })
 }
 
@@ -87,12 +89,9 @@ let signOut = () => {
 
 
 
-playWithFriend.addEventListener("click",()=>{
-    window.location = "friendoption.html"
-});
-playWithStranger.addEventListener("click",()=>{
-    window.location = "index.html"
-})
+
+
+
 editProfile.addEventListener("click",()=>{
     popupScreen.style.display = "flex"
 })

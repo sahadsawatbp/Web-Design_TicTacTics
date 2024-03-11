@@ -12,6 +12,7 @@ const optionMenu = document.getElementById("option-menu");
 const joinSaveBtn = document.getElementById("room-save");
 const joinCancelBtn = document.getElementById("room-cancel");
 const joinID = document.getElementById("join-id");
+const backBtn = document.getElementById("option-back");
 let roomCode;
 
 firebase.auth().onAuthStateChanged((user)=>{
@@ -45,22 +46,25 @@ let joinRoom = (roomid) =>{
             }
         })  
     })
-   
 }
-let createRoom = () =>{
-    var roomID=1;
-    var codeRoom="";
+function randomNumber(){
     let arrayCodeRoom = [];
+    let codeRoom;
     let num;
-    const user = firebase.auth().currentUser;
     for(let i=0;i<6;i++){
         num = Math.floor(Math.random() * 10);
         arrayCodeRoom.push(num);
     }
     codeRoom = arrayCodeRoom.join("")
-    console.log(codeRoom) 
+    return codeRoom;
+}
+
+let createRoom = () =>{
+    var roomID=1;
+    var randomNum = randomNumber()
+    var user = firebase.auth().currentUser;
     gameRef.once('value',(snapshot)=>{
-        if (!snapshot.child("room_count").exists()) {
+        if (!snapshot.child("room_count").exists() || snapshot.child("room_count").val() === 0) {
             gameRef.set({
                 room_count:1,
             })
@@ -69,8 +73,9 @@ let createRoom = () =>{
             gameRef.update({
                 room_count:roomID,
             })
+            
         }
-        gameRef.child("R"+codeRoom).set({
+        gameRef.child("R"+randomNum).set({
             [`player_x_email`]:user.email,
             [`player_x_id`]:user.uid,
             [`player_o_email`]:"",
@@ -78,7 +83,7 @@ let createRoom = () =>{
             [`room_id`]:roomID
         })
     })
-    let temp_roomCode = "R"+codeRoom
+    let temp_roomCode = "R"+randomNum
     setLastestThatPlayerIn(user, temp_roomCode)
     setTimeout(() => {
         window.location = "waitingroom.html"
@@ -109,4 +114,9 @@ if(joinBtn){
 if(createBtn){
     createBtn.addEventListener("click",createRoom)
     
+}
+if(backBtn){
+    backBtn.addEventListener("click",()=>{
+        window.location = "option.html"
+    })
 }

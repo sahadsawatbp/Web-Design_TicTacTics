@@ -9,7 +9,6 @@ const userListRef = firebase.database().ref("UserList");
 const startBtn = document.getElementById("start-button");
 const backBtn = document.getElementById("back-button")
 var currentUser;
-
 gameRef.on("value",(snapshot)=>{
     getInfo(snapshot, playerXUsername, playerXImg, playerOUsername, playerOImg);
 })
@@ -46,7 +45,6 @@ function getInfo(snapshot, username, img, username2, img2){
 
 firebase.auth().onAuthStateChanged((user)=>{
     currentUser = user;
-    
 })
 
 
