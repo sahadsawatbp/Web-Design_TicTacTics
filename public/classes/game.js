@@ -468,8 +468,6 @@ function updateScore(user, winner, currentRoom){
                 })
                 gameRef.child(currentRoom+"/table").remove()
                 
-            }else{
-               
             }
         })
     })
