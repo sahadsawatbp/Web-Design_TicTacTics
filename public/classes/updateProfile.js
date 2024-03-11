@@ -104,13 +104,14 @@ function quitRoom(){
     }, 500);
 }
 
+
 function startGame(snapshot, user){
     let currentRoom;
-
-    currentRoom = textRoomID.innerHTML;
-    console.log(currentRoom.replace("Room ID : ","R"))
-
-
+    currentRoom = textRoomID.innerHTML.replace("Room ID : ","R");
+    let state = snapshot.child(currentRoom).val().state;
+    gameRef.child(currentRoom).update({
+        [`state`]:"start"
+    })
 }
 
 function checkStateRoom(snapshot, user){
