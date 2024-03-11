@@ -195,6 +195,7 @@ function checkResult(user, turn, currentRoom) {
         winner = turn;
         winner = winner === "X" ? turnObject.innerHTML = "Game win by O" : turnObject.innerHTML = "Game win by X";
         winner = winner.replace("Game win by ","")
+        console.log("XXXXXXXXXXXX")
         updateScore(user, winner, currentRoom)
     } else if (isBoardFull()) {
         // Game end and no-one wins the game
@@ -389,8 +390,6 @@ gameRef.on("value",(snapshot)=>{
 function saveXOToDB(user, blockID, side){
     let currentRoom;
     userListRef.child(user.uid).once("value",(snapshot)=>{
-        // console.log(snapshot.val().lastestRoom);
-        // console.log(blockID)
         currentRoom = snapshot.val().lastestRoom;
         gameRef.child(currentRoom).child("table").update({
             [blockID]:side,
@@ -405,10 +404,10 @@ function saveXOToDB(user, blockID, side){
                 turn:"O"
             })
         }
-        gameRef.child(currentRoom).once("value",(snapshot)=>{
-            let turn = snapshot.val().turn;
-            checkResult(user, turn, currentRoom);
-        })
+        // gameRef.child(currentRoom).once("value",(snapshot)=>{
+        //     let turn = snapshot.val().turn;
+        //     checkResult(user, turn, currentRoom);
+        // })
         
     })
     
@@ -459,18 +458,25 @@ function checkYourSide(user){
 }
 
 function updateScore(user, winner, currentRoom){
-    userListRef.child(user.uid).once("value",(ssnapshot)=>{
+    let winner_email;
+    let winner_winCount
+    userListRef.child(user.uid).endAt(1).once("value",(userSnapshot)=>{
+        winner_email = userSnapshot.val().email
+        winner_winCount = userSnapshot.val().win_count + 1
         gameRef.child(currentRoom+"/player_"+winner.toLowerCase()+"_email").once("value",(snapshot)=>{
-            if(snapshot.val() == ssnapshot.val().email){
-                let addWinCount = ssnapshot.child("win_count").val() + 1
+            console.log(winner_email)
+            if(snapshot.val() ==  winner_email){
                 userListRef.child(user.uid).update({
-                [`win_count`]:addWinCount + 1
+                [`win_count`]:winner_winCount
                 })
-                gameRef.child(currentRoom+"/table").remove()
+                // gameRef.child(currentRoom+"/table").remove()
                 
             }
         })
+       
     })
+       
+    
 }
 
 
