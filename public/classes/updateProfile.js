@@ -9,8 +9,18 @@ const userListRef = firebase.database().ref("UserList");
 const startBtn = document.getElementById("start-button");
 const backBtn = document.getElementById("back-button")
 var currentUser;
+firebase.auth().onAuthStateChanged((user)=>{
+    currentUser = user;
+})
 gameRef.on("value",(snapshot)=>{
+    const user = firebase.auth().currentUser;
     getInfo(snapshot, playerXUsername, playerXImg, playerOUsername, playerOImg);
+    checkStateRoom(snapshot, user);
+    if(startBtn){
+        startBtn.addEventListener("click",()=>{
+            startGame(snapshot, user)
+        })
+    }
 })
 
 function getInfo(snapshot, username, img, username2, img2){
@@ -43,18 +53,12 @@ function getInfo(snapshot, username, img, username2, img2){
     })
 }
 
-firebase.auth().onAuthStateChanged((user)=>{
-    currentUser = user;
-})
 
 
 
 
-if(startBtn){
-    startBtn.addEventListener("click",()=>{
-        window.location = "game.html"
-    })
-}
+
+
 if(backBtn){
     
     backBtn.addEventListener("click",()=>{
@@ -98,4 +102,25 @@ function quitRoom(){
     setTimeout(() => {
         window.location = "friendoption.html"
     }, 500);
+}
+
+function startGame(snapshot, user){
+    let currentRoom;
+
+    currentRoom = textRoomID.innerHTML;
+    console.log(currentRoom.replace("Room ID : ","R"))
+
+
+}
+
+function checkStateRoom(snapshot, user){
+    let currentRoom;
+    let state;
+    userListRef.child(user.uid).once("value",(ssnapshot)=>{
+        currentRoom = ssnapshot.val().lastestRoom;
+        state = snapshot.child(currentRoom).val().state
+        if(state == "start"){
+                window.location = "game.html"
+        }
+    })
 }

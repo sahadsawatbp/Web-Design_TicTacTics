@@ -80,7 +80,8 @@ let createRoom = () =>{
             [`player_x_id`]:user.uid,
             [`player_o_email`]:"",
             [`player_o_id`]:"",
-            [`room_id`]:roomID
+            [`room_id`]:roomID,
+            ["state"]:"on hold"
         })
     })
     let temp_roomCode = "R"+randomNum

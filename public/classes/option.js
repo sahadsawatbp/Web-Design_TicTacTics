@@ -55,12 +55,12 @@ let updatePlayerProfile = (user) =>{
         userName.innerHTML = snapshot.val().username
         for(let i=0;i<profileImg.length;i++){
             profileImg[i].setAttribute("src",snapshot.val().img)
-            if(snapshot.val().img == ""){
-                profileImg[i].setAttribute("src","img/user.png")
-            }
+            
         }
         // iconImg.setAttribute("src",snapshot.val().img)
-       
+        if(snapshot.val().img == ""){
+            profileImg.setAttribute("src","img/user.png")
+        }
     })
 }
 

@@ -1,4 +1,7 @@
 // import {get,child,getDatabase,set,ref,update,remove} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+let gameRef = firebase.database().ref("Room");
+let userListRef = firebase.database().ref("UserList");
+
 var turn = 'O'
 var win = false;
 var winner = '';
@@ -22,13 +25,20 @@ var isdeny = false;
 var protectedBlock = null;
 var mycard1 = document.getElementById('cy1');
 var selected_card;
+
+
+
+
 newGame();
 
 for (var block of blocks) {
     // 1. Modify the code here to check click event on each block
     block.onclick = function (event) {
-        roundcheck = Math.ceil(roundcount / 2);
+        //By mai
+        var user = firebase.auth().currentUser;
+        
 
+        roundcheck = Math.ceil(roundcount / 2);        
         // modify the condition here to continue the game play as long as there is no winner
         if (!win && event.target.innerHTML === '' && cardactive === false) {
             // 4. Modify the code here to check whether the clicking block is avialable.         
@@ -36,9 +46,17 @@ for (var block of blocks) {
             event.target.innerHTML = turn;
             if (turn === 'O') {
                 event.target.style.color = '#1F34B8';
+
+                //By mai
+                saveXOToDB(user, event.target.id, 'O')
+
             }
             else if (turn === 'X') {
                 event.target.style.color = '#D61A3C';
+
+                //By mai
+                saveXOToDB(user, event.target.id, 'X')
+
             }
             checkResult();
 
@@ -86,24 +104,6 @@ for (var block of blocks) {
         else if (cardactive === true && isdeny === true) {
             alert('คุณถูกห้ามใช้การ์ด!');
         }
-
-
-        // if (cardactive === true && event.target.innerHTML !== '') {
-        //     if (document.querySelector("#cy1").src === 'img/Swap.png') {
-        //         // ทำการสลับสัญลักษณ์ในช่องบนกระดาน
-        //         swapSymbol(event.target);
-        //     }
-        //     if (cardImageSrc.includes('Destroy.png')) {
-        //         // ทำการลบ xo ในช่องบนกระดาน
-        //         destroySymbol(event.target);
-        //     }
-
-        //     mycard1.style.backgroundColor = ''; // ยกเลิกเอฟเฟคการ์ด
-        //     mycard1.style.transform = '';
-        //     mycard1.style.filter = '';
-        //     mycard1.style.transition = "all 0.5s";
-        //     mycard1.style.transform = "translateY(0px)";
-        // }
     }
 }
 
@@ -367,4 +367,49 @@ function cancelcardeffect() {
     selected_card.style.filter = '';
     selected_card.style.transition = "all 0.5s";
     selected_card.style.transform = "translateY(0px)";
+}
+
+//By mai
+var currentUser;
+firebase.auth().onAuthStateChanged((user)=>{
+    currentUser = user;
+})
+
+gameRef.on("value",(snapshot)=>{
+    updateTable(currentUser);
+})
+
+
+
+//Multiplayer
+function saveXOToDB(user, blockID, side){
+    let currentRoom;
+    userListRef.child(user.uid).once("value",(snapshot)=>{
+        // console.log(snapshot.val().lastestRoom);
+        // console.log(blockID)
+        currentRoom = snapshot.val().lastestRoom;
+        gameRef.child(currentRoom).child("table").update({
+            [blockID]:side,
+        })
+    })
+    
+}
+
+function updateTable(user){
+    let currentRoom;
+    userListRef.child(user.uid).once("value",(snapshot)=>{
+        currentRoom = snapshot.val().lastestRoom;
+        console.log(snapshot.val().lastestRoom)
+        gameRef.child(currentRoom).child("table").on("value",(tableSnapshot)=>{
+            tableSnapshot.forEach((col)=>{
+                for(block of blocks){
+                    if(block.id == col.key){
+                        console.log(col.key + " : " +col.val())
+                        block.innerHTML = col.val()
+                    }
+                }
+            })
+           
+        })
+    })
 }
