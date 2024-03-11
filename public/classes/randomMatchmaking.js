@@ -95,7 +95,7 @@ function joinRandomRoom(){
             if (availableRooms.length > 0) {
                 let randomRoomId = availableRooms[Math.floor(Math.random() * availableRooms.length)];
                 joinRoom(randomRoomId);
-            }   
+            }
         }
     })
 };

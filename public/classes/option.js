@@ -44,7 +44,13 @@ let uploadImage = () => {
 
             userListRef.child(currentUser.uid).update({
                 img:url
-            })
+            }).then(() => {
+                // เมื่ออัปเดตรูปภาพเสร็จสมบูรณ์ ให้อัปเดตโปรไฟล์ของผู้ใช้
+                updatePlayerProfile(currentUser);
+                popupScreen.style.display = "none"
+            }).catch((error) => {
+                console.log("Error updating profile:", error);
+            });
         })
         
     })
