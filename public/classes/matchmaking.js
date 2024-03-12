@@ -23,20 +23,7 @@ firebase.auth().onAuthStateChanged((user)=>{
     }
 })
 
-// let updatePlayerProfile = (user) =>{
-//     userListRef.child(user.uid).once("value",(snapshot)=>{
-//         profileName.innerHTML = snapshot.val().username;
-//         userName.innerHTML = snapshot.val().username
-//         for(let i=0;i<profileImg.length;i++){
-//             profileImg[i].setAttribute("src",snapshot.val().img)
-            
-//         }
-//         // iconImg.setAttribute("src",snapshot.val().img)
-//         if(snapshot.val().img == ""){
-//             profileImg.setAttribute("src","img/user.png")
-//         }
-//     })
-// }
+
 
 function toggleOption(){
     optionMenu.style.display === "flex" ? optionMenu.setAttribute("style","display: none") : optionMenu.setAttribute("style","display: flex");
