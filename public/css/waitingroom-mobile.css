@@ -1,5 +1,5 @@
 /* ipad */
-@media (width <= 1366px){
+@media (width <= 992px){
     #vs-icon {
         margin: 20px;
     }
@@ -23,7 +23,7 @@
 }
 
 /* mobile */
-@media (width <= 390px){
+@media (width <= 576px){
     h2 {
         top: 20px;
     }

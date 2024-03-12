@@ -1,5 +1,5 @@
 /* ipad */
-@media (width <= 1366px){
+@media (width <= 992px){
 
     .option-popup {
         /* display: none; */
@@ -25,7 +25,7 @@
 }
 
 /* mobile */
-@media (width <= 390px){
+@media (width <= 576px){
     .option-right {
         position: absolute;
         display: flex;

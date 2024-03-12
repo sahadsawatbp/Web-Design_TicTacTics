@@ -1,5 +1,5 @@
 /* ipad */
-@media (width <= 1366px){
+@media (width <= 992px){
     #ttt-header {
         position: relative;
         font-size: 100px;
@@ -10,7 +10,7 @@
 }
 
 /* mobile */
-@media (width <= 390px){
+@media (width <= 576px){
     #ttt-header {
         position: relative;
         font-size: 40px;
