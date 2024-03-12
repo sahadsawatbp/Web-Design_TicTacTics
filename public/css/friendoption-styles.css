@@ -140,6 +140,7 @@ h3{
     align-items: center;
     justify-content: flex-end;
     margin-bottom: 50px;
+    color: white;
 }
 .scoreboard{
     width: 500px;
