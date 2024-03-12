@@ -100,7 +100,7 @@
     align-items: center;
 }
 .tip {
-    display: block;
+    display: none;
     position: relative;
 }
 .tip img{
@@ -108,8 +108,12 @@
     max-width: 100%; /* Ensure the image doesn't exceed the container width */
     max-height: 100%;
 }
-#tip1, #tip2 {
+#tip0 {
+    width: 700px;
     display: none;
+    top: -100px;
+    z-index: 10;
+    position: fixed;
 }
 #tipshield {
     width: 700px;
@@ -134,7 +138,7 @@
     width: 20px;
     position: absolute;
     cursor: pointer;
-    top: 2%; 
+    top: -150px; 
     right: 2%;
 }
 /* game css */
