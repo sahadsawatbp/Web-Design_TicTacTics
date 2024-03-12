@@ -17,6 +17,7 @@ const cardbox1 = document.getElementById('cardbox1');
 const cardbox2 = document.getElementById('cardbox2');
 const cardbox3 = document.getElementById('cardbox3');
 var cardBoxes = document.querySelectorAll('.cardbox-your .card-container');
+var exitRoom = document.getElementById("exit-room");
 var blocks = document.querySelectorAll('.table-block');
 var turnObject = document.getElementById('turn');
 var round = document.getElementById('round');
@@ -25,6 +26,7 @@ var roundcheck = 0;
 var turncount = 0;
 var turncountfordeny = 0;
 var cardactive = false;
+var cardUsed = false;
 var isdeny = false;
 var protectedBlock = null;
 var mycard1 = document.getElementById('cy1');
@@ -248,55 +250,101 @@ function newTurn() {
         var card = cardContainer.querySelector('.card');
         var cardInfo = getRandomCard(cardList);
         card.setAttribute("src", `${cardInfo.src}`);
-        card.setAttribute("onclick", `${cardInfo.effect}`);
+        card.addEventListener("click", ()=>{
+            `${cardInfo.effect}()`
+        })
     }
 }
 
 function resetCardImage() {
     cardBoxes.forEach(function (cardContainer) {
         var card = cardContainer.querySelector('.card');
+        var cardInfo = getRandomCard(cardList);
         if (card === selected_card) {
             card.setAttribute("src", "img/Card.png");
-            card.removeAttribute("onclick");
+            card.removeEventListener("click", ()=>{
+                `${cardInfo.effect}()`});
         }
     });
 }
 
 function swapSymbol(block) {
-    if (block !== protectedBlock) {
-        if (block.innerHTML === 'X') {
-            block.innerHTML = 'O';
-            block.style.color = '#1F34B8';
-        }
-        else if (block.innerHTML === 'O') {
-            block.innerHTML = 'X';
-            block.style.color = '#D61A3C';
-        }
-    }
+    let currentRoom;
+    console.log(block.id)
+    const user = firebase.auth().currentUser
+    userListRef.child(user.uid).once("value", (snapshot) => {
+        currentRoom = snapshot.val().lastestRoom;
+        gameRef.child(currentRoom).child("table/"+block.id).once("value", (tableSnapshot) => {
+            if(block !== protectedBlock){
+                if(tableSnapshot.val() == "X"){
+                    gameRef.child(currentRoom).child("table").update({
+                        [block.id]:"O"
+                    })
+                }if(tableSnapshot.val() == "O"){
+                    gameRef.child(currentRoom).child("table").update({
+                        [block.id]:"X"
+                    })
+                }
+            }
+        })
+    })
+
+    // if (block !== protectedBlock) {
+    //     if (block.innerHTML === 'X') {
+    //         block.innerHTML = 'O';
+    //         block.style.color = '#1F34B8';
+    //     }
+    //     else if (block.innerHTML === 'O') {
+    //         block.innerHTML = 'X';
+    //         block.style.color = '#D61A3C';
+    //     }
+    // }
+   
+    cardUsed = false;
     cardactive = false;
     resetCardImage();
     cancelcardeffect()
-    console.log(cardactive)
+    console.log("Active ",cardactive)
+    console.log("Used ",cardUsed)
 }
 
 function destroySymbol(block) {
-    if (block !== protectedBlock) {
-        if (block.innerHTML !== '') {
-            block.innerHTML = '';
-        }
-    }
+    let currentRoom;
+    console.log(block.id)
+    const user = firebase.auth().currentUser
+    userListRef.child(user.uid).once("value", (snapshot) => {
+        currentRoom = snapshot.val().lastestRoom;
+        gameRef.child(currentRoom).child("table/"+block.id).once("value", (tableSnapshot) => {
+            if(block !== protectedBlock){
+                if(tableSnapshot.val() !== ""){
+                    gameRef.child(currentRoom).child("table").update({
+                        [block.id]:""
+                    })
+                }
+            }
+        })
+    })
+    // if (block !== protectedBlock) {
+    //     if (block.innerHTML !== '') {
+    //         block.innerHTML = '';
+    //     }
+    // }
+    cardUsed = false;
     cardactive = false;
     resetCardImage()
     cancelcardeffect()
-    console.log(cardactive)
+    console.log("Active ",cardactive)
+    console.log("Used ",cardUsed)
 }
 
 function shieldSymbol(block) {
     protectedBlock = block; // กำหนดบล็อกที่ถูกป้องกัน
+    cardUsed = false;
     cardactive = false;
     resetCardImage()
     cancelcardeffect()
-    console.log(cardactive)
+    console.log("Active ",cardactive)
+    console.log("Used ",cardUsed)
     // setTimeout(function () {
     //      // หลังจากผ่านไปเวลา 1 วินาที บล็อกที่ถูกป้องกันจะถูกปลดป้อง
     // }, 10000); // 1 วินาที
@@ -309,23 +357,29 @@ function drawCard() {
             newTurn();
         }
     }, 500);
+    cardUsed = false;
     cardactive = false;
     cancelcardeffect()
-    console.log(cardactive)
+    console.log("Active ",cardactive)
+    console.log("Used ",cardUsed)
 }
 
 function denyCard() {
     isdeny = true;
     resetCardImage();
+    cardUsed = false;
     cardactive = false;
     cancelcardeffect()
-    console.log(cardactive)
+    console.log("Active ",cardactive)
+    console.log("Used ",cardUsed)
 }
 
 function useCards(cardContainer) {
     var card = cardContainer.querySelector('.card');
     selected_card = card
-    if (cardactive === false && !card.src.includes('img/Card.png')) {
+    console.log("b Active "+cardactive)
+    console.log("b Used ",cardUsed)
+    if (cardactive === false && !card.src.includes('img/Card.png') && cardUsed === false) {
         cardactive = true; // กำหนดว่าการ์ดถูกคลิกแล้ว
         // สามารถคลิกที่ช่องบนกระดานได้
         card.style.backgroundColor = 'hsl(263, 90%, 51%)';
@@ -337,17 +391,25 @@ function useCards(cardContainer) {
         if (cardEffect) {
             window[cardEffect](card);
         }
+        // console.log(" 344 use "+cardactive)
+        
     }
-    else {
+    else if(cardactive === true && cardUsed === false){
+        console.log("yes")
         CancelCard(cardContainer)
+        cancelcardeffect()
+        cardactive = false;
     }
+    else{
 
+    }
+    console.log("a Active "+cardactive)
+    console.log("a Used ",cardUsed)
 }
 
 function CancelCard(cardContainer) {
     var card = cardContainer.querySelector('.card');
-    if (cardactive === true) {
-        cardactive = false; // กำหนดว่าการ์ดถูกคลิกแล้ว
+    if (cardactive === true && cardUsed === true) {
         card.style.backgroundColor = ''; // ยกเลิกเอฟเฟคการ์ด
         card.style.transform = '';
         card.style.filter = '';
@@ -357,6 +419,9 @@ function CancelCard(cardContainer) {
         if (cardEffect) {
             window[cardEffect](card);
         }
+        cardactive = false; // กำหนดว่าการ์ดถูกคลิกแล้ว
+        cardUsed = false;
+        console.log(" 374 Cancel "+cardactive)
     }
 }
 
@@ -381,6 +446,7 @@ firebase.auth().onAuthStateChanged((user) => {
 gameRef.on("value", (snapshot) => {
     updateRoomID(currentUser)
     updateTable(currentUser);
+    checkStateRoom(snapshot, currentUser)
 })
 
 
@@ -461,16 +527,43 @@ function updateScore(user, winner, currentRoom){
                 userListRef.child(user.uid).update({
                 [`win_count`]:winner_winCount
                 })
-                gameRef.child(currentRoom+"/table").remove()
             }
         })
        
     })
-       
-    
 }
 
+exitRoom.addEventListener("click",function(){
+    let currentRoom;
+    console.log(yourTurn)
+    const user = firebase.auth().currentUser
+    userListRef.child(user.uid).once("value", (snapshot) => {
+        currentRoom = snapshot.val().lastestRoom;
+        gameRef.child(currentRoom).update({
+            [`/state`]:"on hold"
+        })
+        updateTable(currentUser);
+    })
+    setTimeout(() => {
+        // window.location = "option.html"
+    }, 500); // .5 วินาที
+})
 
+function checkStateRoom(snapshot, user){
+    console.log("check state")
+    let currentRoom;
+    let state;
+    userListRef.child(user.uid).once("value",(ssnapshot)=>{
+        currentRoom = ssnapshot.val().lastestRoom;
+        state = snapshot.child(currentRoom).val().state
+        if(state == "on hold"){
+            gameRef.child(currentRoom).remove()
+            setTimeout(() => {
+                window.location = "option.html"
+            }, 500); // .5 วินาที
+        }
+    })
+}
 
 cardbox1.addEventListener("click", function() {
     useCards(this);

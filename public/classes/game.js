@@ -538,7 +538,6 @@ exitRoom.addEventListener("click",function(){
     console.log(yourTurn)
     const user = firebase.auth().currentUser
     userListRef.child(user.uid).once("value", (snapshot) => {
-        
         currentRoom = snapshot.val().lastestRoom;
         gameRef.child(currentRoom).update({
             [`/state`]:"on hold"
