@@ -17,8 +17,25 @@
         width: 350px;
         height: 350px;
     }
-    #img-vs-container {
-        gap: 20px;
+    .img-vs{
+        width: 300px;
+        height: 300px;
+    }
+    #player-1 {
+        width: 300px;
+        height: 300px;
+    }
+    #player-random {
+        width: 300px;
+        height: 300px;
+    }
+    #start-button{
+        position: relative;
+        bottom: -160px;
+    }
+    #home-button {
+        left: 264px;
+        bottom: 109px;
     }
 }
 
@@ -56,11 +73,11 @@
     .button-container {
         gap: 20px;
     }
-    #player-o-img{
+    #player-1 {
         width: 130px;
         height: 130px;
     }
-    #player-o-img{
+    #player-random {
         width: 130px;
         height: 130px;
     }
