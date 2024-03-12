@@ -81,4 +81,15 @@
         width: 130px;
         height: 130px;
     }
+    #start-button {
+        bottom: -94px;
+    }
+    #home-button {
+        left: 85px;
+        bottom: 30px;
+    }
+    #player-container {
+        width: fit-content;
+        height: fit-content;
+    }
 }
