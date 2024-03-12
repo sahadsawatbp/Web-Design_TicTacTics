@@ -1,0 +1,15 @@
+#player-1 {
+    border-radius: 100%;
+    width: 400px;
+    height: 400px;
+    background-color: white;
+}
+#start-button {
+    width: fit-content;
+    padding: 30px;
+}
+#home-button {
+    left: 720px;
+    bottom: 121px;
+    position: absolute;
+}
