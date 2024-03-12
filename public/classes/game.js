@@ -65,14 +65,14 @@ for (var block of blocks) {
                     event.target.style.color = '#1F34B8';
 
                     //By mai
-                    saveXOToDB(user, event.target.id, yourTurn)
+                    saveXOToDB(user, event.target.id, yourTurn);
 
                 }
                 else if (turn == 'X') {
                     event.target.style.color = '#D61A3C';
 
                     //By mai
-                    saveXOToDB(user, event.target.id, yourTurn)
+                    saveXOToDB(user, event.target.id, yourTurn);
 
                 }
 
