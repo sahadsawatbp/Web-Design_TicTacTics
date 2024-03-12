@@ -119,7 +119,7 @@ function checkStateRoom(snapshot, user){
         currentRoom = ssnapshot.val().lastestRoom;
         state = snapshot.child(currentRoom).val().state
         if(state == "start"){
-                window.location = "game.html"
+                window.location = "game2.html"
         }
     })
 }

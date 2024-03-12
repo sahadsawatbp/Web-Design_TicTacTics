@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tic-Tactics</title>
+    <title>Tic Tactics</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/game.css">
     <script defer src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
@@ -50,7 +50,7 @@
             </div>
             <div class="nav">
                 <div class="icon-box">
-                    <img class="icon" id="openbook" src="img/open-book.png" alt="">
+                    <img class="icon" src="img/open-book.png" alt="">
                     <img class="icon" src="img/exit.png" alt="">
                 </div>
             </div>
@@ -120,71 +120,20 @@
         </div>
         <div class="tip_container">
             <div class="tip" id="tip1">
+                <img id="closepopup" src="img/close.png" alt="">
+                <img id="left-arrow" src="img/left-arrow.png" alt="">
                 <img id="tipshield" src="img/tip_shield.png" alt="">
+                <img id="right-arrow" src="img/right-arrow.png" alt="">
             </div>
         </div>
         <div class="tip_container">
             <div class="tip" id="tip2">
-                <img id="tipshield" src="img/tip_swap.png" alt="">
-            </div>
-        </div>
-        <div class="tip_container">
-            <div class="tip" id="tip3">
-                <img id="tipshield" src="img/tip_destroy.png" alt="">
-            </div>
-        </div>
-        <div class="tip_container">
-            <div class="tip" id="tip4">
-                <img id="tipshield" src="img/tip_deny.png" alt="">
-            </div>
-        </div>
-        <div class="tip_container">
-            <div class="tip" id="tip5">
-                <img id="tipshield" src="img/tip_draw.png" alt="">
-            </div>
-        </div>
-        <div class="tip_container">
-            <div class="tip" id="tip6">
-                <img id="tipshield" src="img/tip_thief.png" alt="">
-            </div>
-        </div>
-        <div class="tip_container">
-            <div class="tiparrow" id="tip0">
                 <img id="closepopup" src="img/close.png" alt="">
                 <img id="left-arrow" src="img/left-arrow.png" alt="">
+                <img id="tipshield" src="img/tip_shield.png" alt="">
                 <img id="right-arrow" src="img/right-arrow.png" alt="">
             </div>
         </div>
-        <div id="winner-container">
-            <div id="winner-img">
-                <img id="winnerimg2" src="img/winner.png" alt="">
-            </div>
-            <div id="winner-text">Congratulation, <b>Kisaragi</b></div>
-            <div id="won-text">You have won this game</div>
-            <div class="winner-button-container">
-                <a href="" class="winner-button" id="winner-play">Play again</a>
-                <a href="" class="winner-button" id="winner-back">Back to menu</a>
-            </div>
-            <div class="winner-star-container">
-                <div class="rate-text" id="rate">Rate us</div>
-                <div class="rate">
-                    <input type="radio" id="star5" name="rate" value="5" />
-                    <label for="star5" title="text">5 stars</label>
-                    <input type="radio" id="star4" name="rate" value="4" />
-                    <label for="star4" title="text">4 stars</label>
-                    <input type="radio" id="star3" name="rate" value="3" />
-                    <label for="star3" title="text">3 stars</label>
-                    <input type="radio" id="star2" name="rate" value="2" />
-                    <label for="star2" title="text">2 stars</label>
-                    <input type="radio" id="star1" name="rate" value="1" />
-                    <label for="star1" title="text">1 star</label>
-                  </div>
-                <div class="rate-text" id="thankyou">Thank you!</div>
-            </div>
-        </div>
-        <!-- <div id="status-popup" style="display:flex;background-color: transparent;position: absolute;">
-            <h1>ผู้เล่นออกจากห้องแข่งขัน</h1>
-        </div> -->
     </div>
 </body>
 <script type="module">
@@ -201,7 +150,7 @@
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);    
 </script>
-<script src="classes/game.js" type="module"></script>
+<script src="classes/game2.js" type="module"></script>
 <script src="classes/gamepopup.js" type="module"></script>
-<script src="classes/tip.js" type="module"></script>
+
 </html>

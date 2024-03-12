@@ -1,0 +1,56 @@
+/* ipad */
+@media (width <= 1366px){
+    #vs-icon {
+        margin: 20px;
+    }
+    h2 {
+        top: -150px;
+    }
+    h3{
+        top: -140px;
+    }
+    .button-container {
+        position: relative;
+        bottom: -160px;
+    }
+    #player-container {
+        width: 350px;
+        height: 350px;
+    }
+}
+
+/* mobile */
+@media (width <= 390px){
+    h2 {
+        top: 20px;
+    }
+    h3{
+        top: 20px;
+    }
+    #img-vs-container {
+        flex-direction: column;
+    }
+    #player-container {
+        width: 150px;
+        height: 150px;
+    }
+    #vs-icon {
+        width: 100px;
+        height: 100px;
+    }
+    .button-container {
+        bottom: 20px;
+        width: 300px;
+    }
+    #back-button {
+        font-size: 20px;
+        height: 50px;
+    }
+    #start-button {
+        font-size: 20px;
+        height: 50px;
+    }
+    .button-container {
+        gap: 20px;
+    }
+}
