@@ -22,8 +22,10 @@ var blocks = document.querySelectorAll('.table-block');
 var turnObject = document.getElementById('turn');
 var round = document.getElementById('round');
 var winner_container = document.getElementById("winner-container");
+var winner_text = document.getElementById("winner-text");
 var winner_back = document.getElementById("winner-back");
-var won_text = document.getElementById("won-text")
+var won_text = document.getElementById("won-text");
+var winnerimg2 = document.getElementById("winnerimg2");
 var roundcount = 1;
 var roundcheck = 0;
 var turncount = 0;
@@ -202,7 +204,7 @@ function checkResult(user, turn, currentRoom) {
         winner = winner.replace("Game win by ","");
         winner_container.style.display = "flex";
         winner_back.addEventListener("click",()=>{
-            exitRoom();
+            exitRooms();
         })
         updateScore(user, winner, currentRoom)
     } else if (isBoardFull()) {
@@ -528,14 +530,26 @@ function updateScore(user, winner, currentRoom){
         winner_email = userSnapshot.val().email
         winner_winCount = userSnapshot.val().win_count + 1
         gameRef.child(currentRoom+"/player_"+winner.toLowerCase()+"_email").once("value",(snapshot)=>{
-            console.log(winner_email)
+            console.log(snapshot.val())
+        
             if(snapshot.val() ==  winner_email){
                 userListRef.child(user.uid).update({
                 [`win_count`]:winner_winCount
                 })
             }
+            if(snapshot.val() === user.email){
+                // winner_container.innerHTML 
+                winnerimg2.setAttribute("src","img/winner.png")
+                winner_text.innerHTML = `Congratulation, <b>${userSnapshot.val().username}</b>`
+                won_text.innerHTML = `You are winner`
+                
+            }else if(snapshot.val() !== user.email){
+                winnerimg2.setAttribute("src","img/laurel.png")
+                winner_text.innerHTML = `Sorry, <b>${userSnapshot.val().username}</b>`
+                won_text.innerHTML = `You are loser`
+                console.log("You are loser")
+            }
         })
-       
     })
 }
 
@@ -553,9 +567,7 @@ function exitRooms(){
         })
         updateTable(currentUser);
     })
-    setTimeout(() => {
-        // window.location = "option.html"
-    }, 500); // .5 วินาที
+    
 }
 function checkStateRoom(snapshot, user){
     console.log("check state")
