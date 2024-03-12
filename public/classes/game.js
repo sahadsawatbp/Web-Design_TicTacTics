@@ -21,6 +21,9 @@ var exitRoom = document.getElementById("exit-room");
 var blocks = document.querySelectorAll('.table-block');
 var turnObject = document.getElementById('turn');
 var round = document.getElementById('round');
+var winner_container = document.getElementById("winner-container");
+var winner_back = document.getElementById("winner-back");
+var won_text = document.getElementById("won-text")
 var roundcount = 1;
 var roundcheck = 0;
 var turncount = 0;
@@ -196,8 +199,11 @@ function checkResult(user, turn, currentRoom) {
         //Game end and someone wins the game
         winner = turn;
         winner = winner === "X" ? turnObject.innerHTML = "Game win by O" : turnObject.innerHTML = "Game win by X";
-        winner = winner.replace("Game win by ","")
-        console.log("XXXXXXXXXXXX")
+        winner = winner.replace("Game win by ","");
+        winner_container.style.display = "flex";
+        winner_back.addEventListener("click",()=>{
+            exitRoom();
+        })
         updateScore(user, winner, currentRoom)
     } else if (isBoardFull()) {
         // Game end and no-one wins the game
@@ -534,6 +540,9 @@ function updateScore(user, winner, currentRoom){
 }
 
 exitRoom.addEventListener("click",function(){
+    exitRooms()
+})
+function exitRooms(){
     let currentRoom;
     console.log(yourTurn)
     const user = firebase.auth().currentUser
@@ -547,8 +556,7 @@ exitRoom.addEventListener("click",function(){
     setTimeout(() => {
         // window.location = "option.html"
     }, 500); // .5 วินาที
-})
-
+}
 function checkStateRoom(snapshot, user){
     console.log("check state")
     let currentRoom;
