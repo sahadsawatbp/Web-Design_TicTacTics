@@ -1,41 +1,109 @@
+@media (width <= 1332px){
+    #player-x-img {
+        width: 300px;
+        height: 300px;
+    }
+    #player-o-img {
+        width: 300px;
+        height: 300px;
+    }
+    #vs-icon {
+        width: 200px;
+        height: 200px;
+        margin: 100px;
+    }
+}
+
+@media (width <= 1198px){
+    #player-x-img {
+        width: 300px;
+        height: 300px;
+    }
+    #player-o-img {
+        width: 300px;
+        height: 300px;
+    }
+    #vs-icon {
+        width: 200px;
+        height: 200px;
+        margin: 100px;
+    }
+}
+
 /* ipad */
 @media (width <= 992px){
     #vs-icon {
         margin: 20px;
     }
-    h2 {
+    /* h2 {
         top: -150px;
     }
     h3{
         top: -140px;
-    }
+    } */
     .button-container {
         position: relative;
-        bottom: -160px;
+        /* bottom: 0px; */
     }
     #player-container {
-        width: 350px;
-        height: 350px;
+        width: fit-content;
+        height: fit-content;
     }
     #img-vs-container {
         gap: 20px;
+    }
+    /* .button-container {
+        bottom: -40px;
+    } */
+    /* h2 {
+        top: -35px;
+    }
+    h3 {
+        top: -47px;
+    } */
+}
+
+@media (width <= 888px){
+    #player-x-img {
+        width: 200px;
+        height: 200px;
+    }
+    #player-o-img {
+        width: 200px;
+        height: 200px;
+    }
+    #vs-icon {
+        width: 100px;
+        height: 100px;
+    }
+    #back-button {
+        height: 90px;
+    }
+    #start-button {
+        height: 90px;
+    }
+    .button-container {
+        gap: 40px;
+    }
+    .button-container {
+        width: 400px;
     }
 }
 
 /* mobile */
 @media (width <= 576px){
-    h2 {
+    /* h2 {
         top: 20px;
     }
     h3{
         top: 20px;
-    }
+    } */
     #img-vs-container {
         flex-direction: column;
     }
     #player-container {
-        width: 150px;
-        height: 150px;
+        width: fit-content;
+        height: fit-content;
     }
     #vs-icon {
         width: 100px;
@@ -47,16 +115,16 @@
     }
     #back-button {
         font-size: 20px;
-        height: 50px;
+        height: 90px;
     }
     #start-button {
         font-size: 20px;
-        height: 50px;
+        height: 90px;
     }
     .button-container {
         gap: 20px;
     }
-    #player-o-img{
+    #player-x-img{
         width: 130px;
         height: 130px;
     }

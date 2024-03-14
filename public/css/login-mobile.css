@@ -1,3 +1,9 @@
+@media (width <= 1276px){
+    #ttt-header {
+        font-size: 90px;
+    }
+}
+
 /* ipad */
 @media (width <= 992px){
     #ttt-header {
@@ -9,6 +15,12 @@
     }
     #Login {
         margin-top: 20px;
+    }
+}
+
+@media (width <= 654px){
+    #ttt-header {
+        font-size: 80px;
     }
 }
 
