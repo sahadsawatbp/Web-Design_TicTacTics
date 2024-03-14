@@ -9,6 +9,16 @@
     }
 }
 
+@media (width <= 668px){
+    #ttt-header {
+        position: relative;
+        font-size: 80px;
+        margin-bottom: 100px;
+        color: white;
+        top: 5%;
+    }
+}
+
 /* mobile */
 @media (width <= 576px){
     #ttt-header {

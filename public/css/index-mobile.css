@@ -1,3 +1,10 @@
+@media (width <= 1372px){
+    #Begin h1 {
+        font-size: 120px;
+        color: white;
+    }
+}
+
 /* ipad */
 @media (width <= 992px){
     #Begin h1 {
@@ -9,6 +16,20 @@
         color: rgb(156, 156, 156);
         animation: wip-wup 2s infinite;
         font-size: 30px;
+    }
+}
+
+@media (width <= 848px){
+    #Begin h1 {
+        font-size: 100px;
+        color: white;
+    }
+}
+
+@media (width <= 654px){
+    #Begin h1 {
+        font-size: 80px;
+        color: white;
     }
 }
 
