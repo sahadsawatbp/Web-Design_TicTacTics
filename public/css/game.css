@@ -105,7 +105,7 @@
 }
 .tip img{
     display: inline-block; /* Add this line */
-    max-width: 100%; /* Ensure the image doesn't exceed the container width */
+    /* max-width: 100%;  */
     max-height: 100%;
 }
 #tip0 {
@@ -298,5 +298,174 @@ color: #deb217;
 .rate > label:hover ~ input:checked ~ label {
 color: #c59b08;
 }
+
+
+
+@media (width <= 1372px){
+    .tip_container {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .tip {
+        display: none;
+        position: relative;
+    }
+    .tip img{
+        display: inline-block; /* Add this line */
+        /* max-width: 100%;  */
+        max-height: 100%;
+    }
+    #tipshield {
+        width: 500px;
+    }
+    #tip0 {
+        width: 500px;
+        display: none;
+        top: -100px;
+        z-index: 10;
+        position: fixed;
+    }
+    #closepopup {
+        width: 20px;
+        position: absolute;
+        cursor: pointer;
+        top: -80px; 
+        right: 2%;
+    }
+    
+}
+
+/* ipad */
+@media (width <= 992px){
+    .tip_container {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .tip {
+        display: none;
+        position: relative;
+    }
+    .tip img{
+        display: inline-block; /* Add this line */
+        /* max-width: 100%;  */
+        max-height: 100%;
+    }
+    #tipshield {
+        width: 500px;
+    }
+    #tip0 {
+        width: 500px;
+        display: none;
+        top: -100px;
+        z-index: 10;
+        position: fixed;
+    }
+    #closepopup {
+        width: 20px;
+        position: absolute;
+        cursor: pointer;
+        top: -80px; 
+        right: 2%;
+    }
+    
+}
+
+@media (width <= 848px){
+   
+}
+
+@media (width <= 654px){
+   
+}
+
+/* mobile */
+@media (width <= 576px){
+    .tip_container {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .tip {
+        display: none;
+        position: relative;
+    }
+    .tip img{
+        display: inline-block; /* Add this line */
+        /* max-width: 100%;  */
+        max-height: 100%;
+    }
+    #tipshield {
+        width: 300px;
+    }
+    #tip0 {
+        width: 300px;
+        display: none;
+        top: -100px;
+        z-index: 10;
+        position: fixed;
+    }
+    #closepopup {
+        width: 20px;
+        position: absolute;
+        cursor: pointer;
+        top: -10px; 
+        right: 2%;
+    }
+    #left-arrow,
+    #right-arrow {
+        position: absolute; 
+        top: 0;
+        cursor: pointer;
+    }
+    #left-arrow {
+        position: absolute;
+        width: 50px;
+        left: 15%;
+        top: 25%;
+    }
+    #right-arrow {
+        width: 50px;
+        right: 15%;
+        top: 25%;
+    }
+    .card {
+        width: 55px;
+        cursor: pointer;
+    }
+    .topbar {
+        grid-template-columns: 3fr 1fr 3fr;
+        gap: 10px;
+    }
+    .bottombar {
+        grid-template-columns: 3fr 1fr 3fr;
+        gap: 10px;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* game css */

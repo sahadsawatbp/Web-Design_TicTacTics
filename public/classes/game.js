@@ -229,7 +229,7 @@ function checkResult(user, turn, currentRoom) {
     } else {
         gameRef.child(currentRoom).once("value",(snapshot)=>{
             yourTurn = snapshot.val().player_x_id == user.uid ? "X" : "O";
-            turnObject.innerHTML = turn === yourTurn ? "Your turn..." : "Opponent turn..."
+            turnObject.innerHTML = turn === yourTurn ? `Your turn... (${yourTurn})` : `Opponent turn... (${turn})`
             round.innerHTML = 'Round: ' + Math.ceil(roundcount / 2); 
             console.log(turn, yourTurn)
         })
@@ -460,7 +460,7 @@ function useCards(cardContainer) {
         currentRoom = snapshot.val().lastestRoom;
         gameRef.child(currentRoom).child("table/denyCard").once("value",(snapshot)=>{
             let denyTurn = snapshot.val();
-            console.log(turn, yourTurn)
+            console.log(denyTurn,"sss")
             if (cardactive === false && !card.src.includes('img/Card.png') && cardUsed === false && turn == yourTurn) {
                 cardactive = true; // กำหนดว่าการ์ดถูกคลิกแล้ว
                 // สามารถคลิกที่ช่องบนกระดานได้
