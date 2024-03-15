@@ -286,6 +286,7 @@ input:checked + .slider:before {
 .player-name{
   color: white;
   margin-top: 20px;
+  margin-bottom: 20px;
   font-size: 30px;
 }
 

@@ -46,7 +46,6 @@ newGame();
 for (var block of blocks) {
     // 1. Modify the code here to check click event on each block
     block.onclick = function (event) {
-
         //By mai
         var user = firebase.auth().currentUser;
         let temp_roomID = roomID.innerHTML.replace("Room ID : ", "R")
@@ -58,22 +57,18 @@ for (var block of blocks) {
             if (!win && event.target.innerHTML === '' && cardactive === false && turn === yourTurn) {
                 // 4. Modify the code here to check whether the clicking block is avialable.         
                 roundcount += 1;
-                event.target.innerHTML = turn;
+                event.target.innerHTML = "turn";
                 console.log(turn)
 
                 if (turn == 'O') {
                     event.target.style.color = '#1F34B8';
-
                     //By mai
                     saveXOToDB(user, event.target.id, yourTurn);
-
                 }
                 else if (turn == 'X') {
                     event.target.style.color = '#D61A3C';
-
                     //By mai
                     saveXOToDB(user, event.target.id, yourTurn);
-
                 }
 
             }
@@ -477,7 +472,6 @@ function saveXOToDB(user, blockID, side) {
             })
         }
     })
-
 }
 
 
