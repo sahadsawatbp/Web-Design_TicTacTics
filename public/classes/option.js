@@ -4,26 +4,32 @@ const iconImg = document.getElementById("icon-img");
 const gameRef = firebase.database().ref("Room");
 const profileBox = document.getElementById("box-profile");
 const userName = document.getElementById("user-name");
-const playWithFriend = document.getElementById("play-with-friend");
-const playWithStranger = document.getElementById("play-with-stranger");
 const logoutBtn = document.getElementById("logout-btn")
 const popupScreen = document.getElementById("popup-container")
 const editProfile = document.getElementById("edit-profile")
 const profileName = document.getElementById("profile-name")
 const popupSave = document.getElementById("popup-save")
 const popupCancel = document.getElementById("popup-cancel")
-const currentUser = firebase.auth().currentUser
+var currentUser;
 const userListRef = firebase.database().ref("UserList");
 const fileBtn = document.getElementById("fileInp")
 const profileImg = document.querySelectorAll(".profile-img")
+const arrayScoreboard = [];
+
 var fileName;
 var fileItem;
 
 firebase.auth().onAuthStateChanged((user)=>{
     if(user){
-        updatePlayerProfile(user)
+        currentUser = user;
+        
     }
 })
+userListRef.once("value",(snapshot)=>{
+    updatePlayerProfile(currentUser)
+    updateScoreboard(currentUser)
+})
+
 
 function getFile(e){
     fileItem = e.target.files[0];
@@ -68,6 +74,54 @@ let updatePlayerProfile = (user) =>{
             profileImg.setAttribute("src","img/user.png")
         }
     })
+}
+
+function updateScoreboard(user){
+    const scoreboardRef = firebase.database().ref("Scoreboard")
+    const scorebardElem = document.querySelectorAll(".scoreboard");
+    let tempArray = [];
+    let item;
+    let currentUserArray=[];
+    let currentUserNo;
+    let i = 1;
+    userListRef.once("value",(snapshot)=>{
+        snapshot.forEach(childSnapshot => {
+            tempArray.push({
+                name:childSnapshot.val().username, img:childSnapshot.val().img, score:childSnapshot.val().win_count, email:childSnapshot.val().email
+            }) 
+            if(childSnapshot.key === user.uid){
+                currentUserArray.push({
+                    name:childSnapshot.val().username, img:childSnapshot.val().img, score:childSnapshot.val().win_count, email:childSnapshot.val().email
+                })
+                
+            }
+            tempArray.sort((a,b)=> b.score - a.score)
+           
+        });
+        for(let i = 0;i<tempArray.length;i++){
+            scoreboardRef.update({
+                [i+1]:tempArray[i]
+            })
+            if(i<5){
+                if(tempArray[i].email == user.email){
+                    console.log("Yes")
+                    scorebardElem[i].classList.add("ifIsYou")
+                }
+                scorebardElem[i].childNodes[3].setAttribute("src",tempArray[i].img);
+                scorebardElem[i].childNodes[5].innerHTML = tempArray[i].name;
+                scorebardElem[i].childNodes[7].innerHTML = tempArray[i].score;
+            }else if(i == 5){
+                scorebardElem[i].childNodes[1].innerHTML = "You";
+                scorebardElem[i].childNodes[3].setAttribute("src",currentUserArray[0].img);
+                scorebardElem[i].childNodes[5].innerHTML = currentUserArray[0].name;
+                scorebardElem[i].childNodes[7].innerHTML = currentUserArray[0].score;
+            }
+
+        }
+        console.log(scorebardElem[1].childNodes[3].childNodes[3])
+        console.log(currentUserNo, currentUserArray, tempArray)
+    })
+    
 }
 
 
