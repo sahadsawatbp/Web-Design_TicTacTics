@@ -75,6 +75,8 @@ for (var block of blocks) {
                     saveXOToDB(user, event.target.id, yourTurn);
                 }
 
+            }else if(turn != yourTurn){
+                alert("รอจนถึงตาของคุณ ! ! !")
             }
             console.log('roundcheck : ' + roundcheck)
             console.log('round : ' + Math.ceil(roundcount / 2))
@@ -476,6 +478,8 @@ function useCards(cardContainer) {
                 CancelCard(cardContainer)
                 cancelcardeffect()
                 cardactive = false;
+            }else if(yourTurn != turn){
+                alert("รอจนถึงตาของคุณ ! ! !")
             }
             console.log("a Active "+cardactive)
             console.log("a Used ",cardUsed)

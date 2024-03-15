@@ -11,11 +11,16 @@ var cardList = [
     { src: 'img/Destroy.png', effect: 'destroySymbol' },
     { src: 'img/Shield.png', effect: 'shieldSymbol' },
     { src: 'img/Draw.png', effect: 'drawCard' },
-    { src: 'img/Deny.png', effect: 'denyCard' }
+    { src: 'img/Deny.png', effect: 'denyCard' },
+    {src: 'img/Thieft.png', effect:'thieftCard'}
 ];
 const cardbox1 = document.getElementById('cardbox1');
 const cardbox2 = document.getElementById('cardbox2');
 const cardbox3 = document.getElementById('cardbox3');
+const oppocards = document.querySelectorAll('.oppo-card')
+const oppocard1 = document.getElementById('oppo-card1');
+const oppocard2 = document.getElementById('oppo-card2');
+const oppocard3 = document.getElementById('oppo-card3');
 var cardBoxes = document.querySelectorAll('.cardbox-your .card-container');
 var exitRoom = document.getElementById("exit-room");
 var blocks = document.querySelectorAll('.table-block');
@@ -30,6 +35,7 @@ var roundcount = 1;
 var roundcheck = 0;
 var turncount = 0;
 var turncountfordeny = 0;
+var cardArray=[];
 var cardactive = false;
 var cardUsed = false;
 var isdeny = false;
@@ -38,8 +44,8 @@ var mycard1 = document.getElementById('cy1');
 var selected_card;
 var roomID = document.getElementById('room-id');
 var phase = 1;
-var yourTurn
-
+var yourTurn;
+var resultGame;
 
 newGame();
 
@@ -69,6 +75,8 @@ for (var block of blocks) {
                     saveXOToDB(user, event.target.id, yourTurn);
                 }
 
+            }else if(turn != yourTurn){
+                alert("รอจนถึงตาของคุณ ! ! !")
             }
             console.log('roundcheck : ' + roundcheck)
             console.log('round : ' + Math.ceil(roundcount / 2))
@@ -116,6 +124,15 @@ for (var block of blocks) {
             }
             
         })
+    }
+}
+for(var oppocard of oppocards){
+    oppocard.onclick = function(event){
+        if (cardactive === true){
+            if(selected_card.src.includes("Thieft.png")){
+                thieftCard(event.target);
+            }
+        }
     }
 }
 
@@ -201,20 +218,20 @@ function checkResult(user, turn, currentRoom) {
         winner_back.addEventListener("click",()=>{
             exitRooms();
         })
+        resultGame = "WinLose"
         updateScore(user, winner, currentRoom)
     } else if (isBoardFull()) {
         // Game end and no-one wins the game
         turnObject.innerHTML = "Game draw";
+        winner_container.style.display = "flex";
+        resultGame = "Draw"
+        updateScore(user, winner, currentRoom)
     } else {
         gameRef.child(currentRoom).once("value",(snapshot)=>{
             yourTurn = snapshot.val().player_x_id == user.uid ? "X" : "O";
-        // turn = turn === 'O' ? 'X' : 'O';
-        turnObject.innerHTML = turn === yourTurn ? "Your turn..." : "Opponent turn..."
-        // turnObject.innerHTML = "Turn: " + turn;
-        
-           
-       
-        round.innerHTML = 'Round: ' + Math.ceil(roundcount / 2);    
+            turnObject.innerHTML = turn === yourTurn ? "Your turn..." : "Opponent turn..."
+            round.innerHTML = 'Round: ' + Math.ceil(roundcount / 2); 
+            console.log(turn, yourTurn)
         })
         
     }
@@ -285,34 +302,29 @@ function swapSymbol(block) {
     userListRef.child(user.uid).once("value", (snapshot) => {
         currentRoom = snapshot.val().lastestRoom;
         gameRef.child(currentRoom).child("table/"+block.id).once("value", (tableSnapshot) => {
-            if(block !== protectedBlock){
-                if(tableSnapshot.val() == "X"){
+            gameRef.child(currentRoom).child(`table/protectedBlock`).once("value",(protectedSnapshot)=>{
+                if(block.id != protectedSnapshot.val()){
+                    if(tableSnapshot.val() == "X"){
+                        gameRef.child(currentRoom).child("table").update({
+                            [block.id]:"O"
+                        })
+                    }if(tableSnapshot.val() == "O"){
+                        gameRef.child(currentRoom).child("table").update({
+                            [block.id]:"X"
+                        })
+                    }
+                    resetCardImage();
+                }else{
+                    notifyCard("hasProtected")
                     gameRef.child(currentRoom).child("table").update({
-                        [block.id]:"O"
-                    })
-                }if(tableSnapshot.val() == "O"){
-                    gameRef.child(currentRoom).child("table").update({
-                        [block.id]:"X"
+                        ["protectedBlock"]:""
                     })
                 }
-            }
+            })
         })
     })
-
-    // if (block !== protectedBlock) {
-    //     if (block.innerHTML === 'X') {
-    //         block.innerHTML = 'O';
-    //         block.style.color = '#1F34B8';
-    //     }
-    //     else if (block.innerHTML === 'O') {
-    //         block.innerHTML = 'X';
-    //         block.style.color = '#D61A3C';
-    //     }
-    // }
-   
     cardUsed = false;
     cardactive = false;
-    resetCardImage();
     cancelcardeffect()
     console.log("Active ",cardactive)
     console.log("Used ",cardUsed)
@@ -324,48 +336,93 @@ function destroySymbol(block) {
     userListRef.child(user.uid).once("value", (snapshot) => {
         currentRoom = snapshot.val().lastestRoom;
         gameRef.child(currentRoom).child("table/"+block.id).once("value", (tableSnapshot) => {
-            if(block !== protectedBlock){
-                console.log(protectedBlock)
-                if(tableSnapshot.val() !== ""){
-                    gameRef.child(currentRoom).child("table").update({
-                        [block.id]:""
-                    })
+            gameRef.child(currentRoom).child(`table/protectedBlock`).once("value",(protectedSnapshot)=>{
+                if(yourTurn != block.innerHTML){
+                    if(block.id != protectedSnapshot.val()){
+                        if(tableSnapshot.val() !== ""){
+                            gameRef.child(currentRoom).child("table").update({
+                                [block.id]:""
+                            })
+                            resetCardImage()
+                        }
+                    }else{
+                        notifyCard("hasProtected")
+                        gameRef.child(currentRoom).child("table").update({
+                            ["protectedBlock"]:""
+                        })
+                    }
+                }else{
+                    notifyCard("ChooseOpponent")
                 }
-            }
+            })
         })
     })
-    // if (block !== protectedBlock) {
-    //     if (block.innerHTML !== '') {
-    //         block.innerHTML = '';
-    //     }
-    // }
     cardUsed = false;
     cardactive = false;
-    resetCardImage()
     cancelcardeffect()
     console.log("Active ",cardactive)
     console.log("Used ",cardUsed)
 }
 
 function shieldSymbol(block) {
+    let currentRoom;
+    const user = firebase.auth().currentUser
     protectedBlock = block; // กำหนดบล็อกที่ถูกป้องกัน
     userListRef.child(user.uid).once("value", (snapshot) => {
         currentRoom = snapshot.val().lastestRoom;
         gameRef.child(currentRoom).child("table/"+block.id).once("value", (tableSnapshot) => {
-            if(block !== protectedBlock){
-               
+            console.log(yourTurn, block.innerHTML)
+            if(yourTurn == block.innerHTML){
+                gameRef.child(currentRoom).child("table").update({
+                    [`protectedBlock`]:protectedBlock.id
+                })
+                resetCardImage()
+            }else{
+                notifyCard("shieldUp");
+                console.log("Active ",cardactive)
+                console.log("Used ",cardUsed)
             }
         })
     })
+    cancelcardeffect()
     cardUsed = false;
     cardactive = false;
-    resetCardImage()
+}
+
+function denyCard() {
+    let denyTurn;
+    isdeny = true;
+    const user = firebase.auth().currentUser
+    let currentRoom;
+    userListRef.child(user.uid).once("value", (snapshot) => {
+        currentRoom = snapshot.val().lastestRoom;
+        denyTurn = yourTurn === "X" ? "O" : "X";
+        gameRef.child(currentRoom).child("table").update({
+            [`denyCard`]:denyTurn
+        })
+    })
+    resetCardImage();
+    cardUsed = false;
+    cardactive = false;
     cancelcardeffect()
     console.log("Active ",cardactive)
     console.log("Used ",cardUsed)
-    // setTimeout(function () {
-    //      // หลังจากผ่านไปเวลา 1 วินาที บล็อกที่ถูกป้องกันจะถูกปลดป้อง
-    // }, 10000); // 1 วินาที
+}
+
+function thieftCard(oppocard){
+    if(selected_card.src)
+    console.log(oppocard)
+    resetCardImage();
+    setTimeout(function () {
+        for (var i = 0; i < 1; i++) {
+            newTurn();
+        }
+    }, 500);
+    cardUsed = false;
+    cardactive = false;
+    cancelcardeffect()
+    console.log("Active ",cardactive)
+    console.log("Used ",cardUsed)
 }
 
 function drawCard() {
@@ -382,14 +439,14 @@ function drawCard() {
     console.log("Used ",cardUsed)
 }
 
-function denyCard() {
-    isdeny = true;
-    resetCardImage();
-    cardUsed = false;
-    cardactive = false;
-    cancelcardeffect()
-    console.log("Active ",cardactive)
-    console.log("Used ",cardUsed)
+function notifyCard(choice){
+    if(choice == "shieldUp"){
+        alert("คุณไม่สามารถป้องกันการ์ดอีกฝ่ายได้ ! ! !")
+    }else if(choice == "hasProtected"){
+        alert("การ์ดป้องกันของศัตรูถูกใช้งาน ! ! !")
+    }else if(choice == "ChooseOpponent"){
+        alert("เลือกทำลายการ์ดของศัตรูเท่านั้น ! ! !")
+    }
 }
 
 function useCards(cardContainer) {
@@ -397,32 +454,37 @@ function useCards(cardContainer) {
     selected_card = card
     console.log("b Active "+cardactive)
     console.log("b Used ",cardUsed)
-    if (cardactive === false && !card.src.includes('img/Card.png') && cardUsed === false) {
-        cardactive = true; // กำหนดว่าการ์ดถูกคลิกแล้ว
-        // สามารถคลิกที่ช่องบนกระดานได้
-        card.style.backgroundColor = 'hsl(263, 90%, 51%)';
-        card.style.transform = 'scale(1.1)';
-        card.style.filter = 'drop-shadow(0 0px 12px hsl(263, 90%, 51%))';
-        card.style.transition = "all 0.5s";
-        card.style.transform = "translateY(-15px)";
-        var cardEffect = cardList.find(cardInfo => cardInfo.id === card.id)?.effect; // ค้นหาเอฟเฟคของการ์ดที่ถูกใช้งาน
-        if (cardEffect) {
-            window[cardEffect](card);
-        }
-        // console.log(" 344 use "+cardactive)
-        
-    }
-    else if(cardactive === true && cardUsed === false){
-        console.log("yes")
-        CancelCard(cardContainer)
-        cancelcardeffect()
-        cardactive = false;
-    }
-    else{
-
-    }
-    console.log("a Active "+cardactive)
-    console.log("a Used ",cardUsed)
+    let currentRoom;
+    const user = firebase.auth().currentUser;
+    userListRef.child(user.uid).once("value", (snapshot) => {
+        currentRoom = snapshot.val().lastestRoom;
+        gameRef.child(currentRoom).child("table/denyCard").once("value",(snapshot)=>{
+            let denyTurn = snapshot.val();
+            console.log(turn, yourTurn)
+            if (cardactive === false && !card.src.includes('img/Card.png') && cardUsed === false && turn == yourTurn) {
+                cardactive = true; // กำหนดว่าการ์ดถูกคลิกแล้ว
+                // สามารถคลิกที่ช่องบนกระดานได้
+                card.style.backgroundColor = 'hsl(263, 90%, 51%)';
+                card.style.transform = 'scale(1.1)';
+                card.style.filter = 'drop-shadow(0 0px 12px hsl(263, 90%, 51%))';
+                card.style.transition = "all 0.5s";
+                card.style.transform = "translateY(-15px)";
+                var cardEffect = cardList.find(cardInfo => cardInfo.id === card.id)?.effect; // ค้นหาเอฟเฟคของการ์ดที่ถูกใช้งาน
+                if (cardEffect) {
+                    window[cardEffect](card);
+                }
+            }
+            else if(cardactive === true && cardUsed === false){
+                CancelCard(cardContainer)
+                cancelcardeffect()
+                cardactive = false;
+            }else if(yourTurn != turn){
+                alert("รอจนถึงตาของคุณ ! ! !")
+            }
+            console.log("a Active "+cardactive)
+            console.log("a Used ",cardUsed)
+        })
+    })
 }
 
 function CancelCard(cardContainer) {
@@ -494,6 +556,9 @@ function updateTable(user) {
     let currentRoom;
     userListRef.child(user.uid).once("value", (snapshot) => {
         currentRoom = snapshot.val().lastestRoom;
+        gameRef.child(currentRoom + "/turn").once("value", (sanapshot) => {
+            turn = sanapshot.val()
+        })
         gameRef.child(currentRoom).child("table").on("value", (tableSnapshot) => {
             tableSnapshot.forEach((col) => {
                 for (block of blocks) {
@@ -508,9 +573,7 @@ function updateTable(user) {
             checkResult(user, turnSnapshot.val(), currentRoom);
         })
 
-        gameRef.child(currentRoom).child("card").on("value", (tableSnapshot) => {
-
-        })
+        
     })
 }
 
@@ -523,13 +586,16 @@ function updateRoomID(user) {
     })
 }
 
+
 function checkYourSide(user) {
-    let temp_roomID = roomID.innerHTML.replace("Room ID : ", "R");
-    gameRef.child(temp_roomID).once("value", (snapshot) => {
-        yourTurn = snapshot.val().player_x_id == user.uid ? "X" : "O";
-        let turn_o = snapshot.val().player_o_id == user.uid ? "O" : "X";
-        return turn;
-    })
+    setTimeout(function(){
+        let temp_roomID = roomID.innerHTML.replace("Room ID : ", "R");
+        gameRef.child(temp_roomID).once("value", (snapshot) => {
+            yourTurn = snapshot.val().player_x_id == user.uid ? "X" : "O";
+            let turn_o = snapshot.val().player_o_id == user.uid ? "O" : "X";
+            return turn;
+        })
+    },300)
 }
 
 function updateScore(user, winner, currentRoom){
@@ -539,25 +605,29 @@ function updateScore(user, winner, currentRoom){
         winner_email = userSnapshot.val().email
         winner_winCount = userSnapshot.val().win_count + 1
         gameRef.child(currentRoom+"/player_"+winner.toLowerCase()+"_email").once("value",(snapshot)=>{
-           
-        
             if(snapshot.val() ==  winner_email){
                 userListRef.child(user.uid).update({
                 [`win_count`]:winner_winCount
                 })
             }
-            if(snapshot.val() === user.email){
+            if(snapshot.val() === user.email && resultGame === "WinLose"){
                 // winner_container.innerHTML 
                 winnerimg2.setAttribute("src","img/winner.png")
                 winner_text.innerHTML = `Congratulation, <b>${userSnapshot.val().username}</b>`
                 won_text.innerHTML = `You are winner`
                 
-            }else if(snapshot.val() !== user.email){
+            }else if(snapshot.val() !== user.email && resultGame === "WinLose"){
                 winnerimg2.setAttribute("src","img/laurel.png")
                 winner_text.innerHTML = `Sorry, <b>${userSnapshot.val().username}</b>`
                 won_text.innerHTML = `You are loser`
-                
+
+            }else if(resultGame == "Draw"){
+                console.log(resultGame)
+                winnerimg2.setAttribute("src","img/question-mark.png")
+                winner_text.innerHTML = `Game is Draw<b></b>`
+                won_text.innerHTML = `Game is Draw`
             }
+            
         })
     })
 }
@@ -603,3 +673,13 @@ cardbox2.addEventListener("click", function() {
 cardbox3.addEventListener("click", function() {
     useCards(this);
 });
+
+// oppocard1.addEventListener("click", function() {
+//     thieftCard();
+// });
+// oppocard2.addEventListener("click", function() {
+//     thieftCard();
+// });
+// oppocard3.addEventListener("click", function() {
+//     thieftCard();
+// });
