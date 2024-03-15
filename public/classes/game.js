@@ -9,7 +9,7 @@ var winner = '';
 var cardList = [
     { src: 'img/Swap.png', effect: 'swapSymbol' },
     { src: 'img/Destroy.png', effect: 'destroySymbol' },
-    { src: 'img/Shield.png', effect: 'shieldSymbol' },
+    { src: 'img/shield.png', effect: 'shieldSymbol' },
     { src: 'img/Draw.png', effect: 'drawCard' },
     { src: 'img/Deny.png', effect: 'denyCard' },
     {src: 'img/Thieft.png', effect:'thieftCard'}
@@ -105,7 +105,7 @@ for (var block of blocks) {
                         // ทำการลบ xo ในช่องบนกระดาน
                         destroySymbol(event.target);
                     }
-                    if (selected_card.src.includes("Shield.png")) {
+                    if (selected_card.src.includes("shield.png")) {
                         // ทำการปกป้อง XO ในช่องบนกระดาน
                         turncount = roundcount;
                         shieldSymbol(event.target)
@@ -610,13 +610,13 @@ function updateScore(user, winner, currentRoom){
                 [`win_count`]:winner_winCount
                 })
             }
-            if(snapshot.val() === user.email && resultGame === "WinLose"){
+            if(snapshot.val() === user.email){
                 // winner_container.innerHTML 
                 winnerimg2.setAttribute("src","img/winner.png")
                 winner_text.innerHTML = `Congratulation, <b>${userSnapshot.val().username}</b>`
                 won_text.innerHTML = `You are winner`
                 
-            }else if(snapshot.val() !== user.email && resultGame === "WinLose"){
+            }else if(snapshot.val() !== user.email){
                 winnerimg2.setAttribute("src","img/laurel.png")
                 winner_text.innerHTML = `Sorry, <b>${userSnapshot.val().username}</b>`
                 won_text.innerHTML = `You are loser`
