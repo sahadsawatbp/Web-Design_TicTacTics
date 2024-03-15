@@ -9,7 +9,7 @@ var winner = '';
 var cardList = [
     { src: 'img/Swap.png', effect: 'swapSymbol' },
     { src: 'img/Destroy.png', effect: 'destroySymbol' },
-    { src: 'img/Shield.png', effect: 'shieldSymbol' },
+    { src: 'img/Shields.png', effect: 'shieldSymbol' },
     { src: 'img/Draw.png', effect: 'drawCard' },
     { src: 'img/Deny.png', effect: 'denyCard' },
     {src: 'img/Thieft.png', effect:'thieftCard'}
@@ -105,7 +105,7 @@ for (var block of blocks) {
                         // ทำการลบ xo ในช่องบนกระดาน
                         destroySymbol(event.target);
                     }
-                    if (selected_card.src.includes("Shield.png")) {
+                    if (selected_card.src.includes("Shields.png")) {
                         // ทำการปกป้อง XO ในช่องบนกระดาน
                         turncount = roundcount;
                         shieldSymbol(event.target)
