@@ -57,9 +57,7 @@ for (var block of blocks) {
             if (!win && event.target.innerHTML === '' && cardactive === false && turn === yourTurn) {
                 // 4. Modify the code here to check whether the clicking block is avialable.         
                 roundcount += 1;
-                event.target.innerHTML = "turn";
-                console.log(turn)
-
+                // event.target.innerHTML = "turn";
                 if (turn == 'O') {
                     event.target.style.color = '#1F34B8';
                     //By mai
@@ -77,6 +75,7 @@ for (var block of blocks) {
             if (roundcheck !== Math.ceil(roundcount / 2)) {
                 setTimeout(function () {
                     newTurn();
+                    
                 }, 1000); // 1 วินาที = 1000
             }
 
@@ -115,6 +114,7 @@ for (var block of blocks) {
             else if (cardactive === true && isdeny === true) {
                 alert('คุณถูกห้ามใช้การ์ด!');
             }
+            
         })
     }
 }
@@ -206,9 +206,17 @@ function checkResult(user, turn, currentRoom) {
         // Game end and no-one wins the game
         turnObject.innerHTML = "Game draw";
     } else {
+        gameRef.child(currentRoom).once("value",(snapshot)=>{
+            yourTurn = snapshot.val().player_x_id == user.uid ? "X" : "O";
         // turn = turn === 'O' ? 'X' : 'O';
-        turnObject.innerHTML = "Turn: " + turn;
-        round.innerHTML = 'Round: ' + Math.ceil(roundcount / 2);
+        turnObject.innerHTML = turn === yourTurn ? "Your turn..." : "Opponent turn..."
+        // turnObject.innerHTML = "Turn: " + turn;
+        
+           
+       
+        round.innerHTML = 'Round: ' + Math.ceil(roundcount / 2);    
+        })
+        
     }
 }
 function newGame() {
@@ -273,7 +281,6 @@ function resetCardImage() {
 
 function swapSymbol(block) {
     let currentRoom;
-    console.log(block.id)
     const user = firebase.auth().currentUser
     userListRef.child(user.uid).once("value", (snapshot) => {
         currentRoom = snapshot.val().lastestRoom;
@@ -313,12 +320,12 @@ function swapSymbol(block) {
 
 function destroySymbol(block) {
     let currentRoom;
-    console.log(block.id)
     const user = firebase.auth().currentUser
     userListRef.child(user.uid).once("value", (snapshot) => {
         currentRoom = snapshot.val().lastestRoom;
         gameRef.child(currentRoom).child("table/"+block.id).once("value", (tableSnapshot) => {
             if(block !== protectedBlock){
+                console.log(protectedBlock)
                 if(tableSnapshot.val() !== ""){
                     gameRef.child(currentRoom).child("table").update({
                         [block.id]:""
@@ -342,6 +349,14 @@ function destroySymbol(block) {
 
 function shieldSymbol(block) {
     protectedBlock = block; // กำหนดบล็อกที่ถูกป้องกัน
+    userListRef.child(user.uid).once("value", (snapshot) => {
+        currentRoom = snapshot.val().lastestRoom;
+        gameRef.child(currentRoom).child("table/"+block.id).once("value", (tableSnapshot) => {
+            if(block !== protectedBlock){
+               
+            }
+        })
+    })
     cardUsed = false;
     cardactive = false;
     resetCardImage()
@@ -524,7 +539,7 @@ function updateScore(user, winner, currentRoom){
         winner_email = userSnapshot.val().email
         winner_winCount = userSnapshot.val().win_count + 1
         gameRef.child(currentRoom+"/player_"+winner.toLowerCase()+"_email").once("value",(snapshot)=>{
-            console.log(snapshot.val())
+           
         
             if(snapshot.val() ==  winner_email){
                 userListRef.child(user.uid).update({
@@ -541,7 +556,7 @@ function updateScore(user, winner, currentRoom){
                 winnerimg2.setAttribute("src","img/laurel.png")
                 winner_text.innerHTML = `Sorry, <b>${userSnapshot.val().username}</b>`
                 won_text.innerHTML = `You are loser`
-                console.log("You are loser")
+                
             }
         })
     })
@@ -552,7 +567,7 @@ exitRoom.addEventListener("click",function(){
 })
 function exitRooms(){
     let currentRoom;
-    console.log(yourTurn)
+    
     const user = firebase.auth().currentUser
     userListRef.child(user.uid).once("value", (snapshot) => {
         currentRoom = snapshot.val().lastestRoom;
@@ -564,7 +579,7 @@ function exitRooms(){
     
 }
 function checkStateRoom(snapshot, user){
-    console.log("check state")
+    
     let currentRoom;
     let state;
     userListRef.child(user.uid).once("value",(ssnapshot)=>{
